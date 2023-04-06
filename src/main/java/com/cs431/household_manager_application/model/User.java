@@ -1,9 +1,8 @@
 package com.cs431.household_manager_application.model;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.annotation.Nullable;
+import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 @Data
 @AllArgsConstructor
@@ -14,13 +13,18 @@ public class User {
 
     @Id
     @GeneratedValue
-    private Long id;
+    @Column(name = "user_id")
+    private Long userId;
 
     protected String userName;
 
     protected String emailAddress;
 
     protected String password;
+
+    protected String fName;
+
+    protected String lName;
 
 }
 

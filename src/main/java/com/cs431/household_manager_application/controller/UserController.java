@@ -9,24 +9,29 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
     @Autowired
     private  UserService userService;
 
-    @PostMapping("/add")
+    @PostMapping()
     User newUser(@RequestBody User newUser){
         return userService.saveUser(newUser);
     }
 
-    @GetMapping("/getAll")
+    @GetMapping()
     List<User> getAllUsers(){
         return userService.getAll();
     }
 
-    @GetMapping("/getBy/{username}")
+    @GetMapping("/{username}")
     Optional<User> getUserByUsername(@PathVariable String username){
         return userService.getByUsername(username);
+    }
+
+    @GetMapping("/getById/{id}")
+    Optional<User> getUserByID(@PathVariable String id){
+        return userService.getByID(Long.valueOf(id));
     }
 
 
