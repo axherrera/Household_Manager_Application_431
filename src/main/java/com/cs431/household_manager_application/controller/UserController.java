@@ -16,6 +16,7 @@ public class UserController {
 
     @PostMapping()
     User newUser(@RequestBody User newUser){
+
         return userService.saveUser(newUser);
     }
 

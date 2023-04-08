@@ -10,8 +10,8 @@ import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService{
-    private UserRepository userRepository;
-    private HouseholdService householdService;
+    private final UserRepository userRepository;
+    private final HouseholdService householdService;
 
     private Household h;
 
@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService{
         this.householdService = householdService;
     }
 
-
+    //METHODS
 
     @Override
     public User saveUser(User user){

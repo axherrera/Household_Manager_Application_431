@@ -1,8 +1,6 @@
 package com.cs431.household_manager_application.model;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Cascade;
 
 @Data
 @AllArgsConstructor
