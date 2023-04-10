@@ -1,15 +1,16 @@
-package com.cs431.household_manager_application.service;
+package com.cs431.household_manager_application.serviceImpl;
 
 import com.cs431.household_manager_application.model.Household;
 import com.cs431.household_manager_application.model.User;
 import com.cs431.household_manager_application.repository.HouseholdRepository;
+import com.cs431.household_manager_application.service.HouseholdService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class HouseholdServiceImpl implements HouseholdService{
+public class HouseholdServiceImpl implements HouseholdService {
 
     private HouseholdRepository householdRepository;
     public HouseholdServiceImpl(HouseholdRepository householdRepository) {
@@ -30,8 +31,7 @@ public class HouseholdServiceImpl implements HouseholdService{
 
     @Override
     public Household addRoomate(Household h, User user) {
-        h.getRoommates().add(user);
-        return h;
+        return null;
     }
 
     @Override

@@ -25,9 +25,7 @@ public class HouseholdController {
 
     @PutMapping("/addToExisting/{householdID}")
     Household existingHousehold(@PathVariable Long householdID, @RequestBody User user){
-        Household household = hService.getByID(householdID).get();
-        household.getRoommates().add(user);
-        return hService.saveHousehold(household);
+        return null;
     }
 
     @GetMapping()

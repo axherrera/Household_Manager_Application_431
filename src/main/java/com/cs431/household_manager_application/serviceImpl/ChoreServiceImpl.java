@@ -1,12 +1,15 @@
-package com.cs431.household_manager_application.service;
+package com.cs431.household_manager_application.serviceImpl;
 
 import com.cs431.household_manager_application.model.Chore;
 import com.cs431.household_manager_application.model.User;
 import com.cs431.household_manager_application.repository.ChoreRepository;
+import com.cs431.household_manager_application.service.ChoreService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class ChoreServiceImpl implements ChoreService {
 
     private final ChoreRepository choreRepository;

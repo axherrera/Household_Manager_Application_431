@@ -3,7 +3,6 @@ package com.cs431.household_manager_application.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -19,8 +18,5 @@ public class Household {
 
     private String householdName;
 
-    @OneToMany(cascade = CascadeType.ALL, targetEntity = User.class)
-    @JoinColumn(name = "household_id", referencedColumnName = "household_id")
-    private List<User> roommates;
 
 }

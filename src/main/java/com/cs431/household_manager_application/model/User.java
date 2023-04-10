@@ -14,6 +14,10 @@ public class User {
     @Column(name = "user_id")
     private Long userId;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fk_household", referencedColumnName = "household_id")
+    private Household household;
+
     protected String userName;
 
     protected String emailAddress;

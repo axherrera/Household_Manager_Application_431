@@ -18,12 +18,16 @@ public class Chore {
     @Column(name = "chore_id")
     private Long choreId;
 
-//    @ManyToOne(   cascade = CascadeType.ALL, targetEntity = User.class)
-//    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-//    private User assignedTo;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fk_user", referencedColumnName = "user_id")
+    private User assignedTo;
 
-    private String chorename;
-    private boolean rotate;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fk_household", referencedColumnName = "household_id")
+    private Household household;
+
+    private String name;
+    private boolean isRotated;
     private int frequency;
     private Date duedate;
     private boolean isComplete;
