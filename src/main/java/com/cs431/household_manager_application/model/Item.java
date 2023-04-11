@@ -17,5 +17,4 @@ public class Item { //TODO: add photoID FK
 
     private String name;
     private double price;
-    private int quantity;
 }

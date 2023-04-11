@@ -28,4 +28,5 @@ public class InventoryItem {
     private Household household;
 
     private Date exp;
+    private int quantity;
 }

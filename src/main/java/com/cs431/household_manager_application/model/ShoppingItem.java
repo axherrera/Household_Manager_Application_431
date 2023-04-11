@@ -27,6 +27,6 @@ public class ShoppingItem {
     private Household household;
 
 
-
+    private int quantity;
     private boolean isBought;
 }
