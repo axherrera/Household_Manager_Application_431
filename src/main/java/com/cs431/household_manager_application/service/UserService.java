@@ -1,5 +1,6 @@
 package com.cs431.household_manager_application.service;
 
+import com.cs431.household_manager_application.dto.UserDTO;
 import com.cs431.household_manager_application.model.User;
 
 import java.util.List;
