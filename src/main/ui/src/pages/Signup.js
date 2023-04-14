@@ -9,7 +9,7 @@ const Signup = ({user}) => {
   return (
     <>
       <div>Signup</div>
-      <Link to='/login'>submit</Link>
+      <Link to='/'>submit</Link>
     </>
   )
 }
