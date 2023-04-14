@@ -1,5 +1,5 @@
 import React from 'react'
-import { Navigate } from 'react-router-dom'
+import { Navigate, Link } from 'react-router-dom'
 
 const Login = ({ user }) => {
   if (user) {
@@ -7,7 +7,10 @@ const Login = ({ user }) => {
   }
 
   return (
-    <div>Login</div>
+    <>
+      <div>Login</div>
+      <Link to='/signup'>signup</Link>
+    </>
   )
 }
 

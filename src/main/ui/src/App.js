@@ -7,8 +7,8 @@ import ProtectedRoute from './pages/ProtectedRoute';
 import Dashboard from './pages/Dashboard';
 
 function App() {
-  const [user, setUser] = useState({name: "ken"})
-  // const [user, setUser] = useState(null)
+  // const [user, setUser] = useState({name: "ken"})
+  const [user, setUser] = useState(null)
 
   return <BrowserRouter>
     <Routes>
