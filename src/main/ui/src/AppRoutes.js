@@ -13,17 +13,8 @@ const AppRoutes = () => {
     const loggedIn = user !== null
     const loggedOut = user === null
 
-    const handleLogin = () => setUser({ id: '1', name: 'robin' });
-    const handleLogout = () => setUser(null);
-
     return (
         <BrowserRouter>
-            {user ? (
-            <button onClick={handleLogout}>Sign Out</button>
-            ) : (
-            <button onClick={handleLogin}>Sign In</button>
-            )}
-
             <Routes>
                 <Route path="/">
                     <Route element={<ProtectedRoute redirectCondition={loggedIn} redirectPath='/dashboard' />}>
