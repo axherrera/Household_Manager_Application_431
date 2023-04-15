@@ -27,7 +27,7 @@ const AppRoutes = () => {
             <Routes>
                 <Route path="/">
                     <Route element={<ProtectedRoute redirectCondition={loggedIn} redirectPath='/dashboard' />}>
-                        <Route index element={<Login user={user}/>} />
+                        <Route index element={<Login setUser={setUser}/>} />
                         <Route path='signup' element={<Signup user={user}/>}></Route>
                     </Route>
 
