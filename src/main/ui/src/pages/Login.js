@@ -11,6 +11,8 @@ const Login = ({ setUser }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!username || !password) return;
+    // TODO: mock hit login endpoint
+    // TODO: mock validation
     
     // this is a mock user
     setUser({username: username})
