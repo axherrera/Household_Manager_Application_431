@@ -15,8 +15,7 @@ import java.util.Date;
 public class InventoryItem {
 
     @Id
-    @GeneratedValue
-    @Column( name = "inventoryId")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)    @Column( name = "inventoryId")
     private Long inventoryItem;
 
     @OneToOne(cascade = CascadeType.ALL)

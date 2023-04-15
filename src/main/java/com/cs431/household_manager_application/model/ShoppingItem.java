@@ -14,8 +14,7 @@ import lombok.NoArgsConstructor;
 public class ShoppingItem {
 
     @Id
-    @GeneratedValue
-    @Column( name = "shoppingId")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)    @Column( name = "shoppingId")
     private Long shoppingItem;
 
     @OneToOne(cascade = CascadeType.ALL)

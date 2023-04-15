@@ -10,7 +10,7 @@ public class BillHelper {
 
     @Id
     @Column(name = "bill_helper_id")
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long billHelperId;
 
     @ManyToOne(cascade = CascadeType.ALL)

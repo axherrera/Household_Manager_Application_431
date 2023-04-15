@@ -1,4 +1,5 @@
 package com.cs431.household_manager_application.model;
+import com.cs431.household_manager_application.dto.RegistrationDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,24 +10,29 @@ import lombok.*;
 @Table(name = "users")
 public class User {
 
+    public User(Household household, RegistrationDTO registrationDTO) {
+        this.household = household;
+        this.username = registrationDTO.getUsername();
+        this.password = registrationDTO.getPassword();
+        this.fName = registrationDTO.getFname();
+        this.lName = registrationDTO.getLname();
+    }
+
     @Id
-    @GeneratedValue
-    @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)    @Column(name = "user_id")
     private Long userId;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_household", referencedColumnName = "household_id")
     private Household household;
 
-    protected String userName;
+    private String username;
 
-    protected String emailAddress;
+    private String password;
 
-    protected String password;
+    private String fName;
 
-    protected String fName;
-
-    protected String lName;
+    private String lName;
 
 }
 

@@ -1,9 +1,7 @@
 package com.cs431.household_manager_application.serviceImpl;
 
-import com.cs431.household_manager_application.model.Household;
 import com.cs431.household_manager_application.model.User;
 import com.cs431.household_manager_application.repository.UserRepository;
-import com.cs431.household_manager_application.service.HouseholdService;
 import com.cs431.household_manager_application.service.UserService;
 import org.springframework.stereotype.Service;
 
@@ -13,19 +11,9 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    private final HouseholdService householdService;
 
-    private Household h;
-
-
-    public UserServiceImpl(
-            UserRepository userRepository,
-            HouseholdService householdService
-    ){
-        if(userRepository == null || householdService == null)
-            throw new NullPointerException("services");
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.householdService = householdService;
     }
 
     //METHODS
@@ -42,12 +30,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> getByUsername(String username) {
-        return userRepository.findByUserName(username);
+        return userRepository.findByUsername(username);
     }
 
     @Override
     public Optional<User> getByID(Long ID) {
         return userRepository.findByUserId(ID);
+    }
+
+    @Override
+    public Boolean checkByUsername(String username) {
+        return userRepository.existsByUsername(username);
     }
 
 

@@ -6,15 +6,15 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "photos")
-
-
 public class ImageData {
 
     @Id
-    @Generated
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long photoID;
+
     private String photoName;
 
     @Lob

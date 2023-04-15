@@ -12,8 +12,7 @@ import lombok.*;
 public class Household {
 
     @Id
-    @GeneratedValue
-    @Column( name = "household_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)    @Column( name = "household_id")
     private Long householdId;
 
     private String householdName;

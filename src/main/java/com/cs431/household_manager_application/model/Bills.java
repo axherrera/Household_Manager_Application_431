@@ -15,7 +15,7 @@ import java.util.Date;
 public class Bills {
 
     @Id
-    @Generated
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "bill_id")
     private Long billID;
 

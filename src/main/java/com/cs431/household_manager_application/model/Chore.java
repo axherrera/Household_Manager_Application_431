@@ -14,11 +14,10 @@ import java.util.Date;
 public class Chore {
 
     @Id
-    @Generated
-    @Column(name = "chore_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)    @Column(name = "chore_id")
     private Long choreId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_user", referencedColumnName = "user_id")
     private User assignedTo;
 

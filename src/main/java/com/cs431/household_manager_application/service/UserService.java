@@ -11,4 +11,5 @@ public interface UserService {
     public List<User> getAll ();
     public Optional<User> getByUsername(String Username);
     public Optional<User> getByID (Long ID);
+    Boolean checkByUsername(String username);
 }
