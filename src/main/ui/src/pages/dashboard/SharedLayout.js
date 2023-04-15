@@ -2,10 +2,10 @@ import React from 'react'
 import {Outlet} from 'react-router-dom'
 import StyledNavbar from '../../components/StyledNavbar'
 
-const SharedDashboardLayout = () => {
+const SharedDashboardLayout = ({logOutFn}) => {
   return (
     <>
-        <StyledNavbar />
+        <StyledNavbar logOutFn={logOutFn}/>
         <Outlet />
     </>
   )
