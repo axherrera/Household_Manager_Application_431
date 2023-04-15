@@ -37,7 +37,7 @@ public class ImageDataServiceImpl implements ImageDataService {
 
     @Override
     public byte[] downloadImage(String filename) throws IOException {
-        Optional<ImageData> dbImage = imageDataRepository.findByName(filename);
+        Optional<ImageData> dbImage = imageDataRepository.findByPhotoName(filename);
         return ImageDataUtils.decompressImage(dbImage.get().getImageData());
 
     }
