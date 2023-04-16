@@ -17,7 +17,7 @@ const Dashboard = ({user, setUser}) => {
     <Routes>
       <Route path="/" element={<SharedDashboardLayout logOutFn={logOut}/>}>
         <Route index element={<Home user={user}/>} />
-        <Route path="bills" element={<Bills/>} />
+        <Route path="bills/*" element={<Bills/>} />
         <Route path="chores" element={<Chores />} />
       </Route>
     </Routes>
