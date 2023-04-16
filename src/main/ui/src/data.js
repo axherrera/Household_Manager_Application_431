@@ -7,9 +7,9 @@ export const mockUsers = [
         firstName: "Foo",
         lastName: "Bar",
         password: "password1",
-        household: {
-            householdId: 1,
-            householdName: "House 1"
+        Household: {
+            id: 1,
+            name: "House 1"
         }
     },
     {
@@ -18,9 +18,9 @@ export const mockUsers = [
         firstName: "Foo",
         lastName: "Baaz",
         password: "password2",
-        household: {
-            householdId: 1,
-            householdName: "House 1"
+        Household: {
+            id: 1,
+            name: "House 1"
         }
     },
     {
@@ -29,9 +29,9 @@ export const mockUsers = [
         firstName: "Lorem",
         lastName: "Ipsum",
         password: "password3",
-        household: {
-            householdId: 1,
-            householdName: "House 1"
+        Household: {
+            id: 1,
+            name: "House 1"
         }
     }
 ]
