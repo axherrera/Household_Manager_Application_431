@@ -8,16 +8,29 @@ const Login = ({ setUser }) => {
 
   const navigate = useNavigate();
 
+  // Function to get an approved user given a username and password.
+  // Throws an error if the username and password is invalid
+  const getUser = (username, password) => {
+
+    // TODO: Hit /login endpoint
+    // TODO: Handle Success and Error Codes
+
+    return {name:'realUser'};
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!username || !password) return;
-    // TODO: mock hit login endpoint
-    // TODO: mock validation
-    
-    // this is a mock user
-    setUser({username: username})
-    
-    navigate('/dashboard')
+
+    try {
+      const user = getUser(username, password);
+
+      setUser(user);
+      
+      navigate('/dashboard');
+    } catch (err) {
+      console.log(err.message);
+    }
   };
 
   return (
