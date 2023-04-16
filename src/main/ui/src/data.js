@@ -47,9 +47,9 @@ export const mockChores = [
 
 export const mockBills = [
     {
-        billId: 1,
-        billName: 'Netflix Subscription',
-        billType: 'shows',
+        id: 1,
+        name: 'Netflix Subscription',
+        type: 'shows',
         total: 15.99,
         notes: 'New movie coming up.',
         frequency: 'monthly',
@@ -68,9 +68,9 @@ export const mockBills = [
         ]
     },
     {
-        billId: 2,
-        billName: 'Mechanic',
-        billType: 'utilities',
+        id: 2,
+        name: 'Mechanic',
+        type: 'utilities',
         total: 300.33,
         notes: 'mechanic is down the road near the theatre',
         frequency: 'single',
