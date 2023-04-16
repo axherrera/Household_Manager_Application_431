@@ -46,6 +46,7 @@ const Login = ({ setUser }) => {
       navigate('/dashboard');
     } catch (err) {
       // TODO: Print Popup Showing Invalid Username and Password
+      alert("invalid username and password")
       console.log(err.message);
     }
   };
