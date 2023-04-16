@@ -1,6 +1,7 @@
 import {React, useState} from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import "./Login.css"
+import { mockUsers } from '../data';
 
 const Login = ({ setUser }) => {
   const [username, setUsername] = useState('');
@@ -8,9 +9,24 @@ const Login = ({ setUser }) => {
 
   const navigate = useNavigate();
 
+  // getUser function that similarly returns an object or throws an invalid user and pass error
+  // but uses mock data 
+  const getMockUser = (username, password) => {
+    for (var user of mockUsers) {
+      if (username === user.username && password === user.password) {
+        return user;
+      }
+    }
+    
+    throw new Error('Invalid username and password');
+  }
+
   // Function to get an approved user given a username and password.
   // Throws an error if the username and password is invalid
   const getUser = (username, password) => {
+    if (process.env.REACT_APP_MOCK) {
+      return getMockUser(username, password);
+    }
 
     // TODO: Hit /login endpoint
     // TODO: Handle Success and Error Codes
