@@ -26,7 +26,8 @@ const AppRoutes = () => {
                         <Route path="*" element={<Dashboard user={user} setUser={setUser}/>} />
                     </Route>
                 </Route>
-                <Route path="*" element={<div>nuh uh</div>}></Route>
+                {/* TODO: 404 page */}
+                <Route path="*" element={<div>404: Page Not Found</div>}></Route>
             </Routes>
         </BrowserRouter>
     )
