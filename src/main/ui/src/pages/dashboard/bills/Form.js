@@ -23,6 +23,7 @@ const Form = ({ bill, handleSubmit }) => {
 
     const { user } = useContext(LoginContext)
     const houseId = user.Household.id;
+    const householdMembers = getHouseholdMembers(houseId);
 
     const today = new Date();
     const todayString = formatDate(today);
