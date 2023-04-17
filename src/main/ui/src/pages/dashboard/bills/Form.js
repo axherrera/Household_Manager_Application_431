@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useState } from 'react'
 import { getHouseholdMembers } from '../Utils';
+import { LoginContext } from '../../../contexts/LoginContext';
 
 const frequencyOptions = ["single", "daily", "weekly", "monthly"];
 
@@ -19,6 +20,9 @@ const Form = ({ bill, handleSubmit }) => {
     const [frequency, setFrequency] = useState(bill.frequency);
     const [date, setDate] = useState(formatDate(bill.date));
     const [billHelpers, setBillHelpers] = useState(bill.BillHelpers);
+
+    const { user } = useContext(LoginContext)
+    const houseId = user.Household.id;
 
     const today = new Date();
     const todayString = formatDate(today);
