@@ -24,13 +24,12 @@ const AppRoutes = () => {
                             <Route path='signup' element={<Signup />}></Route>
                         </Route>
 
-                    <Route path='dashboard/*' element={<ProtectedRoute redirectCondition={loggedOut} redirectPath='/'/>}>
-                        <Route path="*" element={<Dashboard user={user} setUser={setUser}/>} />
+                        <Route path='dashboard/*' element={<ProtectedRoute redirectCondition={loggedOut} redirectPath='/' />}>
+                            <Route path="*" element={<Dashboard />} />
+                        </Route>
                     </Route>
-                </Route>
-                {/* TODO: 404 page */}
-                <Route path="*" element={<div>404: Page Not Found</div>}></Route>
-            </Routes>
+                    {/* TODO: 404 page */}
+                    <Route path="*" element={<div>404: Page Not Found</div>}></Route>
                 </Routes>
             </BrowserRouter>
         </LoginContext.Provider>
