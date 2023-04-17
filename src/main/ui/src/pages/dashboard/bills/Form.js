@@ -1,8 +1,11 @@
 import React from 'react'
+import { useParams } from 'react-router-dom'
 
 const Form = () => {
+    const { billId } = useParams();
+
     return (
-        <div>Form</div>
+        <div>{billId} Form</div>
     )
 }
 

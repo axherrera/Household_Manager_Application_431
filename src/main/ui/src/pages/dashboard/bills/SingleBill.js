@@ -17,6 +17,8 @@ const SingleBill = () => {
             <h5>due date: {bill.date.toString()}</h5>
             <br></br>
             <Link to='/dashboard/bills'> back to all bills</Link>
+            <br></br>
+            <Link to={`/dashboard/bills/${billId}/edit`}>Edit Bill</Link>
         </>
     )
 }
