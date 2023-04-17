@@ -1,7 +1,7 @@
 import React from 'react'
 import { Navigate, Link } from 'react-router-dom'
 
-const Signup = ({user}) => {
+const Signup = () => {
   return (
     <>
       <div>Signup</div>
