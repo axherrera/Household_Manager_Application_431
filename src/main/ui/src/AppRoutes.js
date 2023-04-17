@@ -11,8 +11,8 @@ import { LoginContext } from './contexts/LoginContext';
 const AppRoutes = () => {
     const [user, setUser] = useState(null)
 
-    const loggedIn = user !== null
-    const loggedOut = user === null
+    const loggedIn = user != null
+    const loggedOut = user == null
 
     return (
         <LoginContext.Provider value={{ user, setUser }}>
