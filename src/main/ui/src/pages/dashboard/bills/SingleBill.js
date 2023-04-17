@@ -1,11 +1,23 @@
 import React from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useOutletContext, useParams } from 'react-router-dom'
+import { Outlet } from 'react-router-dom/dist/umd/react-router-dom.development'
 import { mockBills } from '../../../data'
 
-const SingleBill = () => {
+export const ProtectedSingleBillRoute = () => {
     const { billId } = useParams()
 
     const bill = mockBills.find((bill) => bill.id === billId)
+
+    return (
+        <>
+            <Outlet context={{ bill: bill }} />
+        </>
+    )
+}
+
+const SingleBill = () => {
+    const { bill } = useOutletContext();
+    const billId = bill.id;
 
     return (
         <>

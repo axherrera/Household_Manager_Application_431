@@ -1,11 +1,11 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
+import { useOutletContext } from 'react-router-dom/dist/umd/react-router-dom.development';
 
 const Form = () => {
-    const { billId } = useParams();
+    const { bill } = useOutletContext();
 
     return (
-        <div>{billId} Form</div>
+        <div>{bill.name} {bill.id} Form</div>
     )
 }
 
