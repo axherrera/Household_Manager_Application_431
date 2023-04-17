@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
+import { getHouseholdMembers } from '../Utils';
 
 const frequencyOptions = ["single", "daily", "weekly", "monthly"];
 
@@ -11,7 +12,6 @@ const formatDate = (date) => {
 };
 
 const Form = ({ bill, handleSubmit }) => {
-
     // Get all Bill data and set it as a state
     const [name, setName] = useState(bill.name);
     const [total, setTotal] = useState(bill.total);
