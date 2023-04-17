@@ -1,13 +1,13 @@
 import React from 'react'
 import SharedDashboardLayout from './SharedLayout'
 import { Route, Routes, useNavigate } from 'react-router-dom/dist/umd/react-router-dom.development'
-import Bills from './Bills'
+import Bills from './bills/Bills'
 import Chores from './Chores'
 import Home from './Home'
 
-const Dashboard = ({user, setUser}) => {
+const Dashboard = ({ user, setUser }) => {
   const navigate = useNavigate();
-  
+
   const logOut = () => {
     setUser(null)
     navigate('/')
@@ -15,9 +15,9 @@ const Dashboard = ({user, setUser}) => {
 
   return (
     <Routes>
-      <Route path="/" element={<SharedDashboardLayout logOutFn={logOut}/>}>
-        <Route index element={<Home user={user}/>} />
-        <Route path="bills/*" element={<Bills/>} />
+      <Route path="/" element={<SharedDashboardLayout logOutFn={logOut} />}>
+        <Route index element={<Home user={user} />} />
+        <Route path="bills/*" element={<Bills />} />
         <Route path="chores" element={<Chores />} />
       </Route>
     </Routes>

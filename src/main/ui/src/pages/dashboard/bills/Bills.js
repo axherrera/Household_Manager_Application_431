@@ -1,12 +1,12 @@
 import React from 'react'
 import { Outlet, Route, Routes, Link, useParams } from 'react-router-dom/dist/umd/react-router-dom.development'
-import { mockBills } from '../../data'
+import { mockBills } from '../../../data'
 
 const Bills = () => {
   return (
     <Routes>
       <Route path="" element={<Outlet />}>
-        <Route index element={<Home/>} />
+        <Route index element={<Home />} />
         <Route path=":billId" element={<SingleBill />} />
       </Route>
     </Routes>
@@ -18,7 +18,7 @@ const Home = () => {
     <>
       <h2>Bills</h2>
       <div>
-        {mockBills.map((bill)=> {
+        {mockBills.map((bill) => {
           return <article key={bill.id}>
             <h5>{bill.name}: ${bill.total}</h5>
             <h5>due: {bill.date.toString()}</h5>
@@ -32,7 +32,7 @@ const Home = () => {
 }
 
 const SingleBill = () => {
-  const {billId} = useParams()
+  const { billId } = useParams()
 
   const bill = mockBills.find((bill) => bill.id === billId)
 
@@ -42,7 +42,7 @@ const SingleBill = () => {
       <h5>total: {bill.total}</h5>
       <h5>frequency: {bill.frequency}</h5>
       <h5>notes:</h5>
-      <div style={{fontSize: 12}}>{bill.notes}</div>
+      <div style={{ fontSize: 12 }}>{bill.notes}</div>
       <h5>due date: {bill.date.toString()}</h5>
       <br></br>
       <Link to='/dashboard/bills'> back to all bills</Link>
