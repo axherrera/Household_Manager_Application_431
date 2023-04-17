@@ -15,7 +15,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "start-mock": "set \"REACT_APP_MOCK=true\" && react-scripts start",
+    "start-mock-win": "set \"REACT_APP_MOCK=true\" && react-scripts start",
+    "start-mock-mac": "REACT_APP_MOCK=true react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
