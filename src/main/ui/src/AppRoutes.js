@@ -15,14 +15,14 @@ const AppRoutes = () => {
     const loggedOut = user === null
 
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/">
-                    <Route element={<ProtectedRoute redirectCondition={loggedIn} redirectPath='/dashboard' />}>
-                        <Route index element={<Login setUser={setUser}/>} />
-                    </Route>
         <LoginContext.Provider value={{ user, setUser }}>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/">
+                        <Route element={<ProtectedRoute redirectCondition={loggedIn} redirectPath='/dashboard' />}>
+                            <Route index element={<Login />} />
                             <Route path='signup' element={<Signup />}></Route>
+                        </Route>
 
                     <Route path='dashboard/*' element={<ProtectedRoute redirectCondition={loggedOut} redirectPath='/'/>}>
                         <Route path="*" element={<Dashboard user={user} setUser={setUser}/>} />
@@ -31,7 +31,8 @@ const AppRoutes = () => {
                 {/* TODO: 404 page */}
                 <Route path="*" element={<div>404: Page Not Found</div>}></Route>
             </Routes>
-        </BrowserRouter>
+                </Routes>
+            </BrowserRouter>
         </LoginContext.Provider>
     )
 }
