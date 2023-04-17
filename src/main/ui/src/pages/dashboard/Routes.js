@@ -1,7 +1,7 @@
 import React from 'react'
 import SharedDashboardLayout from './SharedLayout'
 import { Route, Routes, useNavigate } from 'react-router-dom/dist/umd/react-router-dom.development'
-import Bills from './bills/Bills'
+import Bills from './bills/Routes'
 import Chores from './Chores'
 import Home from './Home'
 
