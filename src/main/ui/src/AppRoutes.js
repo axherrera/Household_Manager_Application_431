@@ -5,6 +5,7 @@ import Signup from './pages/Signup';
 import Login from './pages/Login';
 import ProtectedRoute from './components/ProtectedRoute';
 import Dashboard from './pages/dashboard/Routes';
+import { LoginContext } from './contexts/LoginContext';
 
 
 const AppRoutes = () => {
@@ -20,6 +21,7 @@ const AppRoutes = () => {
                     <Route element={<ProtectedRoute redirectCondition={loggedIn} redirectPath='/dashboard' />}>
                         <Route index element={<Login setUser={setUser}/>} />
                     </Route>
+        <LoginContext.Provider value={{ user, setUser }}>
                             <Route path='signup' element={<Signup />}></Route>
 
                     <Route path='dashboard/*' element={<ProtectedRoute redirectCondition={loggedOut} redirectPath='/'/>}>
@@ -30,6 +32,7 @@ const AppRoutes = () => {
                 <Route path="*" element={<div>404: Page Not Found</div>}></Route>
             </Routes>
         </BrowserRouter>
+        </LoginContext.Provider>
     )
 }
 
