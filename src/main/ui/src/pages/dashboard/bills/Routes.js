@@ -9,6 +9,7 @@ const BillsRoutes = () => {
     <Routes>
       <Route path="/*" element={<Outlet />}>
         <Route index element={<Home />} />
+        {/* TODO: Add Protected Bill Checks to See if getting Single Bill still exists */}
         <Route path=":billId" element={<Outlet />}>
           <Route index element={<SingleBill />} />
           <Route path="edit" element={<Edit />} />
