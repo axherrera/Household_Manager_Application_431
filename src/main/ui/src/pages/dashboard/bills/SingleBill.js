@@ -13,7 +13,7 @@ export const ProtectedSingleBillRoute = () => {
 
     return (
         <>
-            <Outlet context={{ bill: bill }} />
+            <Outlet context={{ bill }} />
         </>
     )
 }
@@ -31,9 +31,10 @@ const SingleBill = () => {
             <div style={{ fontSize: 12 }}>{bill.notes}</div>
             <h5><u>due date:</u> {bill.date.toString()}</h5>
             <br></br>
-            <Link to='/dashboard/bills'> back to all bills</Link>
-            <br></br>
             <Link to={`/dashboard/bills/${billId}/edit`}>Edit Bill</Link>
+            <br></br>
+            <br></br>
+            <Link to='/dashboard/bills'> back to all bills</Link>
         </>
     )
 }
