@@ -20,11 +20,13 @@ const Home = () => {
       <div>
         {mockBills.map((bill)=> {
           return <article key={bill.id}>
-            <h5>{bill.name}</h5>
+            <h5>{bill.name}: ${bill.total}</h5>
+            <h5>due: {bill.date.toString()}</h5>
             <h6><Link to={`/dashboard/bills/${bill.id}`}>more info</Link></h6>
           </article>
         })}
       </div>
+      <button>add bill</button>
     </>
   )
 }
@@ -36,7 +38,13 @@ const SingleBill = () => {
 
   return (
     <>
-      <h4>{bill.name}</h4>
+      <h3><b>{bill.name} Bill</b></h3>
+      <h5>total: {bill.total}</h5>
+      <h5>frequency: {bill.frequency}</h5>
+      <h5>notes:</h5>
+      <div style={{fontSize: 12}}>{bill.notes}</div>
+      <h5>due date: {bill.date.toString()}</h5>
+      <br></br>
       <Link to='/dashboard/bills'> back to all bills</Link>
     </>
   )
