@@ -6,6 +6,9 @@ import { mockBills } from '../../../data'
 export const ProtectedSingleBillRoute = () => {
     const { billId } = useParams()
 
+
+    // TODO: routing a bill id URL that doesn’t exist back to the bills page
+
     const bill = mockBills.find((bill) => bill.id === billId)
 
     return (
