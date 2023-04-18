@@ -16,7 +16,6 @@ function Signup() {
     event.preventDefault();
     navigate("/")
   };
-
   return (
     <div className={styles.login}>
       <div className={styles.loginForm}>

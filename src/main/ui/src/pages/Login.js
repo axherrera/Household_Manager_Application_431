@@ -1,11 +1,13 @@
-import {React, useState} from 'react'
+import { React, useContext, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import "./Login.css"
 import { mockUsers } from '../data';
+import { LoginContext } from '../contexts/LoginContext';
 
-const Login = ({ setUser }) => {
+const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const { setUser } = useContext(LoginContext);
 
   const navigate = useNavigate();
 
@@ -17,7 +19,7 @@ const Login = ({ setUser }) => {
         return user;
       }
     }
-    
+
     throw new Error('Invalid username and password');
   }
 
@@ -31,7 +33,7 @@ const Login = ({ setUser }) => {
     // TODO: Hit /login endpoint
     // TODO: Handle Success and Error Codes
 
-    return {name:'realUser'};
+    return { name: 'realUser' };
   }
 
   const handleSubmit = async (e) => {
@@ -42,7 +44,7 @@ const Login = ({ setUser }) => {
       const user = getUser(username, password);
 
       setUser(user);
-      
+
       navigate('/dashboard');
     } catch (err) {
       // TODO: Print Popup Showing Invalid Username and Password
@@ -55,9 +57,9 @@ const Login = ({ setUser }) => {
     <div className="login">
       <div className="login-form">
         <div className="title">Sign In</div>
-        <Form 
+        <Form
           username={username}
-          setUsername={setUsername} 
+          setUsername={setUsername}
           password={password}
           setPassword={setPassword}
           handleSubmit={handleSubmit}
@@ -68,41 +70,41 @@ const Login = ({ setUser }) => {
   )
 }
 
-const Form = ({username, setUsername, password, setPassword, handleSubmit}) =>  {
+const Form = ({ username, setUsername, password, setPassword, handleSubmit }) => {
   const [passwordType, setPasswordType] = useState('password');
 
   return (
-      <div className = "form">
-        <form onSubmit={handleSubmit}>
-          <div className = "input-container">
-            <label>Username</label>
-            <input 
-              type = "text"
-              name = "uname"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-            />
-          </div>
-          <div className = "input-container">
-            <label>Password</label>
-            <input 
-              type = {passwordType}
-              name = "pass"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              autoComplete="on"
-              required
-            />
-          </div>
-          <input type="checkbox" onClick={() => {setPasswordType(prev => prev === 'password' ? 'text' : 'password')}} />Show Password
-          <br></br>
-          <br></br>
-          <button type='submit'>
-            login
-          </button>
-        </form>
-      </div>
+    <div className="form">
+      <form onSubmit={handleSubmit}>
+        <div className="input-container">
+          <label>Username</label>
+          <input
+            type="text"
+            name="uname"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+        </div>
+        <div className="input-container">
+          <label>Password</label>
+          <input
+            type={passwordType}
+            name="pass"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            autoComplete="on"
+            required
+          />
+        </div>
+        <input type="checkbox" onClick={() => { setPasswordType(prev => prev === 'password' ? 'text' : 'password') }} />Show Password
+        <br></br>
+        <br></br>
+        <button type='submit'>
+          login
+        </button>
+      </form>
+    </div>
   );
 }
 
