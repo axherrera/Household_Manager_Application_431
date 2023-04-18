@@ -16,6 +16,11 @@ function Signup() {
     event.preventDefault();
     navigate("/")
   };
+
+<<<<<<< HEAD
+=======
+const Signup = () => {
+>>>>>>> 6deee3f276916c5af8c5dc4e86e0e187a9e7ad23
   return (
     <div className={styles.login}>
       <div className={styles.loginForm}>
@@ -99,7 +104,6 @@ return (
         value={householdID}
         onChange={(e) => setHouseholdID(e.target.value)}
         autoComplete="on"
-        disabled = {!newHousehold}
         required = {newHousehold}
       />
     </div>
