@@ -30,6 +30,7 @@ const Form = ({ bill, handleSubmit }) => {
     const todayString = formatDate(today);
 
     return (
+        // TODO: Pass All Edited Bill Info to Handle Submit function prop
         <form onSubmit={handleSubmit}>
             <label>
                 Name:
@@ -105,7 +106,7 @@ const Form = ({ bill, handleSubmit }) => {
 const Option = (props) => {
   return (
     <div>
-      <components.Option {...props} onChange={(event) => console.log('meep')}>
+      <components.Option {...props}>
         <input
             id={props.value}
           type="checkbox"
