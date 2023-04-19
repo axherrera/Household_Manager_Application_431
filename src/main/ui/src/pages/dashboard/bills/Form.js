@@ -123,15 +123,24 @@ const BillHelpersCheckBoxList = ({ billHelpers, householdMembers, setBillHelpers
         setSelectedHouseholdMembers(updatedSelectedMembers);
     };
 
-    // TODO: When selected bill helpers checkbox changes, change the billhelpers
     useEffect(() => {
-        // setBillHelpers(prevBillHelpers => {
-        //     return selectedHouseholdMembers
-        //     .filter(member => member.selected)
-        //     .map(member => {
-        //         if (prevBillHelpers)
-        //     })
-        // });
+        const newBillHelpers = selectedHouseholdMembers
+        .filter(member => member.selected)
+        .map(member => {
+            const newBillHelper = billHelpers.find(billHelper => billHelper.id === member.id);
+
+            if (newBillHelper) {
+                return newBillHelper;
+            }
+
+            return {
+                id: member.id,
+                amountOwed: 0,
+                isPaid: false,
+            }
+        });
+
+        setBillHelpers(newBillHelpers);
     }, [selectedHouseholdMembers]);
 
     return (<div>
@@ -150,25 +159,6 @@ const BillHelpersCheckBoxList = ({ billHelpers, householdMembers, setBillHelpers
             </>
         ))}
     </div>);
-    // efficiency is not an issue because list of household members is typically a constant size
-
-    // Work with three lists: 
-    // 1. full householdMembers list 
-    // householdMembers = [ {id: ..., username: ..., firstName, lastName, ...}]
-
-    // 2. Create a New List:
-    // selectedHouseholdMembers = householdMembers but with a selected: boolean key
-    // where it starts off with the billHelpers as selected = true
-
-    // 3. Bill Helpers householdMembers list
-    // billHelpers = [{id: "1", amountOwed: 100.11, isPaid: true,}]
-
-    // TODO Function:
-    // on a selectedHouseholdMembers change,
-    // for all of the selected ids:
-    // if the selected id is not in the billHelpers, add to billHelpers with default values
-
-    // TODO: Display all of this stuff
 }
 
 export default Form
