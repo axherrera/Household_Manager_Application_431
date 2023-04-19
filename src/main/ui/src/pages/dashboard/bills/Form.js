@@ -123,6 +123,10 @@ const BillHelpersCheckBoxList = ({ billHelpers, householdMembers, setBillHelpers
         setSelectedHouseholdMembers(updatedSelectedMembers);
     };
 
+    // TODO: When selected bill helpers checkbox changes, change the billhelpers
+    // useEffect(() => {
+    //     setBillHelpers();
+    // }, [selectedHouseholdMembers]);
 
     return (<div>
         {selectedHouseholdMembers.map((member) => (
