@@ -6,6 +6,7 @@ const Edit = () => {
     const { bill } = useOutletContext();
     
     const handleSubmit = (editedBill) => {
+        // TODO: do validation and edit changes
     }
 
     return (
