@@ -38,9 +38,22 @@ export const mockUsers = [
 
 export const mockChores = [
     {
-        name: "chore 1",
+        choreid: "1",
+        choreName: "clean dog",
         dueDate: new Date(),
         assignedID: "1",
+    },
+    {
+        choreid: "2",
+        choreName: "clean cat",
+        dueDate: new Date(),
+        assignedID: "2",
+    },
+    {
+        choreid: "3",
+        choreName: "vacuum",
+        dueDate: new Date(),
+        assignedID: "3",
     },
 
 ]
