@@ -163,6 +163,7 @@ const BillHelpersCheckBoxList = ({ billHelpers, householdMembers, setBillHelpers
 
 const BillHelperInputs = ({billHelpers, setBillHelpers, householdMembers}) => {
     const handleAmountOwedChange = (index, event) => {
+        // TODO: don't allow amount owed to exceed total bill amount
         const newBillHelpers = [...billHelpers];
         newBillHelpers[index].amountOwed = parseFloat(event.target.value);
         setBillHelpers(newBillHelpers);
