@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import { useState } from 'react'
 import { getHouseholdMembers } from '../Utils';
 import { LoginContext } from '../../../contexts/LoginContext';
+import { default as ReactSelect, components } from 'react-select';
 
 const frequencyOptions = ["single", "daily", "weekly", "monthly"];
 
@@ -84,11 +85,11 @@ const Form = ({ bill, handleSubmit }) => {
             <label>
                 Bill Helpers:
             </label>
-            <BillHelpersCheckBoxList
-                billHelpers={billHelpers}
+            <SelectBillHelpers 
                 householdMembers={householdMembers}
+                billHelpers={billHelpers}
                 setBillHelpers={setBillHelpers}
-            />
+                />
             <BillHelperInputs
                 billHelpers={billHelpers}
                 householdMembers={householdMembers}
@@ -101,31 +102,41 @@ const Form = ({ bill, handleSubmit }) => {
     );
 }
 
-const BillHelpersCheckBoxList = ({ billHelpers, householdMembers, setBillHelpers }) => {
-    // TODO: Make CheckBoxList a Selectable Dropdown
-    const [selectedHouseholdMembers, setSelectedHouseholdMembers] = useState(householdMembers
-        .map(member => (
-            {
-                ...member,
-                selected: billHelpers.some(billHelper => billHelper.id === member.id)
-            })
-        ));
+const Option = (props) => {
+  return (
+    <div>
+      <components.Option {...props} onChange={(event) => console.log('meep')}>
+        <input
+            id={props.value}
+          type="checkbox"
+          checked={props.isSelected}
+          onChange={() => null}
+        />{" "}
+        <label>{props.label}</label>
+      </components.Option>
+    </div>
+  );
+};
 
-    const handleCheckboxChange = (event) => {
-        const memberId = event.target.id;
-        const updatedSelectedMembers = selectedHouseholdMembers.map((member) => {
-            if (member.id === memberId) {
-                return { ...member, selected: !member.selected };
-            } else {
-                return member;
-            }
-        });
-        setSelectedHouseholdMembers(updatedSelectedMembers);
-    };
+
+const SelectBillHelpers = ({ billHelpers, householdMembers, setBillHelpers }) => {
+    const householdMemberOptions = householdMembers
+    .map(member => (
+        {
+            ...member,
+            value: member.id,
+            label: `${member.firstName} (${member.username})`
+        })
+    );
+
+    const [selectedHouseholdMembers, setSelectedHouseholdMembers] = useState(householdMemberOptions.filter(member => billHelpers.find(billHelper => member.id === billHelper.id) != undefined));
+
+    const handleChange = (selected) => {
+        setSelectedHouseholdMembers(selected);
+    }
 
     useEffect(() => {
         const newBillHelpers = selectedHouseholdMembers
-        .filter(member => member.selected)
         .map(member => {
             const newBillHelper = billHelpers.find(billHelper => billHelper.id === member.id);
 
@@ -143,22 +154,27 @@ const BillHelpersCheckBoxList = ({ billHelpers, householdMembers, setBillHelpers
         setBillHelpers(newBillHelpers);
     }, [selectedHouseholdMembers]);
 
-    return (<div>
-        {selectedHouseholdMembers.map((member) => (
-            <>
-                <label key={member.id}>
-                    <input
-                        type="checkbox"
-                        id={member.id}
-                        checked={member.selected}
-                        onChange={handleCheckboxChange}
-                    />
-                    {member.firstName} ({member.username})
-                </label>
-                <br></br>
-            </>
-        ))}
-    </div>);
+    return (
+      <span
+        class="d-inline-block"
+        data-toggle="popover"
+        data-trigger="focus"
+        data-content="Please selecet account(s)"
+      >
+        <ReactSelect
+          options={householdMemberOptions}
+          isMulti
+          closeMenuOnSelect={false}
+          hideSelectedOptions={false}
+          components={{
+            Option
+          }}
+          onChange={handleChange}
+          allowSelectAll={true}
+          value={selectedHouseholdMembers}
+        />
+      </span>
+    );
 }
 
 const BillHelperInputs = ({billHelpers, setBillHelpers, householdMembers}) => {
@@ -179,6 +195,7 @@ const BillHelperInputs = ({billHelpers, setBillHelpers, householdMembers}) => {
         {billHelpers.map((billHelper, index) => {
             const {firstName, username} = householdMembers.find(member => member.id === billHelper.id)
             return (<>
+            <br />
             <label id={billHelper.id}>
                 {firstName} ({username})
                 <br />
