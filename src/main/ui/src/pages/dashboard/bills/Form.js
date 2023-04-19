@@ -87,16 +87,13 @@ const Form = ({ bill, handleSubmit }) => {
             <BillHelpersCheckBoxList
                 billHelpers={billHelpers}
                 householdMembers={householdMembers}
-                setBillHelpers={setBillHelpers} />
-                {/* TODO: Display Individual Bill Helper Form Inputs */}
-            {/* <label>
-                Bill Helpers:
-                <input
-                    type="text"
-                    value={billHelpers}
-                    onChange={(event) => setBillHelpers(event.target.value)}
-                />
-            </label> */}
+                setBillHelpers={setBillHelpers}
+            />
+            <BillHelperInputs
+                billHelpers={billHelpers}
+                householdMembers={householdMembers}
+                setBillHelpers={setBillHelpers}
+            />
             <br />
             <button type="submit">Save</button>
         </form>
@@ -161,6 +158,48 @@ const BillHelpersCheckBoxList = ({ billHelpers, householdMembers, setBillHelpers
             </>
         ))}
     </div>);
+}
+
+const BillHelperInputs = ({billHelpers, setBillHelpers, householdMembers}) => {
+    const handleAmountOwedChange = (index, event) => {
+        const newBillHelpers = [...billHelpers];
+        newBillHelpers[index].amountOwed = parseFloat(event.target.value);
+        setBillHelpers(newBillHelpers);
+    };
+
+    const handleIsPaidChange = (index, event) => {
+        const newBillHelpers = [...billHelpers];
+        newBillHelpers[index].isPaid = event.target.checked;
+        setBillHelpers(newBillHelpers);
+    };
+
+    return (<>
+        {billHelpers.map((billHelper, index) => {
+            const {firstName, username} = householdMembers.find(member => member.id === billHelper.id)
+            return (<>
+            <label id={billHelper.id}>
+                {firstName} ({username})
+                <br />
+                <label>Amount Owed  </label>
+                <input 
+                    type="number"
+                    step="0.01"
+                    value={billHelper.amountOwed}
+                    onChange={(event) => handleAmountOwedChange(index, event)}
+                />
+
+                <br />
+                <label>Paid</label>
+                <input
+                    type="checkbox"
+                    checked={billHelper.isPaid}
+                    onChange={(event) => handleIsPaidChange(index, event)}
+                />
+            </label>
+            <br />
+            </>)
+        })}
+    </>)
 }
 
 export default Form
