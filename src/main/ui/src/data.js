@@ -3,8 +3,8 @@
 export const mockUsers = [
     {
         id: "1",
-        username: "mock1",
-        firstName: "Foo",
+        username: "user1",
+        firstName: "Alice",
         lastName: "Bar",
         password: "password1",
         Household: {
@@ -14,8 +14,8 @@ export const mockUsers = [
     },
     {
         id: "2",
-        username: "mock2",
-        firstName: "Foo",
+        username: "user2",
+        firstName: "Bob",
         lastName: "Baaz",
         password: "password2",
         Household: {
@@ -25,8 +25,8 @@ export const mockUsers = [
     },
     {
         id: "3",
-        username: "mock3",
-        firstName: "Lorem",
+        username: "user3",
+        firstName: "Carol",
         lastName: "Ipsum",
         password: "password3",
         Household: {
