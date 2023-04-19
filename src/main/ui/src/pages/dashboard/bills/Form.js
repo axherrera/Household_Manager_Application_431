@@ -104,6 +104,7 @@ const Form = ({ bill, handleSubmit }) => {
 }
 
 const BillHelpersCheckBoxList = ({ billHelpers, householdMembers, setBillHelpers }) => {
+    // TODO: Make CheckBoxList a Selectable Dropdown
     const [selectedHouseholdMembers, setSelectedHouseholdMembers] = useState(householdMembers
         .map(member => (
             {
