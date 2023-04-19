@@ -94,6 +94,7 @@ const Form = ({ bill, handleSubmit }) => {
                 householdMembers={householdMembers}
                 setBillHelpers={setBillHelpers}
             />
+            {/* TODO: Split Bill Total Button */}
             <br />
             <button type="submit">Save</button>
         </form>
