@@ -30,8 +30,18 @@ const Form = ({ bill, handleSubmit }) => {
     const todayString = formatDate(today);
 
     return (
-        // TODO: Pass All Edited Bill Info to Handle Submit function prop
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit({
+                ...bill,
+                name,
+                total,
+                notes,
+                frequency,
+                date: new Date(date),
+                BillHelpers: billHelpers
+            })
+        }}>
             <label>
                 Name:
                 <input
@@ -45,8 +55,9 @@ const Form = ({ bill, handleSubmit }) => {
                 Total:
                 <input
                     type="number"
+                    step="0.01"
                     value={total}
-                    onChange={(event) => setTotal(event.target.value)}
+                    onChange={(event) => setTotal(parseFloat(event.target.value))}
                 />
             </label>
             <br />
@@ -82,7 +93,6 @@ const Form = ({ bill, handleSubmit }) => {
                 />
             </label>
             <br />
-            {/* TODO: Implement Converting Bill Helper Ids into usernames / full names and turn it into a select list */}
             <label>
                 Bill Helpers:
             </label>

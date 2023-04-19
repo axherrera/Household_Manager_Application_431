@@ -4,9 +4,12 @@ import { useOutletContext } from 'react-router-dom';
 
 const Edit = () => {
     const { bill } = useOutletContext();
+    
+    const handleSubmit = (editedBill) => {
+    }
 
     return (
-        <Form bill={bill} />
+        <Form bill={{bill}} handleSubmit={handleSubmit}/>
     )
 }
 
