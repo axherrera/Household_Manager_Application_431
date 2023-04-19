@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useState } from 'react'
 import { getHouseholdMembers } from '../Utils';
 import { LoginContext } from '../../../contexts/LoginContext';
@@ -83,19 +83,26 @@ const Form = ({ bill, handleSubmit }) => {
             {/* TODO: Implement Converting Bill Helper Ids into usernames / full names and turn it into a select list */}
             <label>
                 Bill Helpers:
+            </label>
+            <BillHelpersCheckBoxList
+                billHelpers={billHelpers}
+                householdMembers={householdMembers}
+                setBillHelpers={setBillHelpers} />
+            {/* <label>
+                Bill Helpers:
                 <input
                     type="text"
                     value={billHelpers}
                     onChange={(event) => setBillHelpers(event.target.value)}
                 />
-            </label>
+            </label> */}
             <br />
             <button type="submit">Save</button>
         </form>
     );
 }
 
-const BillHelpers = ({ billHelpers, setBillHelpers, householdMembers }) => {
+const BillHelpersCheckBoxList = ({ billHelpers, householdMembers, setBillHelpers }) => {
     const [selectedHouseholdMembers, setSelectedHouseholdMembers] = useState(householdMembers
         .map(member => (
             {
@@ -104,7 +111,35 @@ const BillHelpers = ({ billHelpers, setBillHelpers, householdMembers }) => {
             })
         ));
 
-    return (<div>Bill Helpers </div>);
+    const handleCheckboxChange = (event) => {
+        const memberId = event.target.id;
+        const updatedSelectedMembers = selectedHouseholdMembers.map((member) => {
+            if (member.id === memberId) {
+                return { ...member, selected: !member.selected };
+            } else {
+                return member;
+            }
+        });
+        setSelectedHouseholdMembers(updatedSelectedMembers);
+    };
+
+
+    return (<div>
+        {selectedHouseholdMembers.map((member) => (
+            <>
+                <label key={member.id}>
+                    <input
+                        type="checkbox"
+                        id={member.id}
+                        checked={member.selected}
+                        onChange={handleCheckboxChange}
+                    />
+                    {member.firstName} ({member.username})
+                </label>
+                <br></br>
+            </>
+        ))}
+    </div>);
     // efficiency is not an issue because list of household members is typically a constant size
 
     // Work with three lists: 
