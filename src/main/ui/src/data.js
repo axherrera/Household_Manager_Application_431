@@ -94,12 +94,13 @@ export const mockChores = [
 export const mockBills = [
     {
         id: "1",
+        houseId: "1",
         name: 'Netflix Subscription',
         type: 'shows',
         total: 15.99,
         notes: 'New movie coming up.',
         frequency: 'monthly',
-        date: new Date('2023-04-20'),
+        date: new Date('2023-07-10'),
         BillHelpers: [
             {
                 id: "1",
@@ -115,12 +116,13 @@ export const mockBills = [
     },
     {
         id: "2",
+        houseId: "1",
         name: 'Mechanic',
         type: 'utilities',
         total: 300.33,
         notes: 'mechanic is down the road near the theatre',
         frequency: 'single',
-        date: new Date('2023-05-25'),
+        date: new Date('2023-08-25'),
         BillHelpers: [
             {
                 id: "1",
@@ -137,6 +139,28 @@ export const mockBills = [
                 amountOwed: 100.11,
                 isPaid: false,
             }
+        ]
+    },
+    {
+        id: "3",
+        houseId: "2",
+        name: 'Cell Phone',
+        type: 'utilities',
+        total: 100,
+        notes: 'Best cell phone plan',
+        frequency: 'monthly',
+        date: new Date('2023-10-09'),
+        BillHelpers: [
+            {
+                id: "4",
+                amountOwed: 50,
+                isPaid: true,
+            },
+            {
+                id: "5",
+                amountOwed: 50,
+                isPaid: false,
+            },
         ]
     },
 ]
