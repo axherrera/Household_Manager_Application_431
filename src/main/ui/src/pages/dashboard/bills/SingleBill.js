@@ -22,9 +22,11 @@ export const ProtectedSingleBillRoute = () => {
     const { user } = useContext(LoginContext)
     const houseId = user.Household.id;
 
-    // TODO: routing a bill id URL that doesn’t exist back to the bills page
-
     const bill = getBill(billId, houseId);
+
+    if (bill == null) {
+        return <Navigate to='/dashboard/bills' replace />;
+    }
 
     return (
         <>
