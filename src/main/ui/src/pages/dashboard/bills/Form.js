@@ -32,6 +32,8 @@ const Form = ({ bill, handleSubmit }) => {
     return (
         <form onSubmit={(e) => {
             e.preventDefault();
+            // TODO: Do Bill value validation before submitting
+            // Handle Submit assumes it will get properly formatted bill
             handleSubmit({
                 ...bill,
                 name,
