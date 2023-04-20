@@ -1,15 +1,28 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link, useOutletContext, useParams } from 'react-router-dom'
 import { Outlet } from 'react-router-dom/dist/umd/react-router-dom.development'
-import { mockBills } from '../../../data'
+import { LoginContext } from '../../../contexts/LoginContext'
+
+const GetMockBill = (id) => {
+    const { bills } = useContext(LoginContext);
+
+    return bills.find((bill) => bill.id === id);
+}
+
+const getBill = (id) => {
+    if (process.env.REACT_APP_MOCK) {
+        return GetMockBill(id)
+    }
+
+    return null;
+}
 
 export const ProtectedSingleBillRoute = () => {
     const { billId } = useParams()
 
-
     // TODO: routing a bill id URL that doesn’t exist back to the bills page
 
-    const bill = mockBills.find((bill) => bill.id === billId)
+    const bill = getBill(billId);
 
     return (
         <>
