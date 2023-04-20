@@ -4,6 +4,7 @@ import { getHouseholdMembers } from '../Utils';
 import { LoginContext } from '../../../contexts/LoginContext';
 import { default as ReactSelect, components } from 'react-select';
 import { useNavigate } from 'react-router-dom';
+import DraggableConfirmationDialog from '../../../components/ConfirmationDialog';
 
 const frequencyOptions = ["single", "daily", "weekly", "monthly"];
 
@@ -34,25 +35,42 @@ const Form = ({ bill, handleSubmit, edit }) => {
 
     const navigate = useNavigate();
 
+    const [dialogOpen, setDialogOpen] = useState(false);
+
+    const confirm = (e) => {
+        e.preventDefault();
+
+        handleSubmit({
+            ...formBill,
+            name,
+            total,
+            notes,
+            frequency,
+            date: new Date(date),
+            BillHelpers: billHelpers
+        })
+
+        navigate(-1);
+    }
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+
+        // TODO: Do Bill value validation before submitting
+        // Handle Submit assumes it will get properly formatted bill
+
+        if (edit) {
+            setDialogOpen(true);
+        } else {
+            confirm(e)
+        }
+    }
+
     return (
         <>
+            <DraggableConfirmationDialog open={dialogOpen} setOpen={setDialogOpen} onConfirm={confirm} />
             <h2>{edit ? 'Edit' : 'Add'} Bill</h2>
-            <form onSubmit={(e) => {
-                e.preventDefault();
-                // TODO: Do Bill value validation before submitting
-                // Handle Submit assumes it will get properly formatted bill
-                handleSubmit({
-                    ...formBill,
-                    name,
-                    total,
-                    notes,
-                    frequency,
-                    date: new Date(date),
-                    BillHelpers: billHelpers
-                })
-
-                navigate(-1);
-            }}>
+            <form onSubmit={onSubmit}>
                 <label>
                     Name:
                     <input
