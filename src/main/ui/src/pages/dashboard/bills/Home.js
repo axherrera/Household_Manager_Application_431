@@ -1,13 +1,28 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { mockBills } from '../../../data'
+import { LoginContext } from '../../../contexts/LoginContext'
+
+const GetAllMockBills = () => {
+    const { bills } = useContext(LoginContext);
+    return bills;
+}
+
+const getAllBills = () => {
+    if (process.env.REACT_APP_MOCK) {
+        return GetAllMockBills();
+    }
+
+    return [];
+}
 
 const Home = () => {
+    const bills = getAllBills();
+
     return (
         <>
             <h2>Bills</h2>
             <div>
-                {mockBills.map((bill) => {
+                {bills.map((bill) => {
                     return <article key={bill.id}>
                         <h5>{bill.name}: ${bill.total}</h5>
                         <h5>due: {bill.date.toString()}</h5>
