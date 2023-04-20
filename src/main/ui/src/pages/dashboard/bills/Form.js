@@ -14,7 +14,7 @@ const formatDate = (date) => {
     return `${year}-${month}-${day}`;
 };
 
-const Form = ({ bill, handleSubmit }) => {
+const Form = ({ bill, handleSubmit, edit }) => {
     const formBill = structuredClone(bill);
 
     // Get all Bill data and set it as a state
@@ -35,91 +35,94 @@ const Form = ({ bill, handleSubmit }) => {
     const navigate = useNavigate();
 
     return (
-        <form onSubmit={(e) => {
-            e.preventDefault();
-            // TODO: Do Bill value validation before submitting
-            // Handle Submit assumes it will get properly formatted bill
-            handleSubmit({
-                ...formBill,
-                name,
-                total,
-                notes,
-                frequency,
-                date: new Date(date),
-                BillHelpers: billHelpers
-            })
+        <>
+            <h2>{edit ? 'Edit' : 'Add'} Bill</h2>
+            <form onSubmit={(e) => {
+                e.preventDefault();
+                // TODO: Do Bill value validation before submitting
+                // Handle Submit assumes it will get properly formatted bill
+                handleSubmit({
+                    ...formBill,
+                    name,
+                    total,
+                    notes,
+                    frequency,
+                    date: new Date(date),
+                    BillHelpers: billHelpers
+                })
 
-            navigate(-1);
-        }}>
-            <label>
-                Name:
-                <input
-                    type="text"
-                    value={name}
-                    onChange={(event) => setName(event.target.value)}
+                navigate(-1);
+            }}>
+                <label>
+                    Name:
+                    <input
+                        type="text"
+                        value={name}
+                        onChange={(event) => setName(event.target.value)}
+                    />
+                </label>
+                <br />
+                <label>
+                    Total:
+                    <input
+                        type="number"
+                        step="0.01"
+                        value={total}
+                        onChange={(event) => setTotal(parseFloat(event.target.value))}
+                    />
+                </label>
+                <br />
+                <label>
+                    Notes:
+                    <textarea
+                        value={notes}
+                        onChange={(event) => setNotes(event.target.value)}
+                    />
+                </label>
+                <br />
+                <label>
+                    Frequency:
+                    <select
+                        value={frequency}
+                        onChange={(event) => setFrequency(event.target.value)}
+                    >
+                        {frequencyOptions.map((option) => (
+                            <option key={option} value={option}>
+                                {option}
+                            </option>
+                        ))}
+                    </select>
+                </label>
+                <br />
+                <label>
+                    Date:
+                    <input
+                        type="date"
+                        value={date}
+                        min={todayString}
+                        onChange={(event) => setDate(event.target.value)}
+                    />
+                </label>
+                <br />
+                <label>
+                    Bill Helpers:
+                </label>
+                <SelectBillHelpers
+                    householdMembers={householdMembers}
+                    billHelpers={billHelpers}
+                    setBillHelpers={setBillHelpers}
                 />
-            </label>
-            <br />
-            <label>
-                Total:
-                <input
-                    type="number"
-                    step="0.01"
-                    value={total}
-                    onChange={(event) => setTotal(parseFloat(event.target.value))}
+                <BillHelpersList
+                    billHelpers={billHelpers}
+                    householdMembers={householdMembers}
+                    setBillHelpers={setBillHelpers}
+                    editable={true}
                 />
-            </label>
-            <br />
-            <label>
-                Notes:
-                <textarea
-                    value={notes}
-                    onChange={(event) => setNotes(event.target.value)}
-                />
-            </label>
-            <br />
-            <label>
-                Frequency:
-                <select
-                    value={frequency}
-                    onChange={(event) => setFrequency(event.target.value)}
-                >
-                    {frequencyOptions.map((option) => (
-                        <option key={option} value={option}>
-                            {option}
-                        </option>
-                    ))}
-                </select>
-            </label>
-            <br />
-            <label>
-                Date:
-                <input
-                    type="date"
-                    value={date}
-                    min={todayString}
-                    onChange={(event) => setDate(event.target.value)}
-                />
-            </label>
-            <br />
-            <label>
-                Bill Helpers:
-            </label>
-            <SelectBillHelpers
-                householdMembers={householdMembers}
-                billHelpers={billHelpers}
-                setBillHelpers={setBillHelpers}
-            />
-            <BillHelpersList
-                billHelpers={billHelpers}
-                householdMembers={householdMembers}
-                setBillHelpers={setBillHelpers}
-                editable={true}
-            />
-            {/* TODO: Split Bill Total Button */}
-            <br />
-            <button type="submit">Save</button>
-        </form>
+                {/* TODO: Split Bill Total Button */}
+                <br />
+                <button type="submit">Save</button>
+            </form>
+        </>
     );
 }
 

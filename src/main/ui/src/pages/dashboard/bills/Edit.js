@@ -25,7 +25,7 @@ const Edit = () => {
     }
 
     return (
-        <Form bill={bill} handleSubmit={handleSubmit} />
+        <Form bill={bill} handleSubmit={handleSubmit} edit />
     )
 }
 
