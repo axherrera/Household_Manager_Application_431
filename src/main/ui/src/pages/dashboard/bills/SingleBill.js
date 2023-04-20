@@ -1,39 +1,5 @@
-import React, { useContext } from 'react'
-import { Link, useOutletContext, useParams, Navigate } from 'react-router-dom'
-import { Outlet } from 'react-router-dom/dist/umd/react-router-dom.development'
-import { LoginContext } from '../../../contexts/LoginContext'
-
-const GetMockBill = (id, householdId) => {
-    const { bills } = useContext(LoginContext);
-
-    return bills.find((bill) => bill.id === id && bill.houseId === householdId);
-}
-
-const getBill = (id, householdId) => {
-    if (process.env.REACT_APP_MOCK) {
-        return GetMockBill(id, householdId)
-    }
-
-    return null;
-}
-
-export const ProtectedSingleBillRoute = () => {
-    const { billId } = useParams()
-    const { user } = useContext(LoginContext)
-    const houseId = user.Household.id;
-
-    const bill = getBill(billId, houseId);
-
-    if (bill == null) {
-        return <Navigate to='/dashboard/bills' replace />;
-    }
-
-    return (
-        <>
-            <Outlet context={{ bill }} />
-        </>
-    )
-}
+import React from 'react'
+import { Link, useOutletContext } from 'react-router-dom'
 
 const SingleBill = () => {
     const { bill } = useOutletContext();
