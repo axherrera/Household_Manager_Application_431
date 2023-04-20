@@ -5,7 +5,7 @@ const Home = () => {
   const { user } = useContext(LoginContext);
 
   return (
-    <div>Welcome, {user.firstName}!</div>
+    <div>Welcome, {user.firstName} to {user.Household.id}!</div>
   )
 }
 
