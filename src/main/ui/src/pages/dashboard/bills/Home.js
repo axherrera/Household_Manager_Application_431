@@ -2,21 +2,25 @@ import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { LoginContext } from '../../../contexts/LoginContext'
 
-const GetAllMockBills = () => {
+const GetAllMockBills = (householdId) => {
+    // TODO: only get bills of a certain householdId
     const { bills } = useContext(LoginContext);
-    return bills;
+    return bills.filter(bill => bill.houseId === householdId);
 }
 
-const getAllBills = () => {
+const getAllBills = (householdId) => {
     if (process.env.REACT_APP_MOCK) {
-        return GetAllMockBills();
+        return GetAllMockBills(householdId);
     }
 
     return [];
 }
 
 const Home = () => {
-    const bills = getAllBills();
+    const { user } = useContext(LoginContext)
+    const houseId = user.Household.id;
+
+    const bills = getAllBills(houseId);
 
     return (
         <>
