@@ -3,15 +3,15 @@ import { Link, useOutletContext, useParams } from 'react-router-dom'
 import { Outlet } from 'react-router-dom/dist/umd/react-router-dom.development'
 import { LoginContext } from '../../../contexts/LoginContext'
 
-const GetMockBill = (id) => {
+const GetMockBill = (id, householdId) => {
     const { bills } = useContext(LoginContext);
 
-    return bills.find((bill) => bill.id === id);
+    return bills.find((bill) => bill.id === id && bill.houseId === householdId);
 }
 
-const getBill = (id) => {
+const getBill = (id, householdId) => {
     if (process.env.REACT_APP_MOCK) {
-        return GetMockBill(id)
+        return GetMockBill(id, householdId)
     }
 
     return null;
@@ -19,10 +19,12 @@ const getBill = (id) => {
 
 export const ProtectedSingleBillRoute = () => {
     const { billId } = useParams()
+    const { user } = useContext(LoginContext)
+    const houseId = user.Household.id;
 
     // TODO: routing a bill id URL that doesn’t exist back to the bills page
 
-    const bill = getBill(billId);
+    const bill = getBill(billId, houseId);
 
     return (
         <>
