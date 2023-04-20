@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, useOutletContext } from 'react-router-dom'
-import { Button } from './Edit';
+import { Button as EditButton } from './Edit';
 
 const SingleBill = () => {
     const { bill } = useOutletContext();
@@ -15,7 +15,7 @@ const SingleBill = () => {
             <div style={{ fontSize: 12 }}>{bill.notes}</div>
             <h5><u>due date:</u> {bill.date.toString()}</h5>
             <br></br>
-            <Button billId={billId} />
+            <EditButton billId={billId} />
             <br></br>
             <br></br>
             <Link to='/dashboard/bills'> back to all bills</Link>
