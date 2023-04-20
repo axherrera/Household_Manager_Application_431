@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import { LoginContext } from '../../../contexts/LoginContext'
 
 const GetAllMockBills = (householdId) => {
-    // TODO: only get bills of a certain householdId
     const { bills } = useContext(LoginContext);
     return bills.filter(bill => bill.houseId === householdId);
 }
