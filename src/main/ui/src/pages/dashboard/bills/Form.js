@@ -205,9 +205,9 @@ const BillHelperInputs = ({ billHelpers, setBillHelpers, householdMembers }) => 
     return (<>
         {billHelpers.map((billHelper, index) => {
             const { firstName, username } = householdMembers.find(member => member.id === billHelper.id)
-            return (<>
+            return (<React.Fragment key={'bh-' + billHelper.id}>
                 <br />
-                <label id={billHelper.id} key={billHelper.id}>
+                <label id={billHelper.id}>
                     {firstName} ({username})
                     <br />
                     <label>Amount Owed  </label>
@@ -227,7 +227,7 @@ const BillHelperInputs = ({ billHelpers, setBillHelpers, householdMembers }) => 
                     />
                 </label>
                 <br />
-            </>)
+            </React.Fragment>)
         })}
     </>)
 }
