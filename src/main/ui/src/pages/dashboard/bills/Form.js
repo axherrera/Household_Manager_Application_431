@@ -110,10 +110,11 @@ const Form = ({ bill, handleSubmit }) => {
                 billHelpers={billHelpers}
                 setBillHelpers={setBillHelpers}
             />
-            <BillHelperInputs
+            <BillHelpersList
                 billHelpers={billHelpers}
                 householdMembers={householdMembers}
                 setBillHelpers={setBillHelpers}
+                editable={true}
             />
             {/* TODO: Split Bill Total Button */}
             <br />
@@ -197,7 +198,7 @@ const SelectBillHelpers = ({ billHelpers, householdMembers, setBillHelpers }) =>
     );
 }
 
-const BillHelperInputs = ({ billHelpers, setBillHelpers, householdMembers }) => {
+export const BillHelpersList = ({ billHelpers, setBillHelpers, householdMembers, editable }) => {
     const handleAmountOwedChange = (index, event) => {
         // TODO: don't allow amount owed to exceed total bill amount
         const newBillHelpers = [...billHelpers];
@@ -215,27 +216,30 @@ const BillHelperInputs = ({ billHelpers, setBillHelpers, householdMembers }) => 
         {billHelpers.map((billHelper, index) => {
             const { firstName, username } = householdMembers.find(member => member.id === billHelper.id)
             return (<React.Fragment key={'bh-' + billHelper.id}>
-                <br />
+                {editable && <br />}
                 <label id={billHelper.id}>
                     {firstName} ({username})
                     <br />
                     <label>Amount Owed  </label>
-                    <input
+                    {editable ? <input
                         type="number"
                         step="0.01"
                         value={billHelper.amountOwed}
                         onChange={(event) => handleAmountOwedChange(index, event)}
-                    />
+                    /> : billHelper.amountOwed}
 
                     <br />
+
                     <label>Paid</label>
-                    <input
+                    {editable ? <input
                         type="checkbox"
                         checked={billHelper.isPaid}
                         onChange={(event) => handleIsPaidChange(index, event)}
-                    />
+                    /> : <input type="checkbox" checked={billHelper.isPaid} disabled />}
+
                 </label>
                 <br />
+                {!editable && <br />}
             </React.Fragment>)
         })}
     </>)
