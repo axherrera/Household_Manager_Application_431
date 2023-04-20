@@ -6,16 +6,32 @@ import Login from './pages/Login';
 import ProtectedRoute from './components/ProtectedRoute';
 import Dashboard from './pages/dashboard/Routes';
 import { LoginContext } from './contexts/LoginContext';
+import { mockBills } from './data';
 
 
 const AppRoutes = () => {
     const [user, setUser] = useState(null)
+    const [bills, setBills] = useState(mockBills);
+
+    let contextValue = {
+        user,
+        setUser
+    }
+
+    if (process.env.REACT_APP_MOCK) {
+
+        contextValue = {
+            ...contextValue,
+            bills,
+            setBills
+        };
+    }
 
     const loggedIn = user != null
     const loggedOut = user == null
 
     return (
-        <LoginContext.Provider value={{ user, setUser }}>
+        <LoginContext.Provider value={contextValue}>
             <BrowserRouter>
                 <Routes>
                     <Route path="/">
