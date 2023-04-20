@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import Form from './Form'
-import { useOutletContext } from 'react-router-dom';
+import { useOutletContext, useNavigate } from 'react-router-dom';
 import { LoginContext } from '../../../contexts/LoginContext';
 
 const Edit = () => {
@@ -27,6 +27,18 @@ const Edit = () => {
     return (
         <Form bill={bill} handleSubmit={handleSubmit} />
     )
+}
+
+export const Button = ({ billId }) => {
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate(`/dashboard/bills/${billId}/edit`);
+    }
+
+    return (
+        <button onClick={handleClick}>Edit Bill</button>
+    );
 }
 
 
