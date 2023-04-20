@@ -15,13 +15,15 @@ const formatDate = (date) => {
 };
 
 const Form = ({ bill, handleSubmit }) => {
+    const formBill = structuredClone(bill);
+
     // Get all Bill data and set it as a state
-    const [name, setName] = useState(bill.name);
-    const [total, setTotal] = useState(bill.total);
-    const [notes, setNotes] = useState(bill.notes);
-    const [frequency, setFrequency] = useState(bill.frequency);
-    const [date, setDate] = useState(formatDate(bill.date));
-    const [billHelpers, setBillHelpers] = useState(bill.BillHelpers);
+    const [name, setName] = useState(formBill.name);
+    const [total, setTotal] = useState(formBill.total);
+    const [notes, setNotes] = useState(formBill.notes);
+    const [frequency, setFrequency] = useState(formBill.frequency);
+    const [date, setDate] = useState(formatDate(formBill.date));
+    const [billHelpers, setBillHelpers] = useState(formBill.BillHelpers);
 
     const { user } = useContext(LoginContext)
     const houseId = user.Household.id;
@@ -38,7 +40,7 @@ const Form = ({ bill, handleSubmit }) => {
             // TODO: Do Bill value validation before submitting
             // Handle Submit assumes it will get properly formatted bill
             handleSubmit({
-                ...bill,
+                ...formBill,
                 name,
                 total,
                 notes,
