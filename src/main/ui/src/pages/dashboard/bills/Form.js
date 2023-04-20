@@ -96,11 +96,11 @@ const Form = ({ bill, handleSubmit }) => {
             <label>
                 Bill Helpers:
             </label>
-            <SelectBillHelpers 
+            <SelectBillHelpers
                 householdMembers={householdMembers}
                 billHelpers={billHelpers}
                 setBillHelpers={setBillHelpers}
-                />
+            />
             <BillHelperInputs
                 billHelpers={billHelpers}
                 householdMembers={householdMembers}
@@ -114,31 +114,31 @@ const Form = ({ bill, handleSubmit }) => {
 }
 
 const Option = (props) => {
-  return (
-    <div>
-      <components.Option {...props}>
-        <input
-            id={props.value}
-          type="checkbox"
-          checked={props.isSelected}
-          onChange={() => null}
-        />{" "}
-        <label>{props.label}</label>
-      </components.Option>
-    </div>
-  );
+    return (
+        <div>
+            <components.Option {...props}>
+                <input
+                    id={props.value}
+                    type="checkbox"
+                    checked={props.isSelected}
+                    onChange={() => null}
+                />{" "}
+                <label>{props.label}</label>
+            </components.Option>
+        </div>
+    );
 };
 
 
 const SelectBillHelpers = ({ billHelpers, householdMembers, setBillHelpers }) => {
     const householdMemberOptions = householdMembers
-    .map(member => (
-        {
-            ...member,
-            value: member.id,
-            label: `${member.firstName} (${member.username})`
-        })
-    );
+        .map(member => (
+            {
+                ...member,
+                value: member.id,
+                label: `${member.firstName} (${member.username})`
+            })
+        );
 
     const [selectedHouseholdMembers, setSelectedHouseholdMembers] = useState(householdMemberOptions.filter(member => billHelpers.find(billHelper => member.id === billHelper.id) != undefined));
 
@@ -148,47 +148,47 @@ const SelectBillHelpers = ({ billHelpers, householdMembers, setBillHelpers }) =>
 
     useEffect(() => {
         const newBillHelpers = selectedHouseholdMembers
-        .map(member => {
-            const newBillHelper = billHelpers.find(billHelper => billHelper.id === member.id);
+            .map(member => {
+                const newBillHelper = billHelpers.find(billHelper => billHelper.id === member.id);
 
-            if (newBillHelper) {
-                return newBillHelper;
-            }
+                if (newBillHelper) {
+                    return newBillHelper;
+                }
 
-            return {
-                id: member.id,
-                amountOwed: 0,
-                isPaid: false,
-            }
-        });
+                return {
+                    id: member.id,
+                    amountOwed: 0,
+                    isPaid: false,
+                }
+            });
 
         setBillHelpers(newBillHelpers);
     }, [selectedHouseholdMembers]);
 
     return (
-      <span
-        class="d-inline-block"
-        data-toggle="popover"
-        data-trigger="focus"
-        data-content="Please selecet account(s)"
-      >
-        <ReactSelect
-          options={householdMemberOptions}
-          isMulti
-          closeMenuOnSelect={false}
-          hideSelectedOptions={false}
-          components={{
-            Option
-          }}
-          onChange={handleChange}
-          allowSelectAll={true}
-          value={selectedHouseholdMembers}
-        />
-      </span>
+        <span
+            className="d-inline-block"
+            data-toggle="popover"
+            data-trigger="focus"
+            data-content="Please selecet account(s)"
+        >
+            <ReactSelect
+                options={householdMemberOptions}
+                isMulti
+                closeMenuOnSelect={false}
+                hideSelectedOptions={false}
+                components={{
+                    Option
+                }}
+                onChange={handleChange}
+                allowSelectAll={true}
+                value={selectedHouseholdMembers}
+            />
+        </span>
     );
 }
 
-const BillHelperInputs = ({billHelpers, setBillHelpers, householdMembers}) => {
+const BillHelperInputs = ({ billHelpers, setBillHelpers, householdMembers }) => {
     const handleAmountOwedChange = (index, event) => {
         // TODO: don't allow amount owed to exceed total bill amount
         const newBillHelpers = [...billHelpers];
@@ -204,29 +204,29 @@ const BillHelperInputs = ({billHelpers, setBillHelpers, householdMembers}) => {
 
     return (<>
         {billHelpers.map((billHelper, index) => {
-            const {firstName, username} = householdMembers.find(member => member.id === billHelper.id)
+            const { firstName, username } = householdMembers.find(member => member.id === billHelper.id)
             return (<>
-            <br />
-            <label id={billHelper.id}>
-                {firstName} ({username})
                 <br />
-                <label>Amount Owed  </label>
-                <input 
-                    type="number"
-                    step="0.01"
-                    value={billHelper.amountOwed}
-                    onChange={(event) => handleAmountOwedChange(index, event)}
-                />
+                <label id={billHelper.id} key={billHelper.id}>
+                    {firstName} ({username})
+                    <br />
+                    <label>Amount Owed  </label>
+                    <input
+                        type="number"
+                        step="0.01"
+                        value={billHelper.amountOwed}
+                        onChange={(event) => handleAmountOwedChange(index, event)}
+                    />
 
+                    <br />
+                    <label>Paid</label>
+                    <input
+                        type="checkbox"
+                        checked={billHelper.isPaid}
+                        onChange={(event) => handleIsPaidChange(index, event)}
+                    />
+                </label>
                 <br />
-                <label>Paid</label>
-                <input
-                    type="checkbox"
-                    checked={billHelper.isPaid}
-                    onChange={(event) => handleIsPaidChange(index, event)}
-                />
-            </label>
-            <br />
             </>)
         })}
     </>)
