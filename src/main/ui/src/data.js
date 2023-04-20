@@ -164,3 +164,13 @@ export const mockBills = [
         ]
     },
 ]
+
+export const newEmptyBill = {
+    name: '',
+    type: '',
+    total: 0,
+    notes: '',
+    frequency: 'single',
+    date: new Date(),
+    BillHelpers: []
+}

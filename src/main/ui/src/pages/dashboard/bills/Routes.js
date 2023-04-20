@@ -4,6 +4,7 @@ import Edit from './Edit'
 import Home from './Home'
 import SingleBill, { ProtectedSingleBillRoute } from './SingleBill'
 import './Bills.css'
+import Add from './Add'
 
 const BillsRoutes = () => {
   return (
@@ -14,6 +15,7 @@ const BillsRoutes = () => {
           <Route index element={<SingleBill />} />
           <Route path="edit" element={<Edit />} />
         </Route>
+        <Route path="add" element={<Add />} />
       </Route>
     </Routes>
   )

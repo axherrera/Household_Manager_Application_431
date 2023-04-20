@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { LoginContext } from '../../../contexts/LoginContext'
+import { Button } from './Add';
 
 const GetAllMockBills = (householdId) => {
     const { bills } = useContext(LoginContext);
@@ -33,7 +34,7 @@ const Home = () => {
                     </article>
                 })}
             </div>
-            <button>add bill</button>
+            <Button />
         </>
     )
 }
