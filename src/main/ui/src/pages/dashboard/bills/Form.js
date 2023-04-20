@@ -142,7 +142,7 @@ const SelectBillHelpers = ({ billHelpers, householdMembers, setBillHelpers }) =>
             })
         );
 
-    const [selectedHouseholdMembers, setSelectedHouseholdMembers] = useState(householdMemberOptions.filter(member => billHelpers.find(billHelper => member.id === billHelper.id) != undefined));
+    const [selectedHouseholdMembers, setSelectedHouseholdMembers] = useState(householdMemberOptions.filter(member => billHelpers.find(billHelper => member.id === billHelper.id) !== undefined));
 
     const handleChange = (selected) => {
         setSelectedHouseholdMembers(selected);
