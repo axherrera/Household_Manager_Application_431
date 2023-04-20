@@ -33,6 +33,39 @@ export const mockUsers = [
             id: "1",
             name: "House 1"
         }
+    },
+    {
+        id: "4",
+        username: "user4",
+        firstName: "Dylan",
+        lastName: "Brady",
+        password: "password4",
+        Household: {
+            id: "2",
+            name: "House 2"
+        }
+    },
+    {
+        id: "5",
+        username: "user5",
+        firstName: "Emma",
+        lastName: "Baaz",
+        password: "password5",
+        Household: {
+            id: "2",
+            name: "House 2"
+        }
+    },
+    {
+        id: "6",
+        username: "user6",
+        firstName: "Finn",
+        lastName: "Time",
+        password: "password6",
+        Household: {
+            id: "2",
+            name: "House 2"
+        }
     }
 ]
 
