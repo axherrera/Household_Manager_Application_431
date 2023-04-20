@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { getHouseholdMembers } from '../Utils';
 import { LoginContext } from '../../../contexts/LoginContext';
 import { default as ReactSelect, components } from 'react-select';
+import { useNavigate } from 'react-router-dom';
 
 const frequencyOptions = ["single", "daily", "weekly", "monthly"];
 
@@ -29,6 +30,8 @@ const Form = ({ bill, handleSubmit }) => {
     const today = new Date();
     const todayString = formatDate(today);
 
+    const navigate = useNavigate();
+
     return (
         <form onSubmit={(e) => {
             e.preventDefault();
@@ -43,6 +46,8 @@ const Form = ({ bill, handleSubmit }) => {
                 date: new Date(date),
                 BillHelpers: billHelpers
             })
+
+            navigate(-1);
         }}>
             <label>
                 Name:
