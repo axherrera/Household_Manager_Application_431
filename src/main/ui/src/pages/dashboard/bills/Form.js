@@ -5,6 +5,7 @@ import { LoginContext } from '../../../contexts/LoginContext';
 import { default as ReactSelect, components } from 'react-select';
 import { useNavigate } from 'react-router-dom';
 import DraggableConfirmationDialog from '../../../components/ConfirmationDialog';
+import ErrorAlerts from '../../../components/ErrorAlerts';
 
 const frequencyOptions = ["single", "daily", "weekly", "monthly"];
 
@@ -30,12 +31,7 @@ const Form = ({ bill, handleSubmit, edit }) => {
     const houseId = user.Household.id;
     const householdMembers = getHouseholdMembers(houseId);
 
-    const today = new Date();
-    const todayString = formatDate(today);
-
     const navigate = useNavigate();
-
-    const [dialogOpen, setDialogOpen] = useState(false);
 
     const confirm = (e) => {
         e.preventDefault();
@@ -53,6 +49,7 @@ const Form = ({ bill, handleSubmit, edit }) => {
         navigate(-1);
     }
 
+    const [alerts, setAlerts] = useState([]);
     const validInput = () => {
         let invalidInputs = [];
 
@@ -87,18 +84,20 @@ const Form = ({ bill, handleSubmit, edit }) => {
         }
 
         if (invalidInputs.length !== 0) {
+            setAlerts(invalidInputs.map(alert => { return { ...alert, open: true } }));
             return false;
         }
 
         return true;
     }
 
+    const [dialogOpen, setDialogOpen] = useState(false);
     const onSubmit = (e) => {
         e.preventDefault();
 
-        // TODO: Do Bill value validation before submitting
         if (!validInput()) {
             return;
+        }
 
         if (edit) {
             setDialogOpen(true);
@@ -107,9 +106,13 @@ const Form = ({ bill, handleSubmit, edit }) => {
         }
     }
 
+    const today = new Date();
+    const todayString = formatDate(today);
+
     return (
         <>
             <DraggableConfirmationDialog open={dialogOpen} setOpen={setDialogOpen} onConfirm={confirm} />
+            <ErrorAlerts alerts={alerts} setAlerts={setAlerts} />
             <h2>{edit ? 'Edit' : 'Add'} Bill</h2>
             <form onSubmit={onSubmit}>
                 <label>
