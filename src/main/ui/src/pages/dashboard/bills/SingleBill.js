@@ -2,7 +2,7 @@ import React from 'react'
 import { Link, useOutletContext } from 'react-router-dom'
 import { Button as EditButton } from './Edit';
 import { BillHelpersList } from './Form';
-import { DeleteButton } from './Home';
+import { DeleteButton, PayButton } from './Home';
 import { useContext } from 'react';
 import { LoginContext } from '../../../contexts/LoginContext';
 import { getHouseholdMembers } from '../Utils';
@@ -27,6 +27,7 @@ const SingleBill = () => {
             <h5><u>Bill Helpers:</u></h5>
             <BillHelpersList billHelpers={bill.BillHelpers} householdMembers={householdMembers} />
             <br></br>
+            {bill.BillHelpers.find(helper => helper.id === user.id) != undefined && <PayButton billId={bill.id} userId={user.id}/>}
             <EditButton billId={billId} />
             <DeleteButton billId={billId} />
             <br></br>

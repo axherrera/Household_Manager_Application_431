@@ -190,6 +190,7 @@ const Form = ({ bill, handleSubmit, edit }) => {
                     householdMembers={householdMembers}
                     setBillHelpers={setBillHelpers}
                     editable={true}
+                    userId={user.id}
                 />
                 {/* TODO: Split Bill Total Button */}
                 <br />
@@ -275,7 +276,7 @@ const SelectBillHelpers = ({ billHelpers, householdMembers, setBillHelpers }) =>
     );
 }
 
-export const BillHelpersList = ({ billHelpers, setBillHelpers, householdMembers, editable }) => {
+export const BillHelpersList = ({ billHelpers, setBillHelpers, householdMembers, editable, userId }) => {
     const handleAmountOwedChange = (index, event) => {
         // TODO: don't allow amount owed to exceed total bill amount
         const newBillHelpers = [...billHelpers];
@@ -311,6 +312,7 @@ export const BillHelpersList = ({ billHelpers, setBillHelpers, householdMembers,
                     {editable ? <input
                         type="checkbox"
                         checked={billHelper.isPaid}
+                        disabled={billHelper.id !== userId}
                         onChange={(event) => handleIsPaidChange(index, event)}
                     /> : <input type="checkbox" checked={billHelper.isPaid} disabled />}
 
