@@ -13,7 +13,9 @@ const formatDate = (date) => {
     const year = date.getFullYear();
     const month = `${date.getMonth() + 1}`.padStart(2, "0");
     const day = `${date.getDate()}`.padStart(2, "0");
-    return `${year}-${month}-${day}`;
+    const hours = `${date.getHours()}`.padStart(2, "0");
+    const minutes = `${date.getMinutes()}`.padStart(2, "0");
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
 };
 
 const Form = ({ bill, handleSubmit, edit }) => {
@@ -50,7 +52,7 @@ const Form = ({ bill, handleSubmit, edit }) => {
             total,
             notes,
             frequency,
-            date: new Date(`${date}T00:00:00`),
+            date: new Date(date),
             BillHelpers: billHelpers
         })
 
@@ -167,7 +169,8 @@ const Form = ({ bill, handleSubmit, edit }) => {
                 <label>
                     Date:
                     <input
-                        type="date"
+                        type="datetime-local"
+                        id="due-date"
                         value={date}
                         min={todayString}
                         onChange={(event) => setDate(event.target.value)}
