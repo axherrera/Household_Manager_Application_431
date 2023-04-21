@@ -33,6 +33,14 @@ const Form = ({ bill, handleSubmit, edit }) => {
 
     const navigate = useNavigate();
 
+    const navigateBack = () => {
+        if (window.history.state && window.history.state.idx > 0) {
+            navigate(-1);
+        } else {
+            navigate('/dashboard/bills', { replace: true }); // the current entry in the history stack will be replaced with the new one with { replace: true }
+        }
+    }
+
     const confirm = (e) => {
         e.preventDefault();
 
@@ -46,7 +54,7 @@ const Form = ({ bill, handleSubmit, edit }) => {
             BillHelpers: billHelpers
         })
 
-        navigate(-1);
+        navigateBack();
     }
 
     const [alerts, setAlerts] = useState([]);
@@ -182,7 +190,8 @@ const Form = ({ bill, handleSubmit, edit }) => {
                 />
                 {/* TODO: Split Bill Total Button */}
                 <br />
-                <button type="submit">Save</button>
+                <button style={{marginRight: "10vw"}} type="submit">Save</button>
+                <button type="submit" onClick={navigateBack}>Cancel</button>
             </form>
         </>
     );
