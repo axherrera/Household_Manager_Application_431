@@ -53,11 +53,52 @@ const Form = ({ bill, handleSubmit, edit }) => {
         navigate(-1);
     }
 
+    const validInput = () => {
+        let invalidInputs = [];
+
+        if (name.trim() === "") {
+            invalidInputs.push({ message: "bill cannot have empty name." });
+        }
+
+        if (billHelpers.length === 0) {
+            invalidInputs.push({ message: "bill must have at least one bill helper." })
+        } else {
+            for (var helper of billHelpers) {
+                if (isNaN(helper.amountOwed) || helper.amountOwed <= 0) {
+                    invalidInputs.push({ message: "all bill helpers must owe an amount >= 0" });
+                    break;
+                }
+            }
+        }
+
+        // date already handled for us in form
+
+        if (total <= 0 || isNaN(total)) {
+            invalidInputs.push({ message: "bill total must be > $0." })
+        }
+
+        // make sure all bill helpers sum total <= bill total
+        if (!isNaN(total) && total > 0 && billHelpers.length > 0) {
+            const billHelperTotal = billHelpers.reduce((acc, bill) => acc + bill.amountOwed, 0);
+
+            if (billHelperTotal > total) {
+                invalidInputs.push({ message: "bill members' sum total needs to be <= bill total" })
+            }
+        }
+
+        if (invalidInputs.length !== 0) {
+            return false;
+        }
+
+        return true;
+    }
+
     const onSubmit = (e) => {
         e.preventDefault();
 
         // TODO: Do Bill value validation before submitting
-        // Handle Submit assumes it will get properly formatted bill
+        if (!validInput()) {
+            return;
 
         if (edit) {
             setDialogOpen(true);
