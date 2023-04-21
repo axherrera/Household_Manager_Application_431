@@ -6,6 +6,7 @@ import { DeleteButton } from './Home';
 import { useContext } from 'react';
 import { LoginContext } from '../../../contexts/LoginContext';
 import { getHouseholdMembers } from '../Utils';
+import moment from 'moment';
 
 const SingleBill = () => {
     const { bill } = useOutletContext();
@@ -22,7 +23,7 @@ const SingleBill = () => {
             <h5><u>frequency:</u> {bill.frequency}</h5>
             <h5><u>notes:</u></h5>
             <div style={{ fontSize: 12 }}>{bill.notes}</div>
-            <h5><u>due date:</u> {bill.date.toString()}</h5>
+            <h5><u>due date:</u> {moment(bill.date).format('dddd MMMM Do YYYY, h:mm:ss a')}</h5>
             <h5><u>Bill Helpers:</u></h5>
             <BillHelpersList billHelpers={bill.BillHelpers} householdMembers={householdMembers} />
             <br></br>
