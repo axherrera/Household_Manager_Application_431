@@ -50,7 +50,7 @@ const Form = ({ bill, handleSubmit, edit }) => {
             total,
             notes,
             frequency,
-            date: new Date(date),
+            date: new Date(`${date}T00:00:00`),
             BillHelpers: billHelpers
         })
 
