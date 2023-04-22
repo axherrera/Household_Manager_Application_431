@@ -56,7 +56,7 @@ const useBills = () => {
             payMockBill(billId, userId)
         }
 
-        navigate(location.pathname);
+        navigate(location.pathname, {replace: true});
     }
 
     const deleteMockBill = (id) => {
