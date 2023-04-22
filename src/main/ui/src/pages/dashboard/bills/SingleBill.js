@@ -1,8 +1,6 @@
 import React from 'react'
 import { Link, useOutletContext } from 'react-router-dom'
-import { Button as EditButton } from './Edit';
 import { BillHelpersList } from './Form';
-import { DeleteButton, PayButton } from './Home';
 import { useContext } from 'react';
 import { LoginContext } from '../../../contexts/LoginContext';
 import { getHouseholdMembers } from '../Utils';
@@ -30,7 +28,7 @@ const SingleBill = () => {
             <h5><u>Bill Helpers:</u></h5>
             <BillHelpersList billHelpers={bill.BillHelpers} householdMembers={householdMembers} />
             <br></br>
-            {bill.BillHelpers.find(helper => helper.id === user.id) != undefined && <button onClick={() => payBill(bill.id, user.id)}>pay</button>}
+            {bill.BillHelpers.find(helper => helper.id === user.id) !== undefined && <button onClick={() => payBill(bill.id, user.id)}>pay</button>}
             <button onClick={() => { editBill(billId) }}>Edit Bill</button>
             <button onClick={() => { deleteBill(billId) }}>Delete Bill</button>
             <br></br>

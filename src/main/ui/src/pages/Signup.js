@@ -2,7 +2,6 @@ import React from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import styles from "./Signup.module.css"
 import { useState } from 'react';
-import ReactDOM from 'react-dom/client';
 
 function Signup() {
   const [username, setUsername] = useState('');

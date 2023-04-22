@@ -251,7 +251,7 @@ const SelectBillHelpers = ({ billHelpers, householdMembers, setBillHelpers }) =>
             });
 
         setBillHelpers(newBillHelpers);
-    }, [selectedHouseholdMembers]);
+    }, [selectedHouseholdMembers, setBillHelpers, billHelpers]);
 
     return (
         <span
