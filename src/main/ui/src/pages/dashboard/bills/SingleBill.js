@@ -1,11 +1,14 @@
 import React from 'react'
-import { Link, useOutletContext } from 'react-router-dom'
+import { useOutletContext } from 'react-router-dom'
 import { BillHelpersList } from './Form';
 import { useContext } from 'react';
 import { LoginContext } from '../../../contexts/LoginContext';
 import { getHouseholdMembers } from '../Utils';
 import moment from 'moment';
 import useBills from './useBills';
+import ExpandCard from '../../../components/Card';
+import { Button, Checkbox } from '@mui/material';
+import { useNavigate } from 'react-router-dom/dist/umd/react-router-dom.development';
 
 const SingleBill = () => {
     const { bill } = useOutletContext();
@@ -15,25 +18,72 @@ const SingleBill = () => {
     const houseId = user.Household.id;
     const householdMembers = getHouseholdMembers(houseId);
 
+    const navigate = useNavigate();
+    
     const { editBill, deleteBill, payBill } = useBills();
+
+    const date = moment(bill.date).format('dddd MMMM Do YYYY, h:mm a');
+
+    const options = [
+        {
+            name: 'Edit',
+            onClick: (billId) => { editBill(billId) }
+        },
+        {
+            name: 'Delete',
+            onClick: (billId) => { deleteBill(billId) }
+        }
+    ];
+
+    const content = [
+        {
+            title: 'total',
+            content: `${bill.total}`
+        },
+        {
+            title: 'due',
+            content: `${date}`
+        },
+        {
+            title: 'Bill Helpers',
+            content: <BillHelpersList billHelpers={bill.BillHelpers} householdMembers={householdMembers} />
+        }
+    ]
+
+    if (bill.frequency !== 'single') {
+        content.push(
+            {
+                title: 'recurring',
+                content: bill.frequency
+            }
+        )
+    }
+
+    const actions = []
+    
+    const userBillHelper = bill.BillHelpers.find(helper => helper.id === user.id);
+
+    if (userBillHelper !== undefined) {
+        actions.push({
+            title: 'Pay Bill',
+            content: <Checkbox onChange={() => {payBill(bill.id, user.id)}} checked={userBillHelper.isPaid}></Checkbox>
+        })
+    }
 
     return (
         <>
-            <h3><b>{bill.name} Bill</b></h3>
-            <h5><u>total:</u> {bill.total}</h5>
-            <h5><u>frequency:</u> {bill.frequency}</h5>
-            <h5><u>notes:</u></h5>
-            <div style={{ fontSize: 12 }}>{bill.notes}</div>
-            <h5><u>due date:</u> {moment(bill.date).format('dddd MMMM Do YYYY, h:mm:ss a')}</h5>
-            <h5><u>Bill Helpers:</u></h5>
-            <BillHelpersList billHelpers={bill.BillHelpers} householdMembers={householdMembers} />
-            <br></br>
-            {bill.BillHelpers.find(helper => helper.id === user.id) !== undefined && <button onClick={() => payBill(bill.id, user.id)}>pay</button>}
-            <button onClick={() => { editBill(billId) }}>Edit Bill</button>
-            <button onClick={() => { deleteBill(billId) }}>Delete Bill</button>
+            <ExpandCard 
+                title={`${bill.name} Bill`}
+                options={options}
+                itemId={billId}
+                mainContent={content}
+                expandTitle={"notes:"}
+                expandContent={bill.notes}
+                bottomActions={actions}
+            />
             <br></br>
             <br></br>
-            <Link to='/dashboard/bills'> back to all bills</Link>
+            <Button variant="contained" onClick={() => { navigate('/dashboard/bills') }}>Back to Bills</Button>
         </>
     )
 }

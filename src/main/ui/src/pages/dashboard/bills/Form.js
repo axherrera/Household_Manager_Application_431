@@ -298,7 +298,7 @@ export const BillHelpersList = ({ billHelpers, setBillHelpers, householdMembers,
                 <label id={billHelper.id}>
                     {firstName} ({username})
                     <br />
-                    <label>Amount Owed  </label>
+                    <label>Amount Owed:  </label>
                     {editable ? <input
                         type="number"
                         step="0.01"
