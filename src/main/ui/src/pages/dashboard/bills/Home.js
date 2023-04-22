@@ -1,9 +1,10 @@
 import React, { useContext } from 'react'
-import { Link } from 'react-router-dom'
-import { useLocation, useNavigate } from 'react-router-dom/dist/umd/react-router-dom.development';
 import { LoginContext } from '../../../contexts/LoginContext'
 import { Button as AddBillButton } from './Add';
-import { Button as EditButton } from './Edit';
+import { Button, Divider, List, ListItem, ListItemText } from '@mui/material';
+import OptionsMenu from '../../../components/OptionsMenu';
+import useBills from './useBills';
+import { useNavigate } from 'react-router-dom/dist/umd/react-router-dom.development';
 
 const GetAllMockBills = (householdId) => {
     const { bills } = useContext(LoginContext);
@@ -25,87 +26,51 @@ const Home = () => {
 
     const bills = getAllBills(houseId);
 
+    const { addBill } = useBills();
+
     return (
         <>
             <h2>Bills</h2>
-            <div>
-                {bills.map((bill) => {
-                    return <article key={bill.id}>
-                        <h5>{bill.name}: ${bill.total}</h5>
-                        <h5>due: {bill.date.toLocaleDateString()}</h5>
-                        <h6><Link to={`/dashboard/bills/${bill.id}`}>more info</Link></h6>
-                        {bill.BillHelpers.find(helper => helper.id === user.id) != undefined && <PayButton billId={bill.id} userId={user.id}/>}
-                        <EditButton billId={bill.id} /><DeleteButton billId={bill.id} />
-                    </article>
-                })}
-            </div>
+            <BillsList bills={bills} />
             <br />
-            <AddBillButton />
+            <Button variant="contained" onClick={() => { addBill() }}>Add Bill</Button>
         </>
     )
 }
 
-export const DeleteButton = ({ billId }) => {
-    const { setBills } = useContext(LoginContext);
+const BillsList = ({ bills }) => {
+    const { deleteBill, editBill } = useBills();
     const navigate = useNavigate();
 
-    const handleMockDelete = () => {
-        setBills(bills => { return bills.filter(bill => bill.id !== billId) })
-    }
-
-    const handleDelete = () => {
-        if (process.env.REACT_APP_MOCK) {
-            handleMockDelete();
+    const options = [
+        {
+            name: 'Edit',
+            onClick: (billId) => { editBill(billId) }
+        },
+        {
+            name: 'Delete',
+            onClick: (billId) => { deleteBill(billId) }
         }
-
-        navigate('/dashboard/bills')
-    }
+    ]
 
     return (
-        <button onClick={handleDelete}>Delete Bill</button>
-    )
-}
-
-export const PayButton = ({ userId, billId }) => {
-    const { setBills } = useContext(LoginContext);
-    const navigate = useNavigate();
-    const location = useLocation();
-
-    const handleMockPay = () => {
-        setBills(bills => { return bills.map(bill => {
-            if (bill.id !== billId) {
-                return bill
+        <List>
+            {bills.map((bill) =>
+                <React.Fragment key={bill.id}>
+                    <ListItem
+                        onClick={() => { navigate(`/dashboard/bills/${bill.id}`) }}
+                        secondaryAction={
+                            <OptionsMenu options={options} itemId={bill.id} />
+                        }
+                        button>
+                        <ListItemText>{bill.name}: ${bill.total}</ListItemText>
+                    </ListItem>
+                    <Divider />
+                </React.Fragment>)
             }
-
-            const updatedBillHelpers = bill.BillHelpers.map(member => {
-                if (member.id === userId) {
-                    return {
-                        ...member,
-                        isPaid: !member.isPaid
-                    };
-                }
-                return member;
-            });
-
-            // return the updated JSON object with the modified list
-            return {
-                ...bill,
-                BillHelpers: updatedBillHelpers
-            };
-        }) })
-    }
-
-    const handlePay = () => {
-        if (process.env.REACT_APP_MOCK) {
-            handleMockPay();
-        }
-
-        navigate(location.pathname);
-    }
-
-    return (
-        <button onClick={handlePay}>Pay Bill</button>
+        </List >
     )
 }
+
 
 export default Home
