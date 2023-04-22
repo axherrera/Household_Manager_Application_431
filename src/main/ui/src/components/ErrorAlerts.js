@@ -15,7 +15,7 @@ const ErrorAlerts = ({ alerts, setAlerts }) => {
         <Stack sx={{ width: '100%' }} spacing={2}>
             {
                 alerts.map((alert, index) =>
-                    <Collapse in={alert.open}>
+                    <Collapse in={alert.open} key={index}>
                         <Alert key={index} onClose={() => handleCloseAlert(index)} severity={"error"}>{alert.message}</Alert>
                     </Collapse>)
             }

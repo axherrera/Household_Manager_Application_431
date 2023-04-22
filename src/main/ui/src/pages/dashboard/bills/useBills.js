@@ -3,9 +3,23 @@ import { useNavigate, useLocation } from 'react-router-dom/dist/umd/react-router
 import { LoginContext } from '../../../contexts/LoginContext'
 
 const useBills = () => {
-    const { bills, setBills } = useContext(LoginContext);
+    const { user, bills, setBills } = useContext(LoginContext);
+    const houseId = user.Household.id;
     const navigate = useNavigate();
     const location = useLocation();
+
+
+    const getAllMockBills = () => {
+        return bills.filter(bill => bill.houseId === houseId);
+    }
+
+    const getAllBills = () => {
+        if (process.env.REACT_APP_MOCK) {
+            return getAllMockBills();
+        }
+
+        return [];
+    }
 
     const addBill = () => {
         navigate('/dashboard/bills/add');
@@ -60,7 +74,7 @@ const useBills = () => {
         navigate(`/dashboard/bills/${id}/edit`);
     }
 
-    return { addBill, payBill, deleteBill, editBill }
+    return { getAllBills, addBill, payBill, deleteBill, editBill }
 }
 
 export default useBills

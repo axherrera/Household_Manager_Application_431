@@ -1,32 +1,12 @@
-import React, { useContext } from 'react'
-import { LoginContext } from '../../../contexts/LoginContext'
-import { Button as AddBillButton } from './Add';
+import React from 'react'
 import { Button, Divider, List, ListItem, ListItemText } from '@mui/material';
 import OptionsMenu from '../../../components/OptionsMenu';
 import useBills from './useBills';
 import { useNavigate } from 'react-router-dom/dist/umd/react-router-dom.development';
 
-const GetAllMockBills = (householdId) => {
-    const { bills } = useContext(LoginContext);
-
-    return bills.filter(bill => bill.houseId === householdId);
-}
-
-const getAllBills = (householdId) => {
-    if (process.env.REACT_APP_MOCK) {
-        return GetAllMockBills(householdId);
-    }
-
-    return [];
-}
-
 const Home = () => {
-    const { user } = useContext(LoginContext)
-    const houseId = user.Household.id;
-
-    const bills = getAllBills(houseId);
-
-    const { addBill } = useBills();
+    const { getAllBills, addBill } = useBills();
+    const bills = getAllBills();
 
     return (
         <>
