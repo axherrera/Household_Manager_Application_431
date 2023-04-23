@@ -5,15 +5,9 @@ import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
-import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { blue } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { Checkbox, List, ListItem } from '@mui/material';
-import { BillHelpersList } from '../pages/dashboard/bills/Form';
 import OptionsMenu from './OptionsMenu';
 
 const ExpandMore = styled((props) => {

@@ -3,6 +3,7 @@ import { Button, Divider, List, ListItem, ListItemText } from '@mui/material';
 import OptionsMenu from '../../../components/OptionsMenu';
 import useBills from './useBills';
 import { useNavigate } from 'react-router-dom/dist/umd/react-router-dom.development';
+import moment from 'moment';
 
 const Home = () => {
     const { getAllBills, addBill } = useBills();
@@ -43,7 +44,7 @@ const BillsList = ({ bills }) => {
                             <OptionsMenu options={options} itemId={bill.id} />
                         }
                         button>
-                        <ListItemText>{bill.name}: ${bill.total}</ListItemText>
+                        <ListItemText><b>{bill.name}</b>: ${bill.total} on {moment(bill.date).format('MM/DD/YY')}</ListItemText>
                     </ListItem>
                     <Divider />
                 </React.Fragment>)

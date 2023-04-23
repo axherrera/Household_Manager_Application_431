@@ -2,10 +2,11 @@ import React, { useContext, useEffect } from 'react'
 import { useState } from 'react'
 import { getHouseholdMembers } from '../Utils';
 import { LoginContext } from '../../../contexts/LoginContext';
-import { default as ReactSelect, components } from 'react-select';
 import { useNavigate } from 'react-router-dom';
 import DraggableConfirmationDialog from '../../../components/ConfirmationDialog';
 import ErrorAlerts from '../../../components/ErrorAlerts';
+import { Button, Card, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
+import MultiSelect from '../../../components/MultiSelect';
 
 const frequencyOptions = ["single", "daily", "weekly", "monthly"];
 
@@ -123,157 +124,107 @@ const Form = ({ bill, handleSubmit, edit }) => {
         <>
             <DraggableConfirmationDialog open={dialogOpen} setOpen={setDialogOpen} onConfirm={confirm} />
             <ErrorAlerts alerts={alerts} setAlerts={setAlerts} />
-            <h2>{edit ? 'Edit' : 'Add'} Bill</h2>
-            <form onSubmit={onSubmit}>
-                <label>
-                    Name:
-                    <input
-                        type="text"
-                        value={name}
-                        onChange={(event) => setName(event.target.value)}
-                    />
-                </label>
-                <br />
-                <label>
-                    Total:
-                    <input
-                        type="number"
-                        step="0.01"
-                        value={total}
-                        onChange={(event) => setTotal(parseFloat(event.target.value))}
-                    />
-                </label>
-                <br />
-                <label>
-                    Notes:
-                    <textarea
-                        value={notes}
-                        onChange={(event) => setNotes(event.target.value)}
-                    />
-                </label>
-                <br />
-                <label>
-                    Frequency:
-                    <select
-                        value={frequency}
-                        onChange={(event) => setFrequency(event.target.value)}
-                    >
-                        {frequencyOptions.map((option) => (
-                            <option key={option} value={option}>
-                                {option}
-                            </option>
-                        ))}
-                    </select>
-                </label>
-                <br />
-                <label>
-                    Date:
-                    <input
-                        type="datetime-local"
-                        id="due-date"
-                        value={date}
-                        min={todayString}
-                        onChange={(event) => setDate(event.target.value)}
-                    />
-                </label>
-                <br />
-                <label>
-                    Bill Helpers:
-                </label>
-                <SelectBillHelpers
-                    householdMembers={householdMembers}
-                    billHelpers={billHelpers}
-                    setBillHelpers={setBillHelpers}
-                />
-                <BillHelpersList
-                    billHelpers={billHelpers}
-                    householdMembers={householdMembers}
-                    setBillHelpers={setBillHelpers}
-                    editable={true}
-                    userId={user.id}
-                />
-                {/* TODO: Split Bill Total Button */}
-                <br />
-                <button style={{marginRight: "10vw"}} type="submit">Save</button>
-                <button type="submit" onClick={navigateBack}>Cancel</button>
-            </form>
+            <Typography gutterBottom variant="h5" align="center">{edit ? 'Edit' : 'Add'} Bill</Typography>
+            <Card>
+                <form onSubmit={onSubmit}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={6}>
+                            <TextField label="Name" value={name} size="small" onChange={(e) => setName(e.target.value)} fullWidth margin="normal" />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <TextField label="Total" value={total} size="small" onChange={(e) => setTotal(e.target.value)} fullWidth margin="normal" type="number" />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                label="Due Date"
+                                type="datetime-local"
+                                value={date}
+                                onChange={(e) => setDate(e.target.value)}
+                                InputLabelProps={{ shrink: true }}
+                                fullWidth
+                                min={todayString}
+                                size="small"
+                                margin="normal"
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <FormControl fullWidth margin="normal">
+                                <InputLabel id="frequency-label">Frequency</InputLabel>
+                                <Select labelId="frequency-label" value={frequency} size="small" onChange={(e) => setFrequency(e.target.value)}>
+                                {frequencyOptions.map(frequencyOption =>
+                                <MenuItem key={frequencyOption} value={frequencyOption}>{frequencyOption}</MenuItem>)}
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={12} sm={12}>
+                            <SelectBillHelpers
+                                householdMembers={householdMembers}
+                                billHelpers={billHelpers}
+                                setBillHelpers={setBillHelpers}
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={12} style={{ zIndex: 100 }}>
+                            <BillHelpersList
+                                billHelpers={billHelpers}
+                                householdMembers={householdMembers}
+                                setBillHelpers={setBillHelpers}
+                                editable={true}
+                                userId={user.id}
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                label="Notes"
+                                value={notes}
+                                onChange={(e) => setNotes(e.target.value)}
+                                fullWidth
+                                multiline
+                                margin="normal" />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Button variant="contained" color="primary" type="submit">
+                                Submit
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </form>
+            </Card>
         </>
     );
 }
 
-const Option = (props) => {
-    return (
-        <div>
-            <components.Option {...props}>
-                <input
-                    id={props.value}
-                    type="checkbox"
-                    checked={props.isSelected}
-                    onChange={() => null}
-                />{" "}
-                <label>{props.label}</label>
-            </components.Option>
-        </div>
-    );
-};
-
 
 const SelectBillHelpers = ({ billHelpers, householdMembers, setBillHelpers }) => {
-    const householdMemberOptions = householdMembers
-        .map(member => (
-            {
-                ...member,
-                value: member.id,
-                label: `${member.firstName} (${member.username})`
-            })
-        );
+    const users = householdMembers.map(member => member.username);
 
-    const [selectedHouseholdMembers, setSelectedHouseholdMembers] = useState(householdMemberOptions.filter(member => billHelpers.find(billHelper => member.id === billHelper.id) !== undefined));
-
-    const handleChange = (selected) => {
-        setSelectedHouseholdMembers(selected);
-    }
+    const [selectedUsers, setSelectedUsers] = useState(
+        householdMembers
+        .filter(member => billHelpers.find(billHelper => member.id === billHelper.id) !== undefined)
+        .map(selectedMember => selectedMember.username)
+    );
 
     useEffect(() => {
-        const newBillHelpers = selectedHouseholdMembers
-            .map(member => {
-                const newBillHelper = billHelpers.find(billHelper => billHelper.id === member.id);
+        setBillHelpers(
+            billHelpers => 
+                householdMembers
+                .filter(member => selectedUsers.includes(member.username))
+                .map(selectedMember => {
+                    const billHelper = billHelpers.find(billHelper => billHelper.id === selectedMember.id);
 
-                if (newBillHelper) {
-                    return newBillHelper;
-                }
+                    if (billHelper === undefined) {
+                        return {
+                            id: selectedMember.id,
+                            amountOwed: 0,
+                            isPaid: false
+                        }
+                    }
 
-                return {
-                    id: member.id,
-                    amountOwed: 0,
-                    isPaid: false,
-                }
-            });
+                    return billHelper;
+                })
+        )
+    }, [selectedUsers, householdMembers, setBillHelpers])
 
-        setBillHelpers(newBillHelpers);
-    }, [selectedHouseholdMembers, setBillHelpers, billHelpers]);
-
-    return (
-        <span
-            className="d-inline-block"
-            data-toggle="popover"
-            data-trigger="focus"
-            data-content="Please selecet account(s)"
-        >
-            <ReactSelect
-                options={householdMemberOptions}
-                isMulti
-                closeMenuOnSelect={false}
-                hideSelectedOptions={false}
-                components={{
-                    Option
-                }}
-                onChange={handleChange}
-                allowSelectAll={true}
-                value={selectedHouseholdMembers}
-            />
-        </span>
-    );
+    return (<MultiSelect defaultLabel={"Bill Helpers"} options={users} selectedOptions={selectedUsers} setSelectedOptions={setSelectedUsers}></MultiSelect>)
 }
 
 export const BillHelpersList = ({ billHelpers, setBillHelpers, householdMembers, editable, userId }) => {
