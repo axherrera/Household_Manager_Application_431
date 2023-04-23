@@ -5,7 +5,7 @@ import { LoginContext } from '../../../contexts/LoginContext';
 import { useNavigate } from 'react-router-dom';
 import DraggableConfirmationDialog from '../../../components/ConfirmationDialog';
 import ErrorAlerts from '../../../components/ErrorAlerts';
-import { Button, Card, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
+import { Button, Card, FormControl, Grid, InputLabel, List, ListItem, ListItemText, MenuItem, Select, TextField, Typography } from '@mui/material';
 import MultiSelect from '../../../components/MultiSelect';
 
 const frequencyOptions = ["single", "daily", "weekly", "monthly"];
@@ -242,13 +242,13 @@ export const BillHelpersList = ({ billHelpers, setBillHelpers, householdMembers,
     };
 
     return (<>
+    <List>
         {billHelpers.map((billHelper, index) => {
             const { firstName, username } = householdMembers.find(member => member.id === billHelper.id)
-            return (<React.Fragment key={'bh-' + billHelper.id}>
+            return (<ListItem key={'bh-' + billHelper.id}>
                 {editable && <br />}
                 <label id={billHelper.id}>
-                    {firstName} ({username})
-                    <br />
+                <ListItemText primary={`${firstName} (${username})`} />
                     <label>Amount Owed:  </label>
                     {editable ? <input
                         type="number"
@@ -270,8 +270,9 @@ export const BillHelpersList = ({ billHelpers, setBillHelpers, householdMembers,
                 </label>
                 <br />
                 {!editable && <br />}
-            </React.Fragment>)
+            </ListItem>)
         })}
+    </List>
     </>)
 }
 
