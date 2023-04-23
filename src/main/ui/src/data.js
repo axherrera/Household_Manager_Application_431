@@ -75,18 +75,24 @@ export const mockChores = [
         choreName: "clean dog",
         dueDate: new Date(),
         assignedID: "1",
+        isComplete: false,
+        houseId: "1"
     },
     {
         choreid: "2",
         choreName: "clean cat",
         dueDate: new Date(),
         assignedID: "2",
+        isComplete: false,
+        houseId: "1"
     },
     {
         choreid: "3",
         choreName: "vacuum",
         dueDate: new Date(),
         assignedID: "3",
+        isComplete: false,
+        houseId:"2"
     },
 
 ]
