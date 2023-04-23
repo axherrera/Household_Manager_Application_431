@@ -1,12 +1,40 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import {Outlet} from 'react-router-dom'
-import StyledNavbar from '../../components/StyledNavbar'
+import ResponsiveAppBar from '../../components/Navbar'
+import {useNavigate} from 'react-router-dom'
+import { LoginContext } from '../../contexts/LoginContext'
 
-const SharedDashboardLayout = ({logOutFn}) => {
+const SharedDashboardLayout = () => {
+  const navigate = useNavigate();
+  
+  const { user, setUser } = useContext(LoginContext);
+
+  const pages = [
+    {
+      name: 'Bills',
+      link: '/dashboard/bills'
+    },
+    {
+      name: 'Chores',
+      link: '/dashboard/chores'
+    }
+  ];
+
+  const settings = [
+    {
+      name: 'Logout',
+      link: '/',
+      onClick: () => {
+        setUser(null)
+        navigate('/')
+      }
+    }
+  ]
+
   return (
     <>
-        <StyledNavbar logOutFn={logOutFn}/>
-        <Outlet />
+      <ResponsiveAppBar title={user.Household.name} pages={pages} settings={settings} avatar={user.firstName?.charAt(0).toUpperCase()}/>
+      <Outlet />
     </>
   )
 }

@@ -44,7 +44,7 @@ const BillsList = ({ bills }) => {
                             <OptionsMenu options={options} itemId={bill.id} />
                         }
                         button>
-                        <ListItemText><b>{bill.name}</b>: ${bill.total} on {moment(bill.date).format('MM/DD/YY')}</ListItemText>
+                        <ListItemText><b>{bill.name}</b>: ${bill.total} due {moment(bill.date).format('MM/DD/YY')}</ListItemText>
                     </ListItem>
                     <Divider />
                 </React.Fragment>)

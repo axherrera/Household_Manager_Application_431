@@ -1,23 +1,14 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import SharedDashboardLayout from './SharedLayout'
-import { Route, Routes, useNavigate } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import Bills from './bills/Routes'
 import Chores from './chores/ChoresHome'
 import Home from './Home'
-import { LoginContext } from '../../contexts/LoginContext'
 
 const Dashboard = () => {
-  const navigate = useNavigate();
-  const { setUser } = useContext(LoginContext);
-
-  const logOut = () => {
-    setUser(null)
-    navigate('/')
-  }
-
   return (
     <Routes>
-      <Route path="/" element={<SharedDashboardLayout logOutFn={logOut} />}>
+      <Route path="/" element={<SharedDashboardLayout/>}>
         <Route index element={<Home />} />
         <Route path="bills/*" element={<Bills />} />
         <Route path="chores" element={<Chores />} />
