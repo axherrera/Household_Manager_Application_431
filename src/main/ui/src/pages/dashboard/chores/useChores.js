@@ -1,4 +1,4 @@
-import { LoginContext } from '../../contexts/LoginContext'
+import { LoginContext } from '../../../contexts/LoginContext'
 import { useContext } from "react";
 const useChores = () => {
     const {user, chores, setChores} = useContext(LoginContext);
@@ -12,9 +12,7 @@ const useChores = () => {
         }
         return [];
     }
-    const findHouseID = () => {
-        return houseId;
-    };
-    return {getAllChores, findHouseID}
+
+    return {getAllChores}
 }
 export default useChores

@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
 import Select from "react-select";
-import { LoginContext } from '../../contexts/LoginContext'
+import { LoginContext } from '../../../contexts/LoginContext'
 import useChores from "./useChores";
-import { getHouseholdMembers } from "./Utils";
+import { getHouseholdMembers } from "../Utils";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -33,7 +33,9 @@ function Chores({open, handleClose, addRows}) {
     setChoreName(event.target.value);
   };
   
-
+  const changeAssigned = (event) => {
+    setAssignedID(event.value)
+  }
 
   
   const transferValue = (event) => {
@@ -61,9 +63,9 @@ function Chores({open, handleClose, addRows}) {
       <Select
       options={householdOptions}
       id = "assigned"
+      onChange = {changeAssigned}
       value={assignedID}
-      onChange = {(choice) => setAssignedID(choice.value)}
-      wid
+
       />
       <label>Due Date: 
       <input

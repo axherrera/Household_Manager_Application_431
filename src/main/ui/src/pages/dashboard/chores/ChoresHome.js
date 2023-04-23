@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import Chores from './Chores';
-import { LoginContext } from '../../contexts/LoginContext'
+import { LoginContext } from '../../../contexts/LoginContext'
 import useChores from "./useChores";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
