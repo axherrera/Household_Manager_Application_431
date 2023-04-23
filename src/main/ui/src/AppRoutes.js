@@ -6,12 +6,13 @@ import Login from './pages/Login';
 import ProtectedRoute from './components/ProtectedRoute';
 import Dashboard from './pages/dashboard/Routes';
 import { LoginContext } from './contexts/LoginContext';
-import { mockBills } from './data';
+import { mockBills, mockChores } from './data';
 
 
 const AppRoutes = () => {
     const [user, setUser] = useState(null)
     const [bills, setBills] = useState(mockBills);
+    const [chores, setChores] = useState(mockChores)
 
     let contextValue = {
         user,
@@ -23,7 +24,9 @@ const AppRoutes = () => {
         contextValue = {
             ...contextValue,
             bills,
-            setBills
+            setBills,
+            chores,
+            setChores
         };
     }
 

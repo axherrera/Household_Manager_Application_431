@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import SharedDashboardLayout from './SharedLayout'
 import { Route, Routes, useNavigate } from 'react-router-dom'
 import Bills from './bills/Routes'
-import Chores from './Chores'
+import Chores from './ChoresHome'
 import Home from './Home'
 import { LoginContext } from '../../contexts/LoginContext'
 
