@@ -49,17 +49,17 @@ function TableData() {
   const handleClose = () => {
     setOpen(false);
   };
-  const handleDelete = (event, choreid) => {
-    deleteChore(choreid)
-  }
-  const tableRows = choreData.map((chore) => {
+  const handleDelete = (choreid) => {
+    setChoreData((prevChores) => prevChores.filter((_, index) => index != choreid));
+  };
+  const tableRows = choreData.map((chore, choreIndex) => {
     return (
       <TableRow key = {chore.number}>
         <TableCell><Checkbox/></TableCell>
         <TableCell align = "left">{chore.choreName}</TableCell>
         <TableCell align = "left">{chore.dueDate.toString()}</TableCell>
-        <TableCell align = "left">{chore.assignedID}</TableCell>
-        <TableCell> <Button variant="outlined" onClick = {(event)=>handleDelete(event, chore.choreid)} startIcon={<DeleteIcon />}> Delete</Button></TableCell>
+        <TableCell align = "left">user{chore.assignedID}</TableCell>
+        <TableCell> <Button variant="outlined" onClick = {()=>handleDelete(choreIndex)} startIcon={<DeleteIcon />}> Delete</Button></TableCell>
         <TableCell> <Button variant="outlined" startIcon={<EditIcon />}> Edit</Button></TableCell>
       </TableRow>
     );
