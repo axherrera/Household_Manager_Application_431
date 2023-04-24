@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import Chores from './Chores';
-import { LoginContext } from '../../../contexts/LoginContext'
+import { LoginContext } from '../../../contexts/LoginContext';
+import { getHouseholdMembers } from "../Utils";
 import useChores from "./useChores";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -23,7 +24,8 @@ function TableData() {
   const [deadline, setDeadline] = useState('');
   const [choreData, setChoreData] = useState(rows);
   const [open, setOpen] = useState(false);
-  
+  const houseId = user.Household.id;
+  const householdMembers = getHouseholdMembers(houseId);
   const tableRows = choreData.map((chore) => {
     return (
       <TableRow key = {chore.number}>

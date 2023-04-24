@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import Select from "react-select";
 import { LoginContext } from '../../../contexts/LoginContext'
 import useChores from "./useChores";
 import { getHouseholdMembers } from "../Utils";
@@ -9,12 +8,16 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
+import dayjs, { Dayjs } from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import moment from "moment";
-import { TextField } from "@mui/material";
-import styles from "./Chores.css"
+import { MenuItem, TextField } from "@mui/material";
+import styles from "./Chores.css";
+import Select from '@mui/material/Select';
+import FormControl from '@mui/material/FormControl';
 function Chores({open, handleClose, addRows}) {
   const {getAllChores} = useChores();
   const rows = getAllChores();
@@ -23,7 +26,7 @@ function Chores({open, handleClose, addRows}) {
   const householdMembers = getHouseholdMembers(houseId);
   const [choreName, setChoreName] = useState('');
   const [assignedID, setAssignedID] = useState('');
-  const [dueDate, setDueDate] = useState(new Date());
+  const [dueDate, setDueDate] = useState('');
   const householdOptions = householdMembers.map(member => (
     {
       ...member, value: member.id, label: `${member.firstName} (${member.username})`
@@ -34,7 +37,7 @@ function Chores({open, handleClose, addRows}) {
   };
   
   const changeAssigned = (event) => {
-    setAssignedID(event.value)
+    setAssignedID(event.target.value)
   }
 
   
@@ -52,7 +55,7 @@ function Chores({open, handleClose, addRows}) {
   const clearState = () => {
     setAssignedID('');
     setChoreName('');
-    setDueDate(new Date());
+    setDueDate();
   };
 
   return (
@@ -60,21 +63,26 @@ function Chores({open, handleClose, addRows}) {
       <DialogTitle>Add New Chore</DialogTitle>
       <DialogContent>
       <TextField value={choreName} margin = "dense" label = "Chore Name" onChange={changeChoreName} />
+      <FormControl fullWidth>
       <Select
-      options={householdOptions}
       id = "assigned"
       onChange = {changeAssigned}
       value={assignedID}
-
-      />
-      <label>Due Date: 
-      <input
-        type="datetime-local"
-        id="due-date"
+      >{
+        householdOptions.map((user) => {
+          return <MenuItem value = {user.id} key = {user.id}>{user.firstName}</MenuItem>
+        })
+      }
+      </Select>
+      </FormControl>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <DemoContainer components={['DatePicker']}>
+        <DatePicker label="Due Date" 
         value={dueDate}
-        onChange={(event) => setDueDate(event.target.VALUE)}
-      />
-    </label>
+        onChange={(newDate) => setDueDate(newDate)}
+        />
+      </DemoContainer>
+    </LocalizationProvider> 
   </DialogContent>
       <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
