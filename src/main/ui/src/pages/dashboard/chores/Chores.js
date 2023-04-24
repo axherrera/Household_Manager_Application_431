@@ -18,7 +18,7 @@ import { MenuItem, TextField } from "@mui/material";
 import styles from "./Chores.css";
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
-function Chores({open, handleClose, addRows}) {
+function Chores({open, handleClose, addRows, defaultChore, defaultDate, defaultAssigned}) {
   const {getAllChores} = useChores();
   const rows = getAllChores();
   const {user} = useContext(LoginContext);
@@ -59,15 +59,16 @@ function Chores({open, handleClose, addRows}) {
   };
 
   return (
-      <Dialog open={open} onClose={handleClose} PaperProps={{sx: {height: 400}}}>
+      <Dialog open={open} onClose={handleClose} PaperProps={{sx: {height: 600}}}>
       <DialogTitle>Add New Chore</DialogTitle>
       <DialogContent>
-      <TextField value={choreName} margin = "dense" label = "Chore Name" onChange={changeChoreName} />
+      <TextField value={choreName} margin = "dense" label = "Chore Name" defaultValue={defaultChore} onChange={changeChoreName} />
       <FormControl fullWidth>
       <Select
       id = "assigned"
       onChange = {changeAssigned}
       value={assignedID}
+      defaultValue= {defaultAssigned}
       >{
         householdOptions.map((user) => {
           return <MenuItem value = {user.id} key = {user.id}>{user.firstName}</MenuItem>
@@ -80,6 +81,7 @@ function Chores({open, handleClose, addRows}) {
         <DatePicker label="Due Date" 
         value={dueDate}
         onChange={(newDate) => setDueDate(newDate)}
+        defaultValue={dayjs(defaultDate)}
         />
       </DemoContainer>
     </LocalizationProvider> 
