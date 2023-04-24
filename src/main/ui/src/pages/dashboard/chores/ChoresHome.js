@@ -14,7 +14,8 @@ import { Checkbox } from "@mui/material";
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
-import styles from '././Chores.css'
+import AddIcon from '@mui/icons-material/Add';
+import styles from './Chores.module.css'
 import  DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit'
 function TableData() {
@@ -74,15 +75,16 @@ function TableData() {
            <TableCell align="left">Chore Name</TableCell>
            <TableCell align="left">Due Date</TableCell>
            <TableCell align="left">User Assigned</TableCell>
+           <TableCell></TableCell>
+           <TableCell></TableCell>
+
           </TableRow>
         </TableHead>
         <TableBody>{tableRows}</TableBody>
         </Table>
         <div>
     <div className= {styles.btnContainer}>
-    <button className= {styles.btn} type='submit' onClick={handleClickOpen}>
-      Add Chore
-    </button>
+    <Button variant="outlined" startIcon={<AddIcon/>} onClick = {handleClickOpen}> Add New Chore</Button>
     </div>
      <Chores addRows = {addRows} handleClose = {handleClose} open = {open} 
      defaultChore={defaultChore} defaultDate={defaultDate} defaultAssigned={defaultAssigned}/>

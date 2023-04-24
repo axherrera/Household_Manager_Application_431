@@ -15,7 +15,6 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import moment from "moment";
 import { MenuItem, TextField } from "@mui/material";
-import styles from "./Chores.css";
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 function Chores({open, handleClose, addRows, defaultChore, defaultDate, defaultAssigned}) {
@@ -82,6 +81,7 @@ function Chores({open, handleClose, addRows, defaultChore, defaultDate, defaultA
         value={dueDate}
         onChange={(newDate) => setDueDate(newDate)}
         defaultValue={dayjs(defaultDate)}
+        error = {false}
         />
       </DemoContainer>
     </LocalizationProvider> 
