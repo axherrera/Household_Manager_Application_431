@@ -18,7 +18,7 @@ public class GreetingPageController {
         this.loginService = loginService;
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     User login (@RequestBody UserLoginDTO userLoginDTO){
         return loginService.login(userLoginDTO);
     }
