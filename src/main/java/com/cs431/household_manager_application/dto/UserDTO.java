@@ -1,10 +1,10 @@
 package com.cs431.household_manager_application.dto;
 
 public record UserDTO (
-        String userId,
+        String id,
         String username,
-        String fName,
-        String lName,
-        HouseholdDTO household
+        String firstName,
+        String lastName,
+        HouseholdDTO Household
     ) {
 }
