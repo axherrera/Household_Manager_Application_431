@@ -1,7 +1,7 @@
 package com.cs431.household_manager_application.controller;
 
 import com.cs431.household_manager_application.dto.UserDTO;
-import com.cs431.household_manager_application.dto.UserDTOMapper;
+import com.cs431.household_manager_application.dto.mapper.UserDTOMapper;
 import com.cs431.household_manager_application.model.User;
 import com.cs431.household_manager_application.service.UserService;
 import org.springframework.web.bind.annotation.*;
