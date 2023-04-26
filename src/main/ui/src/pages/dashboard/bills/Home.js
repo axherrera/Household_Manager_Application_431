@@ -20,13 +20,13 @@ const Home = () => {
 }
 
 const BillsList = ({ bills }) => {
-    const { deleteBill, editBill } = useBills();
+    const { deleteBill, navigateToEditBill } = useBills();
     const navigate = useNavigate();
 
     const options = [
         {
             name: 'Edit',
-            onClick: (billId) => { editBill(billId) }
+            onClick: (billId) => { navigateToEditBill(billId) }
         },
         {
             name: 'Delete',

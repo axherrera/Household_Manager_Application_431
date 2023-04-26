@@ -44,11 +44,11 @@ const useBills = () => {
         navigate('/dashboard/bills');
     }
 
-    const editBill = (id) => {
+    const navigateToEditBill = (id) => {
         navigate(`/dashboard/bills/${id}/edit`);
     }
 
-    return { getBill, getAllBills, addBill, payBill, deleteBill, editBill }
+    return { getBill, getAllBills, addBill, payBill, deleteBill, navigateToEditBill }
 }
 
 const useMockBills = ({bills, houseId, setBills}) => {

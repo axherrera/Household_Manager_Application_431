@@ -20,14 +20,14 @@ const SingleBill = () => {
 
     const navigate = useNavigate();
     
-    const { editBill, deleteBill, payBill } = useBills();
+    const { navigateToEditBill, deleteBill, payBill } = useBills();
 
     const date = moment(bill.date).format('dddd MMMM Do YYYY, h:mm a');
 
     const options = [
         {
             name: 'Edit',
-            onClick: (billId) => { editBill(billId) }
+            onClick: (billId) => { navigateToEditBill(billId) }
         },
         {
             name: 'Delete',
