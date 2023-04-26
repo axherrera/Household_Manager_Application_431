@@ -25,10 +25,6 @@ const useBills = () => {
         return [];
     }
 
-    const addBill = () => {
-        navigate('/dashboard/bills/add');
-    }
-
     const payBill = (billId, userId) => {
         if (process.env.REACT_APP_MOCK) {
             payMockBill(billId, userId)
@@ -44,11 +40,15 @@ const useBills = () => {
         navigate('/dashboard/bills');
     }
 
+    const navigateToAddBill = () => {
+        navigate('/dashboard/bills/add');
+    }
+    
     const navigateToEditBill = (id) => {
         navigate(`/dashboard/bills/${id}/edit`);
     }
 
-    return { getBill, getAllBills, addBill, payBill, deleteBill, navigateToEditBill }
+    return { getBill, getAllBills, navigateToAddBill, payBill, deleteBill, navigateToEditBill }
 }
 
 const useMockBills = ({bills, houseId, setBills}) => {

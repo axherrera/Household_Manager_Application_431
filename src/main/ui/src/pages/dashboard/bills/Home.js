@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom/dist/umd/react-router-dom.developm
 import moment from 'moment';
 
 const Home = () => {
-    const { getAllBills, addBill } = useBills();
+    const { getAllBills, navigateToAddBill } = useBills();
     const bills = getAllBills();
 
     return (
@@ -14,7 +14,7 @@ const Home = () => {
             <h2>Bills</h2>
             <BillsList bills={bills} />
             <br />
-            <Button variant="contained" onClick={() => { addBill() }}>Add Bill</Button>
+            <Button variant="contained" onClick={() => { navigateToAddBill() }}>Add Bill</Button>
         </>
     )
 }
