@@ -7,7 +7,7 @@ const useBills = () => {
     const houseId = user.Household.id;
     const navigate = useNavigate();
     const location = useLocation();
-    const { getMockBill, getAllMockBills, payMockBill, deleteMockBill } = useMockBills({bills, houseId, setBills});
+    const { getMockBill, getAllMockBills, editMockBill, payMockBill, deleteMockBill } = useMockBills({bills, houseId, setBills});
 
     const getBill = (id) => {
         if (process.env.REACT_APP_MOCK) {
@@ -23,6 +23,12 @@ const useBills = () => {
         }
 
         return [];
+    }
+
+    const editBill = (id, editedBill) => {
+        if (process.env.REACT_APP_MOCK) {
+            editMockBill(id, editedBill);
+        }
     }
 
     const payBill = (billId, userId) => {
@@ -48,7 +54,7 @@ const useBills = () => {
         navigate(`/dashboard/bills/${id}/edit`);
     }
 
-    return { getBill, getAllBills, navigateToAddBill, payBill, deleteBill, navigateToEditBill }
+    return { getBill, getAllBills, editBill, navigateToAddBill, payBill, deleteBill, navigateToEditBill }
 }
 
 const useMockBills = ({bills, houseId, setBills}) => {
@@ -58,6 +64,17 @@ const useMockBills = ({bills, houseId, setBills}) => {
 
     const getAllMockBills = () => {
         return bills.filter(bill => bill.houseId === houseId);
+    }
+
+    const editMockBill = (id, editedBill) => {
+        setBills(bills => {
+            return bills.map(bill => {
+                if (bill.id === editedBill.id) {
+                    return editedBill;
+                }
+                return bill;
+            })
+        })
     }
 
     const deleteMockBill = (id) => {
@@ -90,7 +107,7 @@ const useMockBills = ({bills, houseId, setBills}) => {
         })
     }
 
-    return { getMockBill, getAllMockBills, payMockBill, deleteMockBill}
+    return { getMockBill, getAllMockBills, editMockBill, payMockBill, deleteMockBill}
 }
 
 export default useBills
