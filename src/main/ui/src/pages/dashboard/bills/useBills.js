@@ -7,14 +7,13 @@ const useBills = () => {
     const houseId = user.Household.id;
     const navigate = useNavigate();
     const location = useLocation();
+    const { getMockBill, getAllMockBills, payMockBill, deleteMockBill } = useMockBills({bills, houseId, setBills});
 
     const getBill = (id) => {
         if (process.env.REACT_APP_MOCK) {
             return getMockBill(id)
         }
 
-    const getAllMockBills = () => {
-        return bills.filter(bill => bill.houseId === houseId);
         return null;
     }
 
@@ -28,6 +27,41 @@ const useBills = () => {
 
     const addBill = () => {
         navigate('/dashboard/bills/add');
+    }
+
+    const payBill = (billId, userId) => {
+        if (process.env.REACT_APP_MOCK) {
+            payMockBill(billId, userId)
+        }
+
+        navigate(location.pathname, {replace: true});
+    }
+
+    const deleteBill = (id) => {
+        if (process.env.REACT_APP_MOCK) {
+            deleteMockBill(id);
+        }
+        navigate('/dashboard/bills');
+    }
+
+    const editBill = (id) => {
+        navigate(`/dashboard/bills/${id}/edit`);
+    }
+
+    return { getBill, getAllBills, addBill, payBill, deleteBill, editBill }
+}
+
+const useMockBills = ({bills, houseId, setBills}) => {
+     const getMockBill = (id) => {
+        return bills.find((bill) => bill.id === id && bill.houseId === houseId);
+    }
+
+    const getAllMockBills = () => {
+        return bills.filter(bill => bill.houseId === houseId);
+    }
+
+    const deleteMockBill = (id) => {
+        setBills(bills => { return bills.filter(bill => bill.id !== id) });
     }
 
     const payMockBill = (billId, userId) => {
@@ -56,30 +90,7 @@ const useBills = () => {
         })
     }
 
-    const payBill = (billId, userId) => {
-        if (process.env.REACT_APP_MOCK) {
-            payMockBill(billId, userId)
-        }
-
-        navigate(location.pathname, {replace: true});
-    }
-
-    const deleteMockBill = (id) => {
-        setBills(bills => { return bills.filter(bill => bill.id !== id) });
-    }
-
-    const deleteBill = (id) => {
-        if (process.env.REACT_APP_MOCK) {
-            deleteMockBill(id);
-        }
-        navigate('/dashboard/bills');
-    }
-
-    const editBill = (id) => {
-        navigate(`/dashboard/bills/${id}/edit`);
-    }
-
-    return { getAllBills, addBill, payBill, deleteBill, editBill }
+    return { getMockBill, getAllMockBills, payMockBill, deleteMockBill}
 }
 
 export default useBills
