@@ -8,9 +8,14 @@ const useBills = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
+    const getBill = (id) => {
+        if (process.env.REACT_APP_MOCK) {
+            return getMockBill(id)
+        }
 
     const getAllMockBills = () => {
         return bills.filter(bill => bill.houseId === houseId);
+        return null;
     }
 
     const getAllBills = () => {
