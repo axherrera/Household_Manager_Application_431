@@ -7,7 +7,7 @@ const useBills = () => {
     const houseId = user.Household.id;
     const navigate = useNavigate();
     const location = useLocation();
-    const { getMockBill, getAllMockBills, editMockBill, payMockBill, deleteMockBill } = useMockBills({bills, houseId, setBills});
+    const { getMockBill, getAllMockBills, addMockBill, editMockBill, payMockBill, deleteMockBill } = useMockBills({bills, houseId, setBills});
 
     const getBill = (id) => {
         if (process.env.REACT_APP_MOCK) {
@@ -25,15 +25,25 @@ const useBills = () => {
         return [];
     }
 
+    const addBill = (newBill) => {
+        if (process.env.REACT_APP_MOCK) {
+            addMockBill(newBill);
+            return;
+        }
+    }
+
     const editBill = (id, editedBill) => {
         if (process.env.REACT_APP_MOCK) {
             editMockBill(id, editedBill);
+            return;
         }
     }
 
     const payBill = (billId, userId) => {
         if (process.env.REACT_APP_MOCK) {
             payMockBill(billId, userId)
+            navigate(location.pathname, {replace: true});
+            return;
         }
 
         navigate(location.pathname, {replace: true});
@@ -42,6 +52,8 @@ const useBills = () => {
     const deleteBill = (id) => {
         if (process.env.REACT_APP_MOCK) {
             deleteMockBill(id);
+            navigate('/dashboard/bills');
+            return;
         }
         navigate('/dashboard/bills');
     }
@@ -54,7 +66,7 @@ const useBills = () => {
         navigate(`/dashboard/bills/${id}/edit`);
     }
 
-    return { getBill, getAllBills, editBill, navigateToAddBill, payBill, deleteBill, navigateToEditBill }
+    return { getBill, getAllBills, addBill, editBill, navigateToAddBill, payBill, deleteBill, navigateToEditBill }
 }
 
 const useMockBills = ({bills, houseId, setBills}) => {
@@ -64,6 +76,21 @@ const useMockBills = ({bills, houseId, setBills}) => {
 
     const getAllMockBills = () => {
         return bills.filter(bill => bill.houseId === houseId);
+    }
+
+    const addMockBill = (newBill) => {
+        setBills(bills => {
+            const newBillId = bills.reduce((acc, curr) => {
+                const currId = parseInt(curr.id);
+                if (currId > acc) {
+                    return currId;
+                } else {
+                    return acc;
+                }
+            }, 0) + 1;
+
+            return [...bills, { ...newBill, id: newBillId.toString(), houseId: houseId }]
+        })
     }
 
     const editMockBill = (id, editedBill) => {
@@ -107,7 +134,7 @@ const useMockBills = ({bills, houseId, setBills}) => {
         })
     }
 
-    return { getMockBill, getAllMockBills, editMockBill, payMockBill, deleteMockBill}
+    return { getMockBill, getAllMockBills, addMockBill, editMockBill, payMockBill, deleteMockBill}
 }
 
 export default useBills
