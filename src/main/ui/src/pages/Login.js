@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import "./Login.css"
 import { mockUsers } from '../data';
 import { LoginContext } from '../contexts/LoginContext';
+import axios from "axios";
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -25,15 +26,23 @@ const Login = () => {
 
   // Function to get an approved user given a username and password.
   // Throws an error if the username and password is invalid
-  const getUser = (username, password) => {
+  const getUser = async (username, password) => {
     if (process.env.REACT_APP_MOCK) {
       return getMockUser(username, password);
     }
+    
+    const url = "/login"
 
-    // TODO: Hit /login endpoint
-    // TODO: Handle Success and Error Codes
+    try {
+      const response = await axios.post(url, {
+          username: username,
+          password: password
+      });
 
-    return { name: 'realUser' };
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
   }
 
   const handleSubmit = async (e) => {
@@ -41,15 +50,22 @@ const Login = () => {
     if (!username || !password) return;
 
     try {
-      const user = getUser(username, password);
-
+      const user = await getUser(username, password);
+      
       setUser(user);
 
       navigate('/dashboard');
     } catch (err) {
-      // TODO: Print Popup Showing Invalid Username and Password
-      alert("invalid username and password")
-      console.log(err.message);
+        if (process.env.REACT_APP_MOCK) {
+          alert("invalid username and password");
+          return;
+        }
+
+        if (err.response.status >= 500) {
+          alert('Something is wrong with the server connection. Please try logging in again later.');
+        } else {
+          alert("Problem logging in\n" + err.response.data?.message);
+        }
     }
   };
 
