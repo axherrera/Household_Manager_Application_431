@@ -1,7 +1,7 @@
 package com.cs431.household_manager_application.service;
 
+import com.cs431.household_manager_application.dto.UserDTO;
 import com.cs431.household_manager_application.model.Household;
-import com.cs431.household_manager_application.model.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,4 +11,5 @@ public interface HouseholdService {
     List<Household> getAll();
     Optional<Household> getByID(Long ID);
     Boolean checkById(Long id);
+    List<UserDTO> getUsersFromHouse(Long id);
 }

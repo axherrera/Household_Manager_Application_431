@@ -1,9 +1,10 @@
 package com.cs431.household_manager_application.controller;
 
+import com.cs431.household_manager_application.dto.UserDTO;
+import com.cs431.household_manager_application.model.Chore;
 import com.cs431.household_manager_application.model.Household;
-import com.cs431.household_manager_application.model.User;
+import com.cs431.household_manager_application.service.ChoreService;
 import com.cs431.household_manager_application.service.HouseholdService;
-
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,20 +14,16 @@ import java.util.List;
 public class HouseholdController {
 
     private final HouseholdService hService;
+    private final ChoreService choreService;
 
-    public HouseholdController(HouseholdService hService) {
+    public HouseholdController(HouseholdService hService, ChoreService choreService) {
         this.hService = hService;
+        this.choreService = choreService;
     }
 
-    @PostMapping("/newHousehold")
-    Household newHousehold(@RequestBody Household newHousehold) {
-
-        return hService.saveHousehold(newHousehold);
-    }
-
-    @PutMapping("/addToExisting/{householdID}")
-    Household existingHousehold(@PathVariable Long householdID, @RequestBody User user) {
-        return null;
+    @GetMapping("/{id}/members")
+    List<UserDTO> getMembers(@PathVariable Long id){
+        return hService.getUsersFromHouse(id);
     }
 
     @GetMapping()
@@ -34,4 +31,14 @@ public class HouseholdController {
         return hService.getAll();
     }
 
+    //CHORE METHODS TODO: Add to chore controller @Sarn
+    @GetMapping("/{id}/chores")
+    List<Chore> getChores(@PathVariable Long id){
+        return choreService.getAllChores(id);
+    }
+
+    @PutMapping("/{id}/chores/{choreId}")
+    Boolean updateChore(@PathVariable Long choreId, @RequestBody Chore updated){
+        return choreService.updateChore(choreId, updated);
+    }
 }
