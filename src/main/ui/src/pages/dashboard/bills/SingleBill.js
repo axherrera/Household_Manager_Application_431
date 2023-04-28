@@ -6,7 +6,7 @@ import { LoginContext } from '../../../contexts/LoginContext';
 import moment from 'moment';
 import useBills from './useBills';
 import ExpandCard from '../../../components/Card';
-import { Button, Checkbox } from '@mui/material';
+import { Button, Checkbox, CircularProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom/dist/umd/react-router-dom.development';
 import useHousehold from '../useHousehold';
 
@@ -45,7 +45,7 @@ const SingleBill = () => {
         },
         {
             title: 'Bill Helpers',
-            content: <BillHelpersList billHelpers={bill.BillHelpers} householdMembers={householdMembers} />
+            content: householdMembers.length === 0 ? <CircularProgress /> : <BillHelpersList billHelpers={bill.BillHelpers} householdMembers={householdMembers} />
         }
     ]
 

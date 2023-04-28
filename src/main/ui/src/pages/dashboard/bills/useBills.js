@@ -10,12 +10,21 @@ const useBills = () => {
     const location = useLocation();
     const { getMockBill, getAllMockBills, addMockBill, editMockBill, payMockBill, deleteMockBill } = useMockBills({bills, houseId, setBills});
 
-    const getBill = (id) => {
+    const getBill = async (id) => {
         if (process.env.REACT_APP_MOCK) {
             return getMockBill(id)
         }
 
-        // TODO: Get a Single Bill from a house
+        const url = `/households/${houseId}/bills/${id}`;
+
+        try {
+            const response = await axios.get(url);
+
+            return response.data;
+        } catch(error) {
+            console.log('error', error)
+        }
+
         return null;
     }
 

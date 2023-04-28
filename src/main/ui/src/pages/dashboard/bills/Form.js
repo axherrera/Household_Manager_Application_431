@@ -272,7 +272,7 @@ export const BillHelpersList = ({ billHelpers, setBillHelpers, householdMembers,
     return (<>
     <List>
         {billHelpers.map((billHelper, index) => {
-            const { firstName, username } = householdMembers.find(member => member.id === billHelper.id)
+            const { firstName = '', username = ''} = householdMembers.find(member => member.id === billHelper.id) || {}
             return (<ListItem key={'bh-' + billHelper.id}>
                 {editable && <br />}
                 <label id={billHelper.id}>
