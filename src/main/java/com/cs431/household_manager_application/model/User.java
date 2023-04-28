@@ -14,12 +14,13 @@ public class User {
         this.household = household;
         this.username = registrationDTO.getUsername();
         this.password = registrationDTO.getPassword();
-        this.fName = registrationDTO.getFname();
-        this.lName = registrationDTO.getLname();
+        this.fName = registrationDTO.getFirstName();
+        this.lName = registrationDTO.getLastName();
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)    @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long userId;
 
     @ManyToOne(cascade = CascadeType.ALL)
