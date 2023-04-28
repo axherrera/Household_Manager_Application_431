@@ -184,13 +184,17 @@ const Form = ({ bill, handleSubmit, edit }) => {
                                 </Select>
                             </FormControl>
                         </Grid>
-                        <Grid item xs={12} sm={12}>
-                            <SelectBillHelpers
-                                householdMembers={householdMembers}
-                                billHelpers={billHelpers}
-                                setBillHelpers={setBillHelpers}
-                            />
-                        </Grid>
+                        {
+                            householdMembers.length !== 0
+                            &&
+                            <Grid item xs={12} sm={12}>
+                                <SelectBillHelpers
+                                    householdMembers={householdMembers}
+                                    billHelpers={billHelpers}
+                                    setBillHelpers={setBillHelpers}
+                                />
+                            </Grid>
+                        }
                         <Grid item xs={12} sm={12} style={{ zIndex: 100 }}>
                             <BillHelpersList
                                 billHelpers={billHelpers}

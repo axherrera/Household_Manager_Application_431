@@ -67,7 +67,13 @@ const useBills = () => {
             return;
         }
         
-        // TODO: edit a bill for a house
+        const url = `/households/${houseId}/bills/${id}`;
+
+        try {
+            axios.put(url, editedBill);
+        } catch(error) {
+            console.log('error editing bill', error)
+        }
     }
 
     const payBill = (billId, userId) => {

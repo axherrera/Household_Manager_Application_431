@@ -4,11 +4,12 @@ import { useOutletContext, useNavigate } from 'react-router-dom';
 import useBills from './useBills';
 
 const Edit = () => {
-    const { bill } = useOutletContext();
+    const { bill, setBill } = useOutletContext();
     const { editBill } = useBills();
 
     const handleSubmit = (editedBill) => {
         editBill(bill.id, editedBill);
+        setBill(editedBill);
     }
 
     return (
