@@ -15,6 +15,7 @@ const useBills = () => {
             return getMockBill(id)
         }
 
+        // TODO: Get a Single Bill from a house
         return null;
     }
 
@@ -41,6 +42,8 @@ const useBills = () => {
             addMockBill(newBill);
             return;
         }
+
+        // TODO: Add a new Bill for house
     }
 
     const editBill = (id, editedBill) => {
@@ -48,6 +51,8 @@ const useBills = () => {
             editMockBill(id, editedBill);
             return;
         }
+        
+        // TODO: edit a bill for a house
     }
 
     const payBill = (billId, userId) => {
@@ -57,6 +62,7 @@ const useBills = () => {
             return;
         }
 
+        // TODO: edit a bill where a bill helper pays or unpays a bill
         navigate(location.pathname, {replace: true});
     }
 
@@ -66,6 +72,8 @@ const useBills = () => {
             navigate('/dashboard/bills');
             return;
         }
+
+        // TODO: delete a bill for a house
         navigate('/dashboard/bills');
     }
 
