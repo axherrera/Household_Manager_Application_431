@@ -76,14 +76,21 @@ const useBills = () => {
         }
     }
 
-    const payBill = (billId, userId) => {
+    const payBill = async (bill, userId) => {
         if (process.env.REACT_APP_MOCK) {
-            payMockBill(billId, userId)
+            payMockBill(bill.id, userId);
             navigate(location.pathname, {replace: true});
             return;
         }
 
-        // TODO: edit a bill where a bill helper pays or unpays a bill
+        const url = `/households/${houseId}/bills/${bill.id}`;
+
+        try {
+            await axios.put(url, bill);
+        } catch(error) {
+            console.log('error editing bill', error);
+        }
+        
         navigate(location.pathname, {replace: true});
     }
 

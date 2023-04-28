@@ -65,7 +65,11 @@ const SingleBill = () => {
     if (userBillHelper !== undefined) {
         actions.push({
             title: 'Pay Bill',
-            content: <Checkbox onChange={() => {payBill(bill.id, user.id)}} checked={userBillHelper.isPaid}></Checkbox>
+            content: <Checkbox onChange={
+                async () => {
+                    const newlyPaidBill = toggleHelperPayment(bill, user.id);
+                    await payBill(newlyPaidBill, user.id);
+            }} checked={userBillHelper.isPaid}></Checkbox>
         })
     }
 
@@ -85,6 +89,19 @@ const SingleBill = () => {
             <Button variant="contained" onClick={() => { navigate('/dashboard/bills') }}>Back to Bills</Button>
         </>
     )
+}
+
+function toggleHelperPayment(bill, helperId) {
+  const updatedBill = {
+    ...bill,
+    BillHelpers: bill.BillHelpers.map(helper => {
+      if (helper.id === helperId) {
+        return { ...helper, isPaid: !helper.isPaid };
+      }
+      return helper;
+    }),
+  };
+  return updatedBill;
 }
 
 export default SingleBill
