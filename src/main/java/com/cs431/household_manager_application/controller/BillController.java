@@ -11,7 +11,7 @@ import java.util.List;
 @RequestMapping("/households/{id}")
 public class BillController {
 
-private BillService billService;
+private final BillService billService;
 
     public BillController(BillService billService) {
         this.billService = billService;
@@ -26,6 +26,21 @@ private BillService billService;
     @GetMapping("/bills")
     List<BillDTO> getAllBills(@PathVariable Long id) {
         return billService.getAllHouseholdBills(id);
+    }
+
+    @GetMapping("/bills/{billId}")
+    BillDTO getBillById(@PathVariable Long billId) {
+        return billService.getBill(billId);
+    }
+
+    @DeleteMapping ("/bills/{billId}")
+    boolean deleteBill(@PathVariable Long billId) {
+        return billService.deleteBill(billId);
+    }
+
+    @PutMapping("/bills/{billId}")
+    BillDTO editBill(@PathVariable Long billId, @RequestBody BillDTO newBill){
+        return billService.editBill(billId, newBill);
     }
 
 
