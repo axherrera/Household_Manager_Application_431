@@ -1,13 +1,35 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Divider, List, ListItem, ListItemText } from '@mui/material';
 import OptionsMenu from '../../../components/OptionsMenu';
 import useBills from './useBills';
 import { useNavigate } from 'react-router-dom/dist/umd/react-router-dom.development';
 import moment from 'moment';
+import { CircularProgress } from '@mui/material';
+import Box from '@mui/material/Box';
 
 const Home = () => {
     const { getAllBills, navigateToAddBill } = useBills();
-    const bills = getAllBills();
+    const [bills, setBills] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchBills = async () => {
+            const bills = await getAllBills();
+
+            setBills(bills);
+            setLoading(false);
+        };
+
+        fetchBills();
+    }, []);
+
+    if (loading) {
+        return (
+            <Box sx={{ display: 'flex' }}>
+                <CircularProgress />
+            </Box>
+        )
+    } 
 
     return (
         <>

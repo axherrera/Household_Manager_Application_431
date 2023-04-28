@@ -1,6 +1,7 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom/dist/umd/react-router-dom.development';
 import { LoginContext } from '../../../contexts/LoginContext'
+import axios from "axios";
 
 const useBills = () => {
     const { user, bills, setBills } = useContext(LoginContext);
@@ -17,9 +18,19 @@ const useBills = () => {
         return null;
     }
 
-    const getAllBills = () => {
+    const getAllBills = async () => {
         if (process.env.REACT_APP_MOCK) {
             return getAllMockBills();
+        }
+
+        const url = `/households/${houseId}/bills`;
+
+        try {
+            const response = await axios.get(url);
+
+            return response.data;
+        } catch(error) {
+            console.log('error', error)
         }
 
         return [];
