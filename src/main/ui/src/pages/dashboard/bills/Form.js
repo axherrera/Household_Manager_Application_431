@@ -64,6 +64,7 @@ const Form = ({ bill, handleSubmit, edit }) => {
 
         handleSubmit({
             ...formBill,
+            household: user.Household.id,
             name,
             total,
             notes,

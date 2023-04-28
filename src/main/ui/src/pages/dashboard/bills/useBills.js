@@ -43,7 +43,13 @@ const useBills = () => {
             return;
         }
 
-        // TODO: Add a new Bill for house
+        const url = `/households/${houseId}/bills`;
+
+        try {
+            axios.post(url, newBill);
+        } catch(error) {
+            console.log('error adding bill', error)
+        }
     }
 
     const editBill = (id, editedBill) => {
