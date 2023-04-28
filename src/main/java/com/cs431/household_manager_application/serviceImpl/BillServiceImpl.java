@@ -8,6 +8,7 @@ import com.cs431.household_manager_application.repository.BillsRepository;
 import com.cs431.household_manager_application.service.BillService;
 import com.cs431.household_manager_application.service.HouseholdService;
 import com.cs431.household_manager_application.service.UserService;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,7 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class BillServiceImpl implements BillService {
 
     private final BillsRepository billRepo;
@@ -26,12 +28,6 @@ public class BillServiceImpl implements BillService {
     private final BillDTOMapper billDTOMapper = new BillDTOMapper();
 
     private final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-
-    public BillServiceImpl(BillsRepository billRepo, HouseholdService householdService, UserService userService) {
-        this.billRepo = billRepo;
-        this.householdService = householdService;
-        this.userService = userService;
-    }
 
     @SneakyThrows
     @Override
@@ -62,4 +58,46 @@ public class BillServiceImpl implements BillService {
         List<Bill> billList = billRepo.findBillByHousehold(householdService.getByID(id).orElseThrow());
         return billList.stream().map(billDTOMapper).collect(Collectors.toList());
     }
+
+    @Override
+    public BillDTO getBill(Long billId) {
+        return billRepo.findById(billId).map(billDTOMapper).orElseThrow();
+    }
+
+    @Override
+    public boolean deleteBill(Long billId) {
+        if(!billRepo.existsById(billId))
+            return false;
+        billRepo.deleteById(billId);
+        return true;
+    }
+
+    @SneakyThrows
+    @Override
+    public BillDTO editBill(Long billId, BillDTO billDTO) {
+        if(!billRepo.existsById(billId))
+            throw new RuntimeException("Bill " + billId + "not found");
+
+        ArrayList<BillHelper> billHelpers = new ArrayList<>();
+        for(BillHelper b : billDTO.BillHelpers()){
+            b.setUser(
+                    userService.getByID(b.getUser().getUserId()).orElseThrow()
+            );
+            billHelpers.add(b);
+        }
+        billRepo.save(new Bill(
+                billId,
+                householdService.getByID(Long.valueOf(billDTO.household())).get(),
+                billDTO.name(),
+                billDTO.type(),
+                billDTO.total(),
+                billDTO.notes(),
+                billDTO.frequency(),
+                formatter.parse(billDTO.date()),
+                billHelpers
+        ));
+        return billDTO;
+    }
+
+
 }

@@ -20,7 +20,7 @@ public class BillHelper {
     @JsonIgnore
     private Long billHelperId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "fk_user_id", referencedColumnName = ("user_id"))
     @JsonIgnoreProperties({"household", "password", "username", "fname", "lname"})
     private User user;

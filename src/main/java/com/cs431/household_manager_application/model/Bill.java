@@ -1,7 +1,9 @@
 package com.cs431.household_manager_application.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
@@ -19,7 +21,7 @@ public class Bill {
     @Column(name = "bill_id")
     private Long billID;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "fk_household", referencedColumnName = "household_id")
     private Household household;
 
@@ -35,7 +37,7 @@ public class Bill {
 
     private Date date;
 
-    @OneToMany(targetEntity = BillHelper.class, cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = BillHelper.class, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "bill_fk", referencedColumnName = "bill_id")
     private List<BillHelper> BillHelpers;
 

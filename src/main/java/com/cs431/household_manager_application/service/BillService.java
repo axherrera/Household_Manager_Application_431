@@ -10,4 +10,9 @@ public interface BillService {
     Bill saveBill(BillDTO billDTO);
     List<BillDTO> getAllHouseholdBills(Long id);
 
+    BillDTO getBill(Long billId);
+
+    boolean deleteBill(Long billId);
+
+    BillDTO editBill(Long billId, BillDTO newBill);
 }

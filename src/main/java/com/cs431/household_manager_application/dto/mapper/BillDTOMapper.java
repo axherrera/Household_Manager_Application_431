@@ -11,8 +11,6 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class BillDTOMapper implements Function<Bill, BillDTO> {
 
-    BillHelperDTOMapper billHelperDTOMapper;
-
     @Override
     public BillDTO apply(Bill bill) {
         return new BillDTO(
