@@ -48,7 +48,7 @@ public class LoginServiceImpl implements LoginService {
             throw new DuplicateKeyException("Username Already Taken");
         Household household = isNull(registrationDTO.getHousehold())?
                 householdService.saveHousehold(new Household(null, "My Household")):
-                householdService.getByID((registrationDTO.getHousehold())).orElseThrow();
+                householdService.getByID((registrationDTO.getHousehold())).orElse(householdService.saveHousehold(new Household(registrationDTO.getHousehold(), "My Household")));
        return userDTOMapper.apply(userService.saveUser(new User(household, registrationDTO)));
     }
 
