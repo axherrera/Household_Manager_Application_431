@@ -3,20 +3,19 @@ import { useOutletContext } from 'react-router-dom'
 import { BillHelpersList } from './Form';
 import { useContext } from 'react';
 import { LoginContext } from '../../../contexts/LoginContext';
-import { getHouseholdMembers } from '../Utils';
 import moment from 'moment';
 import useBills from './useBills';
 import ExpandCard from '../../../components/Card';
 import { Button, Checkbox } from '@mui/material';
 import { useNavigate } from 'react-router-dom/dist/umd/react-router-dom.development';
+import useHousehold from '../useHousehold';
 
 const SingleBill = () => {
     const { bill } = useOutletContext();
     const billId = bill.id;
 
     const { user } = useContext(LoginContext)
-    const houseId = user.Household.id;
-    const householdMembers = getHouseholdMembers(houseId);
+    const { householdMembers } = useHousehold();
 
     const navigate = useNavigate();
     

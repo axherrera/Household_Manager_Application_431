@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from 'react'
 import { useState } from 'react'
-import { getHouseholdMembers } from '../Utils';
 import { LoginContext } from '../../../contexts/LoginContext';
 import { useNavigate } from 'react-router-dom';
 import DraggableConfirmationDialog from '../../../components/ConfirmationDialog';
@@ -11,6 +10,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
+import useHousehold from '../useHousehold';
 
 const frequencyOptions = ["single", "daily", "weekly", "monthly"];
 
@@ -45,10 +45,9 @@ const Form = ({ bill, handleSubmit, edit }) => {
     const [date, setDate] = useState(formBill.date);
     const [billHelpers, setBillHelpers] = useState(formBill.BillHelpers);
     const [invalidDate, setInvalidDate] = useState(false);
-
-    const { user } = useContext(LoginContext)
-    const houseId = user.Household.id;
-    const householdMembers = getHouseholdMembers(houseId);
+    
+    const { user } = useContext(LoginContext);
+    const { householdMembers } = useHousehold();
 
     const navigate = useNavigate();
 
