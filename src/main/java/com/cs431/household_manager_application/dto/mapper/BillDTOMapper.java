@@ -21,7 +21,7 @@ public class BillDTOMapper implements Function<Bill, BillDTO> {
                 bill.getBillname(),
                 bill.getType(),
                 bill.getTotal(),
-                String.valueOf(bill.getFrequency()),
+                String.valueOf(bill.getNotes()),
                 bill.getFrequency(),
                 bill.getDate().toString(),
                 bill.getBillHelpers().stream().map(billHelperDTOMapper).collect(Collectors.toList())
