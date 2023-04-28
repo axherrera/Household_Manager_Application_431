@@ -94,7 +94,13 @@ const useBills = () => {
             return;
         }
 
-        // TODO: delete a bill for a house
+        const url = `/households/${houseId}/bills/${id}`;
+
+        try {
+            axios.delete(url);
+        } catch(error) {
+            console.log('error editing bill', error)
+        }
         navigate('/dashboard/bills');
     }
 

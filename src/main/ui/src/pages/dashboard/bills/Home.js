@@ -21,7 +21,7 @@ const Home = () => {
         };
 
         fetchBills();
-    }, []);
+    }, [loading]);
 
     if (loading) {
         return (
@@ -34,14 +34,14 @@ const Home = () => {
     return (
         <>
             <h2>Bills</h2>
-            <BillsList bills={bills} />
+            <BillsList bills={bills} setLoading={setLoading}/>
             <br />
             <Button variant="contained" onClick={() => { navigateToAddBill() }}>Add Bill</Button>
         </>
     )
 }
 
-const BillsList = ({ bills }) => {
+const BillsList = ({ bills, setLoading }) => {
     const { deleteBill, navigateToEditBill } = useBills();
     const navigate = useNavigate();
 
@@ -52,7 +52,7 @@ const BillsList = ({ bills }) => {
         },
         {
             name: 'Delete',
-            onClick: (billId) => { deleteBill(billId) }
+            onClick: (billId) => { deleteBill(billId); setLoading(true) }
         }
     ]
 
