@@ -13,6 +13,6 @@ public record BillDTO(
         String notes,
         String frequency,
         String date,
-        List<BillHelper> BillHelpers
+        List<BillHelperDTO> BillHelpers
 ){
 }

@@ -1,9 +1,11 @@
 package com.cs431.household_manager_application.serviceImpl;
 
 import com.cs431.household_manager_application.dto.BillDTO;
+import com.cs431.household_manager_application.dto.BillHelperDTO;
 import com.cs431.household_manager_application.dto.mapper.BillDTOMapper;
 import com.cs431.household_manager_application.model.Bill;
 import com.cs431.household_manager_application.model.BillHelper;
+import com.cs431.household_manager_application.model.User;
 import com.cs431.household_manager_application.repository.BillsRepository;
 import com.cs431.household_manager_application.service.BillService;
 import com.cs431.household_manager_application.service.HouseholdService;
@@ -34,12 +36,16 @@ public class BillServiceImpl implements BillService {
     public Bill saveBill(BillDTO billDTO) {
         ArrayList<BillHelper> billHelpers = new ArrayList<>();
 
-        for(BillHelper b : billDTO.BillHelpers()){
-            b.setUser(
-                    userService.getByID(b.getUser().getUserId()).orElseThrow()
+        for(BillHelperDTO b : billDTO.BillHelpers()){
+            BillHelper helper = new BillHelper(
+                    userService.getByID(Long.valueOf(b.id())).orElseThrow(),
+                    b.amountOwed(),
+                    b.isPaid()
             );
-            billHelpers.add(b);
+
+            billHelpers.add(helper);
         }
+
         Bill bill = new Bill(
                 householdService.getByID(Long.valueOf(billDTO.household())).get(),
                 billDTO.name(),
@@ -79,12 +85,17 @@ public class BillServiceImpl implements BillService {
             throw new RuntimeException("Bill " + billId + "not found");
 
         ArrayList<BillHelper> billHelpers = new ArrayList<>();
-        for(BillHelper b : billDTO.BillHelpers()){
-            b.setUser(
-                    userService.getByID(b.getUser().getUserId()).orElseThrow()
+
+        for(BillHelperDTO b : billDTO.BillHelpers()){
+            BillHelper helper = new BillHelper(
+                    userService.getByID(Long.valueOf(b.id())).orElseThrow(),
+                    b.amountOwed(),
+                    b.isPaid()
             );
-            billHelpers.add(b);
+
+            billHelpers.add(helper);
         }
+
         billRepo.save(new Bill(
                 billId,
                 householdService.getByID(Long.valueOf(billDTO.household())).get(),
