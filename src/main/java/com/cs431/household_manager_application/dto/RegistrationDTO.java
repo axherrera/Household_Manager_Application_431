@@ -8,7 +8,7 @@ import lombok.Setter;
 public class RegistrationDTO {
     String username;
     String password;
-    String fname;
-    String lname;
+    String firstName;
+    String lastName;
     Long household;
 }
