@@ -18,12 +18,12 @@ private BillService billService;
     }
 
 
-    @PostMapping()
+    @PostMapping("/bills")
     Bill newBill(@RequestBody BillDTO newBill) {
         return billService.saveBill(newBill);
     }
 
-    @GetMapping()
+    @GetMapping("/bills")
     List<BillDTO> getAllBills(@PathVariable Long id) {
         return billService.getAllHouseholdBills(id);
     }
