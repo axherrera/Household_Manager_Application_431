@@ -7,28 +7,44 @@ import DraggableConfirmationDialog from '../../../components/ConfirmationDialog'
 import ErrorAlerts from '../../../components/ErrorAlerts';
 import { Button, Card, FormControl, Grid, InputLabel, List, ListItem, ListItemText, MenuItem, Select, TextField, Typography } from '@mui/material';
 import MultiSelect from '../../../components/MultiSelect';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
 
 const frequencyOptions = ["single", "daily", "weekly", "monthly"];
 
-const formatDate = (date) => {
-    const year = date.getFullYear();
-    const month = `${date.getMonth() + 1}`.padStart(2, "0");
-    const day = `${date.getDate()}`.padStart(2, "0");
-    const hours = `${date.getHours()}`.padStart(2, "0");
-    const minutes = `${date.getMinutes()}`.padStart(2, "0");
-    return `${year}-${month}-${day}T${hours}:${minutes}`;
-};
-
 const Form = ({ bill, handleSubmit, edit }) => {
     const formBill = structuredClone(bill);
+
+    const [dateError, setDateError] = useState(null);
+
+    const errorMessage = React.useMemo(() => {
+        switch (dateError) {
+            case 'disablePast':
+            case 'minDate': {
+                return 'Cannot select a date before today';
+            }
+
+            case 'maxDate':
+            case 'invalidDate': {
+                return 'Your date is not valid';
+            }
+
+            default: {
+                return '';
+            }
+        }
+    }, [dateError]);
 
     // Get all Bill data and set it as a state
     const [name, setName] = useState(formBill.name);
     const [total, setTotal] = useState(formBill.total);
     const [notes, setNotes] = useState(formBill.notes);
     const [frequency, setFrequency] = useState(formBill.frequency);
-    const [date, setDate] = useState(formatDate(formBill.date));
+    const [date, setDate] = useState(formBill.date);
     const [billHelpers, setBillHelpers] = useState(formBill.BillHelpers);
+    const [invalidDate, setInvalidDate] = useState(false);
 
     const { user } = useContext(LoginContext)
     const houseId = user.Household.id;
@@ -53,7 +69,7 @@ const Form = ({ bill, handleSubmit, edit }) => {
             total,
             notes,
             frequency,
-            date: new Date(date),
+            date,
             BillHelpers: billHelpers
         })
 
@@ -63,6 +79,10 @@ const Form = ({ bill, handleSubmit, edit }) => {
     const [alerts, setAlerts] = useState([]);
     const validInput = () => {
         let invalidInputs = [];
+
+        if (invalidDate) {
+            invalidInputs.push({ message: "invalid date." });
+        }
 
         if (name.trim() === "") {
             invalidInputs.push({ message: "bill cannot have empty name." });
@@ -117,9 +137,6 @@ const Form = ({ bill, handleSubmit, edit }) => {
         }
     }
 
-    const today = new Date();
-    const todayString = formatDate(today);
-
     return (
         <>
             <DraggableConfirmationDialog open={dialogOpen} setOpen={setDialogOpen} onConfirm={confirm} />
@@ -135,17 +152,28 @@ const Form = ({ bill, handleSubmit, edit }) => {
                             <TextField label="Total" value={total} size="small" onChange={(e) => setTotal(e.target.value)} fullWidth margin="normal" type="number" />
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <TextField
-                                label="Due Date"
-                                type="datetime-local"
-                                value={date}
-                                onChange={(e) => setDate(e.target.value)}
-                                InputLabelProps={{ shrink: true }}
-                                fullWidth
-                                min={todayString}
-                                size="small"
-                                margin="normal"
-                            />
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DatePicker label="Due Date" 
+                                    value={dayjs(date)}
+                                    defaultValue={dayjs(date)}
+                                    disablePast
+                                    reduceAnimations
+                                    onChange={(date, context) => {
+                                        if (context.validationError) {
+                                            setInvalidDate(true);
+                                        } else {
+                                            setDate(dayjs(date).format('YYYY-MM-DD'));
+                                            setInvalidDate(false);
+                                        }
+                                    }}
+                                    onError={(newError) => setDateError(newError)}
+                                    slotProps={{
+                                        textField: {
+                                        helperText: errorMessage,
+                                        },
+                                    }}
+                                />
+                            </LocalizationProvider>
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <FormControl fullWidth margin="normal">

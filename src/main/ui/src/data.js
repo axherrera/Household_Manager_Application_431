@@ -106,7 +106,7 @@ export const mockBills = [
         total: 15.99,
         notes: 'New movie coming up.',
         frequency: 'monthly',
-        date: new Date('2023-07-10T00:00:00'),
+        date: '2023-07-10',
         BillHelpers: [
             {
                 id: "1",
@@ -128,7 +128,7 @@ export const mockBills = [
         total: 300.33,
         notes: 'mechanic is down the road near the theatre',
         frequency: 'single',
-        date: new Date('2023-08-25T00:00:00'),
+        date: '2023-08-25',
         BillHelpers: [
             {
                 id: "1",
@@ -155,7 +155,7 @@ export const mockBills = [
         total: 100,
         notes: 'Best cell phone plan',
         frequency: 'monthly',
-        date: new Date('2023-10-09T00:00:00'),
+        date: '2023-10-09',
         BillHelpers: [
             {
                 id: "4",

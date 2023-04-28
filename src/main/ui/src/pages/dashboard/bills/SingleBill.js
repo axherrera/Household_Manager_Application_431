@@ -22,7 +22,7 @@ const SingleBill = () => {
     
     const { navigateToEditBill, deleteBill, payBill } = useBills();
 
-    const date = moment(bill.date).format('dddd MMMM Do YYYY, h:mm a');
+    const date = moment(bill.date).format('dddd MMMM Do, YYYY');
 
     const options = [
         {
