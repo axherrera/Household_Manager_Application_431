@@ -82,7 +82,7 @@ public class BillServiceImpl implements BillService {
     @Override
     public BillDTO editBill(Long billId, BillDTO billDTO) {
         if(!billRepo.existsById(billId))
-            throw new RuntimeException("Bill " + billId + "not found");
+            throw new RuntimeException("Bill " + billId + " not found");
 
         ArrayList<BillHelper> billHelpers = new ArrayList<>();
 
