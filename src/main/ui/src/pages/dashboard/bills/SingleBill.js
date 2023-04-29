@@ -8,7 +8,6 @@ import useBills from './useBills';
 import ExpandCard from '../../../components/Card';
 import { Button, Checkbox, CircularProgress, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom/dist/umd/react-router-dom.development';
-import useHousehold from '../useHousehold';
 import RefreshIcon from '@mui/icons-material/Refresh';
 
 const SingleBill = () => {
