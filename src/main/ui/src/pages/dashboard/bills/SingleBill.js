@@ -75,9 +75,8 @@ const SingleBill = () => {
             title: 'Pay Bill',
             content: <Checkbox onChange={
                 async () => {
-                    const newlyPaidBill = toggleHelperPayment(bill, user.id);
-                    await payBill(newlyPaidBill, user.id);
-                    setBill(newlyPaidBill)
+                    await payBill(bill.id, { ...userBillHelper, isPaid: !userBillHelper.isPaid });
+                    setBill(toggleHelperPayment(bill, user.id))
             }} checked={userBillHelper.isPaid}></Checkbox>
         })
     }

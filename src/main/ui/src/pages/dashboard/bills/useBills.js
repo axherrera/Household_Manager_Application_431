@@ -84,22 +84,22 @@ const useBills = () => {
         }
     }
 
-    const payBill = async (bill, userId) => {
+    const payBill = async (billId, billPayer) => {
         if (process.env.REACT_APP_MOCK) {
-            payMockBill(bill.id, userId);
+            payMockBill(billId, billPayer.id);
             navigate(location.pathname, {replace: true});
             return;
         }
 
-        const url = `/households/${houseId}/bills/${bill.id}`;
+        const url = `/households/${houseId}/bills/${billId}`;
 
         try {
-            await axios.put(url, bill);
+            await axios.patch(url, billPayer);
+            navigate(location.pathname, {replace: true});
         } catch(error) {
-            console.log('error editing bill', error);
+            navigate('/dashboard/bills');
         }
         
-        navigate(location.pathname, {replace: true});
     }
 
     const deleteBill = (id) => {
