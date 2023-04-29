@@ -12,11 +12,10 @@ import useHousehold from '../useHousehold';
 import RefreshIcon from '@mui/icons-material/Refresh';
 
 const SingleBill = () => {
-    const { bill, setBill, setLoading } = useOutletContext();
+    const { bill, setBill, setLoading, householdMembers } = useOutletContext();
     const billId = bill.id;
 
     const { user } = useContext(LoginContext)
-    const { householdMembers } = useHousehold();
 
     const navigate = useNavigate();
     
