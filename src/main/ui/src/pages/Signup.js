@@ -1,36 +1,46 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import styles from "./Signup.module.css"
 import { useState } from 'react';
+import axios from "axios";
 
 function Signup() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const[householdID, setHouseholdID] = useState('');
-
-  const navigate = useNavigate()
-  const handleSubmit = (event) => {
+  const [user, setUser]= useState({
+    username: "",
+    password: "",
+    firstName: "",
+    lastName: "",
+    household: ""
+  })
+  const onInputChange = (e) => {
+    setUser({...user, [e.target.name]: e.target.value})
+  }
+  const navigate = useNavigate();
+  useEffect(() => {
+    loadUsers();
+  }, []);
+  const loadUsers = async () => {
+    const result = await axios.get("/users");
+    const userArray = result.data;
+    console.log(userArray);
+  }
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    try {
+    await axios.post("/register", user)
     navigate("/")
+    } catch(err) {
+      alert("Username already exists")
+    }
   };
   return (
     <div className={styles.login}>
       <div className={styles.loginForm}>
         <div className="title">Register New Account</div>
         <Form 
-          username={username}
-          setUsername={setUsername} 
-          password={password}
-          setPassword={setPassword}
-          firstName={firstName}
-          setFirstName={setFirstName}
-          lastName={lastName}
-          setLastName={setLastName}
-          householdID = {householdID}
-          setHouseholdID = {setHouseholdID}
+          user={user}
           handleSubmit={handleSubmit}
+          onInputChange = {onInputChange}
         />
       </div>
       <label>Already have an account?</label>
@@ -38,9 +48,10 @@ function Signup() {
     </div>
   );
 };
-function Form({username, setUsername, password, setPassword, firstName, 
-  setFirstName, lastName, setLastName, householdID, setHouseholdID, handleSubmit}) {
+function Form({user, handleSubmit, onInputChange}) {
     const [newHousehold, setNewHousehold] = useState(true);
+    const{username, password, firstName, lastName, household} = user;
+
     const handleChange = e => {
       setNewHousehold(current => !current)
     }
@@ -51,9 +62,9 @@ return (
       <label>Username</label>
       <input 
         type = "text"
-        name = "uname"
+        name = "username"
         value={username}
-        onChange={(e) => setUsername(e.target.value)}
+        onChange={(e) => onInputChange(e)}
         required
       />
     </div>
@@ -61,9 +72,9 @@ return (
       <label>Password</label>
       <input 
         type = "text"
-        name = "pass"
+        name = "password"
         value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={(e) => onInputChange(e)}
         autoComplete="on"
         required
       />
@@ -72,9 +83,9 @@ return (
       <label>First Name</label>
       <input 
         type = "text"
-        name = "fName"
+        name = "firstName"
         value={firstName}
-        onChange={(e) => setFirstName(e.target.value)}
+        onChange={(e) => onInputChange(e)}
         autoComplete="on"
         required
       />
@@ -83,9 +94,9 @@ return (
       <label>Last Name</label>
       <input 
         type = "text"
-        name = "lName"
+        name = "lastName"
         value={lastName}
-        onChange={(e) => setLastName(e.target.value)}
+        onChange={(e) => onInputChange(e)}
         autoComplete="on"
         required
       />
@@ -94,9 +105,9 @@ return (
       <label>Household ID</label>
       <input 
         type = "text"
-        name = "householdID"
-        value={householdID}
-        onChange={(e) => setHouseholdID(e.target.value)}
+        name = "household"
+        value={household}
+        onChange={(e) => onInputChange(e)}
         autoComplete="on"
         disabled = {!newHousehold}
         required = {newHousehold}
@@ -106,7 +117,7 @@ return (
     name = "newHousehold"
     value = {newHousehold}
      onChange={handleChange}
-     disabled = {householdID} //disable check box if household ID field is filled in
+     disabled = {user.household} //disable check box if household ID field is filled in
      checked = {newHousehold.disabled}
      />Check box to create new household
     <br></br>
