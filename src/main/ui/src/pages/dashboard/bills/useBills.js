@@ -70,7 +70,15 @@ const useBills = () => {
         const url = `/households/${houseId}/bills/${id}`;
 
         try {
-            axios.put(url, editedBill);
+            axios
+            .put(url, editedBill)
+            .catch(function (error) {
+                if (error.response?.data?.message?.includes('not found')) {
+                    navigate('/dashboard/bills');
+                } else {
+                    console.log('bill error', error)
+                }
+            });
         } catch(error) {
             console.log('error editing bill', error)
         }
