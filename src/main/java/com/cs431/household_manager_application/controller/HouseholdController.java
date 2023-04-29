@@ -14,11 +14,10 @@ import java.util.List;
 public class HouseholdController {
 
     private final HouseholdService hService;
-    private final ChoreService choreService;
+
 
     public HouseholdController(HouseholdService hService, ChoreService choreService) {
         this.hService = hService;
-        this.choreService = choreService;
     }
 
     @GetMapping("/{id}/members")
@@ -31,14 +30,5 @@ public class HouseholdController {
         return hService.getAll();
     }
 
-    //CHORE METHODS TODO: Add to chore controller @Sarn
-    @GetMapping("/{id}/chores")
-    List<Chore> getChores(@PathVariable Long id){
-        return choreService.getAllChores(id);
-    }
 
-    @PutMapping("/{id}/chores/{choreId}")
-    Boolean updateChore(@PathVariable Long choreId, @RequestBody Chore updated){
-        return choreService.updateChore(choreId, updated);
-    }
 }

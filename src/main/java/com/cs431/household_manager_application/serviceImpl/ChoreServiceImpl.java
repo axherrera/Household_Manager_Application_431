@@ -4,8 +4,10 @@ import com.cs431.household_manager_application.model.Chore;
 import com.cs431.household_manager_application.model.User;
 import com.cs431.household_manager_application.repository.ChoreRepository;
 import com.cs431.household_manager_application.service.ChoreService;
+import com.cs431.household_manager_application.service.HouseholdService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,12 +15,12 @@ import java.util.Optional;
 public class ChoreServiceImpl implements ChoreService {
 
     private final ChoreRepository choreRepository;
+    private final HouseholdService householdService;
 
-    public ChoreServiceImpl(ChoreRepository choreRepository) {
+    public ChoreServiceImpl(ChoreRepository choreRepository, HouseholdService householdService) {
         this.choreRepository = choreRepository;
+        this.householdService = householdService;
     }
-
-    //METHODS
 
     @Override
     public Chore saveChore(Chore chore) {
@@ -26,15 +28,52 @@ public class ChoreServiceImpl implements ChoreService {
     }
 
     @Override
-    public List<Chore> getAllChores() {
-        return choreRepository.findAll();
+    public List<Chore> getAllChores(Long id) {
+        List<Chore> allChores = choreRepository.findChoresByHousehold(householdService.getByID(id).orElseThrow());
+        List<Chore> uncompletedChores = new ArrayList<>();
+        for (Chore allChore : allChores) {
+            if (!allChore.isComplete()) {
+                uncompletedChores.add(allChore);
+            }
+        }
+        return uncompletedChores;
     }
 
     @Override
     public List<Chore> getUserChores(User user) {
-        Optional<List<Chore>> chorelist = choreRepository.findByAssignedTo(user);
-        return chorelist.orElse(null);
+        Optional<List<Chore>> choreList = choreRepository.findByAssignedTo(user);
+        return choreList.orElse(null);
+    }
 
+    @Override
+    public Boolean updateChore(Long choreId, Chore updated) {
+        return null;
+    }
+
+    @Override
+    public Boolean deleteChore(Long id) {
+        if (!choreRepository.existsById(id)) return false;
+        choreRepository.deleteById(id);
+        return true;
+    }
+
+    @Override
+    public Chore editChore(Long choreId, Chore newChore) {
+        if(!choreRepository.existsById(choreId))
+            throw new RuntimeException("Chore " + choreId + " not found");
+
+        saveChore(newChore);
+        return newChore;
+    }
+
+    @Override
+    public Boolean markAsCompleted(Long choreId, Chore chore) {
+        if (!choreRepository.existsById(choreId))
+            throw new RuntimeException("Chore " + choreId + " not found");
+
+        chore.setComplete(true);
+        saveChore(chore);
+        return true;
     }
 
     @Override
@@ -46,4 +85,6 @@ public class ChoreServiceImpl implements ChoreService {
     public List<Chore> checkExpiration() {
         return null;
     }
+
+
 }
