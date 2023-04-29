@@ -21,7 +21,7 @@ const Home = () => {
         };
 
         fetchBills();
-    }, [bills, loading]);
+    }, [loading]);
 
     if (loading) {
         return (
