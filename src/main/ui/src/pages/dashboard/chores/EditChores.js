@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { LoginContext } from '../../../contexts/LoginContext'
 import useChores from "./useChores";
 import { getHouseholdMembers } from "../Utils";
@@ -17,57 +17,64 @@ import moment from "moment";
 import { MenuItem, TextField } from "@mui/material";
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
-function Chores({open, handleClose, addRows, defaultChore, defaultDate, defaultAssigned}) {
+import Box from '@mui/material/Box';
+import InputLabel from "@mui/material/InputLabel";
+const EditChores = ({handleClose, open, defaultChore, defaultAssigned, defaultDate}) => {
   const {getAllChores} = useChores();
   const rows = getAllChores();
   const {user} = useContext(LoginContext);
   const houseId = user.Household.id;
   const householdMembers = getHouseholdMembers(houseId);
-  const [choreName, setChoreName] = useState('');
-  const [assignedID, setAssignedID] = useState('');
-  const [dueDate, setDueDate] = useState('');
+  const [newChoreName, setNewChoreName] = useState(defaultChore);
+  const [newAssignedID, setNewAssignedID] = useState(defaultAssigned);
+  const [newDueDate, setNewDueDate] = useState(dayjs(defaultDate));
   const householdOptions = householdMembers.map(member => (
     {
       ...member, value: member.id, label: `${member.firstName} (${member.username})`
     }
   ));
+
   const changeChoreName = (event) => {
-    setChoreName(event.target.value);
+    setNewChoreName(event.target.value);
   };
   
   const changeAssigned = (event) => {
-    setAssignedID(event.target.value)
+    setNewAssignedID(event.target.value)
   }
 
   
   const transferValue = (event) => {
     event.preventDefault();
     const val = {
-      choreName,
-      assignedID,
-      dueDate: new Date(dueDate)
+      newChoreName,
+      newAssignedID,
+      newDueDate: new Date(newDueDate)
     };
-    addRows(val);
     clearState();
+    //editRows(val);
   };
   
   const clearState = () => {
-    setAssignedID('');
-    setChoreName('');
-    setDueDate();
+    setNewAssignedID('');
+    setNewChoreName('');
+    setNewDueDate('');
   };
 
   return (
       <Dialog open={open} onClose={handleClose} PaperProps={{sx: {height: 600}}}>
-      <DialogTitle>Add</DialogTitle>
-      <DialogContent>
-      <TextField value={choreName} margin = "dense" label = "Chore Name" defaultValue={defaultChore} onChange={changeChoreName} />
+      <DialogTitle>Edit</DialogTitle>
+      <DialogContent style={{display: "flex", "flex-direction": "column", justifyContent: "space-evenly"}}>
+      <TextField InputLabelProps={{shrink: true}} value={newChoreName} label = "Chore Name" onChange={(e) => setNewChoreName(e.target.value)} />
       <FormControl fullWidth>
+      <InputLabel id="selected-label" shrink={true}>Assign User</InputLabel>
       <Select
+      notched = {true}
+      labelId="selected-label"
+      label = "Assign User"
       id = "assigned"
-      onChange = {changeAssigned}
-      value={assignedID}
-      defaultValue= {defaultAssigned}
+      onChange = {(e) => setNewAssignedID(e.target.value)}
+      value={newAssignedID}
+      displayEmpty = {true}
       >{
         householdOptions.map((user) => {
           return <MenuItem value = {user.id} key = {user.id}>{user.firstName}</MenuItem>
@@ -78,9 +85,8 @@ function Chores({open, handleClose, addRows, defaultChore, defaultDate, defaultA
       <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer components={['DatePicker']}>
         <DatePicker label="Due Date" 
-        value={dueDate}
-        onChange={(newDate) => setDueDate(newDate)}
-        defaultValue={dayjs(defaultDate)}
+        value={newDueDate}
+        onChange={(newDate) => setNewDueDate(newDate)}
         error = {false}
         />
       </DemoContainer>
@@ -88,10 +94,10 @@ function Chores({open, handleClose, addRows, defaultChore, defaultDate, defaultA
   </DialogContent>
       <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={transferValue}>Add chore</Button>
+          <Button onClick={transferValue}>Edit Chore</Button>
         </DialogActions>
       </Dialog>
   );
 }
   
-export default Chores;
+export default EditChores;

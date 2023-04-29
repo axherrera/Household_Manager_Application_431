@@ -71,7 +71,7 @@ export const mockUsers = [
 
 export const mockChores = [
     {
-        choreid: "1",
+        id: "1",
         choreName: "clean dog",
         dueDate: new Date(),
         assignedID: "1",
@@ -79,18 +79,26 @@ export const mockChores = [
         houseId: "1"
     },
     {
-        choreid: "2",
+        id: "2",
         choreName: "clean cat",
         dueDate: new Date(),
         assignedID: "2",
+        isComplete: true,
+        houseId: "1"
+    },
+    {
+        id: "4",
+        choreName: "clean kitchen",
+        dueDate: new Date(),
+        assignedID: "1",
         isComplete: false,
         houseId: "1"
     },
     {
-        choreid: "3",
+        id: "3",
         choreName: "vacuum",
         dueDate: new Date(),
-        assignedID: "3",
+        assignedID: "4",
         isComplete: false,
         houseId:"2"
     },
