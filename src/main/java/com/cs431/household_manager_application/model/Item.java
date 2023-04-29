@@ -11,9 +11,15 @@ import lombok.*;
 public class Item { //TODO: add photoID FK
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)    @Column(name = "item_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "item_id")
     private Long itemID;
 
     private String name;
     private double price;
+
+    public Item(String name, double price) {
+        this.name = name;
+        this.price = price;
+    }
 }
