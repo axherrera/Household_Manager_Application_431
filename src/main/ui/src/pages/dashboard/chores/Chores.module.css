@@ -16,4 +16,9 @@
     font-family: Georgia, serif, system-ui;
     background-color: #829CBC;
   }
- 
+  .appContainer {
+    display: flex;
+    flex-direction:column;
+    gap: 10px;
+    padding: 1rem;
+  } 
