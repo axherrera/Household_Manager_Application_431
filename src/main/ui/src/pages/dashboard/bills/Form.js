@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from 'react'
 import { useState } from 'react'
-import { getHouseholdMembers } from '../Utils';
 import { LoginContext } from '../../../contexts/LoginContext';
 import { useNavigate } from 'react-router-dom';
 import DraggableConfirmationDialog from '../../../components/ConfirmationDialog';
@@ -11,6 +10,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
+import useHousehold from '../useHousehold';
 
 const frequencyOptions = ["single", "daily", "weekly", "monthly"];
 
@@ -45,10 +45,9 @@ const Form = ({ bill, handleSubmit, edit }) => {
     const [date, setDate] = useState(formBill.date);
     const [billHelpers, setBillHelpers] = useState(formBill.BillHelpers);
     const [invalidDate, setInvalidDate] = useState(false);
-
-    const { user } = useContext(LoginContext)
-    const houseId = user.Household.id;
-    const householdMembers = getHouseholdMembers(houseId);
+    
+    const { user } = useContext(LoginContext);
+    const { householdMembers } = useHousehold();
 
     const navigate = useNavigate();
 
@@ -65,6 +64,7 @@ const Form = ({ bill, handleSubmit, edit }) => {
 
         handleSubmit({
             ...formBill,
+            household: user.Household.id,
             name,
             total,
             notes,
@@ -184,13 +184,17 @@ const Form = ({ bill, handleSubmit, edit }) => {
                                 </Select>
                             </FormControl>
                         </Grid>
-                        <Grid item xs={12} sm={12}>
-                            <SelectBillHelpers
-                                householdMembers={householdMembers}
-                                billHelpers={billHelpers}
-                                setBillHelpers={setBillHelpers}
-                            />
-                        </Grid>
+                        {
+                            householdMembers.length !== 0
+                            &&
+                            <Grid item xs={12} sm={12}>
+                                <SelectBillHelpers
+                                    householdMembers={householdMembers}
+                                    billHelpers={billHelpers}
+                                    setBillHelpers={setBillHelpers}
+                                />
+                            </Grid>
+                        }
                         <Grid item xs={12} sm={12} style={{ zIndex: 100 }}>
                             <BillHelpersList
                                 billHelpers={billHelpers}
@@ -272,7 +276,7 @@ export const BillHelpersList = ({ billHelpers, setBillHelpers, householdMembers,
     return (<>
     <List>
         {billHelpers.map((billHelper, index) => {
-            const { firstName, username } = householdMembers.find(member => member.id === billHelper.id)
+            const { firstName = '', username = ''} = householdMembers.find(member => member.id === billHelper.id) || {}
             return (<ListItem key={'bh-' + billHelper.id}>
                 {editable && <br />}
                 <label id={billHelper.id}>

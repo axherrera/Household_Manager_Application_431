@@ -3,20 +3,19 @@ import { useOutletContext } from 'react-router-dom'
 import { BillHelpersList } from './Form';
 import { useContext } from 'react';
 import { LoginContext } from '../../../contexts/LoginContext';
-import { getHouseholdMembers } from '../Utils';
 import moment from 'moment';
 import useBills from './useBills';
 import ExpandCard from '../../../components/Card';
-import { Button, Checkbox } from '@mui/material';
+import { Button, Checkbox, CircularProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom/dist/umd/react-router-dom.development';
+import useHousehold from '../useHousehold';
 
 const SingleBill = () => {
-    const { bill } = useOutletContext();
+    const { bill, setBill } = useOutletContext();
     const billId = bill.id;
 
     const { user } = useContext(LoginContext)
-    const houseId = user.Household.id;
-    const householdMembers = getHouseholdMembers(houseId);
+    const { householdMembers } = useHousehold();
 
     const navigate = useNavigate();
     
@@ -46,7 +45,7 @@ const SingleBill = () => {
         },
         {
             title: 'Bill Helpers',
-            content: <BillHelpersList billHelpers={bill.BillHelpers} householdMembers={householdMembers} />
+            content: householdMembers.length === 0 ? <CircularProgress /> : <BillHelpersList billHelpers={bill.BillHelpers} householdMembers={householdMembers} />
         }
     ]
 
@@ -66,7 +65,12 @@ const SingleBill = () => {
     if (userBillHelper !== undefined) {
         actions.push({
             title: 'Pay Bill',
-            content: <Checkbox onChange={() => {payBill(bill.id, user.id)}} checked={userBillHelper.isPaid}></Checkbox>
+            content: <Checkbox onChange={
+                async () => {
+                    const newlyPaidBill = toggleHelperPayment(bill, user.id);
+                    await payBill(newlyPaidBill, user.id);
+                    setBill(newlyPaidBill)
+            }} checked={userBillHelper.isPaid}></Checkbox>
         })
     }
 
@@ -86,6 +90,19 @@ const SingleBill = () => {
             <Button variant="contained" onClick={() => { navigate('/dashboard/bills') }}>Back to Bills</Button>
         </>
     )
+}
+
+function toggleHelperPayment(bill, helperId) {
+  const updatedBill = {
+    ...bill,
+    BillHelpers: bill.BillHelpers.map(helper => {
+      if (helper.id === helperId) {
+        return { ...helper, isPaid: !helper.isPaid };
+      }
+      return helper;
+    }),
+  };
+  return updatedBill;
 }
 
 export default SingleBill

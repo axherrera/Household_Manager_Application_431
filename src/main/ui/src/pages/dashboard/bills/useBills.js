@@ -1,6 +1,7 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom/dist/umd/react-router-dom.development';
 import { LoginContext } from '../../../contexts/LoginContext'
+import axios from "axios";
 
 const useBills = () => {
     const { user, bills, setBills } = useContext(LoginContext);
@@ -9,17 +10,37 @@ const useBills = () => {
     const location = useLocation();
     const { getMockBill, getAllMockBills, addMockBill, editMockBill, payMockBill, deleteMockBill } = useMockBills({bills, houseId, setBills});
 
-    const getBill = (id) => {
+    const getBill = async (id) => {
         if (process.env.REACT_APP_MOCK) {
             return getMockBill(id)
+        }
+
+        const url = `/households/${houseId}/bills/${id}`;
+
+        try {
+            const response = await axios.get(url);
+
+            return response.data;
+        } catch(error) {
+            console.log('error', error)
         }
 
         return null;
     }
 
-    const getAllBills = () => {
+    const getAllBills = async () => {
         if (process.env.REACT_APP_MOCK) {
             return getAllMockBills();
+        }
+
+        const url = `/households/${houseId}/bills`;
+
+        try {
+            const response = await axios.get(url);
+
+            return response.data;
+        } catch(error) {
+            console.log('error', error)
         }
 
         return [];
@@ -30,6 +51,14 @@ const useBills = () => {
             addMockBill(newBill);
             return;
         }
+
+        const url = `/households/${houseId}/bills`;
+
+        try {
+            axios.post(url, newBill);
+        } catch(error) {
+            console.log('error adding bill', error)
+        }
     }
 
     const editBill = (id, editedBill) => {
@@ -37,15 +66,31 @@ const useBills = () => {
             editMockBill(id, editedBill);
             return;
         }
+        
+        const url = `/households/${houseId}/bills/${id}`;
+
+        try {
+            axios.put(url, editedBill);
+        } catch(error) {
+            console.log('error editing bill', error)
+        }
     }
 
-    const payBill = (billId, userId) => {
+    const payBill = async (bill, userId) => {
         if (process.env.REACT_APP_MOCK) {
-            payMockBill(billId, userId)
+            payMockBill(bill.id, userId);
             navigate(location.pathname, {replace: true});
             return;
         }
 
+        const url = `/households/${houseId}/bills/${bill.id}`;
+
+        try {
+            await axios.put(url, bill);
+        } catch(error) {
+            console.log('error editing bill', error);
+        }
+        
         navigate(location.pathname, {replace: true});
     }
 
@@ -55,7 +100,15 @@ const useBills = () => {
             navigate('/dashboard/bills');
             return;
         }
-        navigate('/dashboard/bills');
+
+        const url = `/households/${houseId}/bills/${id}`;
+
+        try {
+            axios.delete(url);
+        } catch(error) {
+            console.log('error editing bill', error)
+        }
+        navigate('/dashboard/bills', {replace: true});
     }
 
     const navigateToAddBill = () => {

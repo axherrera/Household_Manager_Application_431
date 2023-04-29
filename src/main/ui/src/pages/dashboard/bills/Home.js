@@ -1,25 +1,47 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Divider, List, ListItem, ListItemText } from '@mui/material';
 import OptionsMenu from '../../../components/OptionsMenu';
 import useBills from './useBills';
 import { useNavigate } from 'react-router-dom/dist/umd/react-router-dom.development';
 import moment from 'moment';
+import { CircularProgress } from '@mui/material';
+import Box from '@mui/material/Box';
 
 const Home = () => {
     const { getAllBills, navigateToAddBill } = useBills();
-    const bills = getAllBills();
+    const [bills, setBills] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchBills = async () => {
+            const bills = await getAllBills();
+
+            setBills(bills);
+            setLoading(false);
+        };
+
+        fetchBills();
+    }, [loading]);
+
+    if (loading) {
+        return (
+            <Box sx={{ display: 'flex' }}>
+                <CircularProgress />
+            </Box>
+        )
+    } 
 
     return (
         <>
             <h2>Bills</h2>
-            <BillsList bills={bills} />
+            <BillsList bills={bills} setLoading={setLoading} setBills={setBills}/>
             <br />
             <Button variant="contained" onClick={() => { navigateToAddBill() }}>Add Bill</Button>
         </>
     )
 }
 
-const BillsList = ({ bills }) => {
+const BillsList = ({ bills, setBills, setLoading }) => {
     const { deleteBill, navigateToEditBill } = useBills();
     const navigate = useNavigate();
 
@@ -30,7 +52,11 @@ const BillsList = ({ bills }) => {
         },
         {
             name: 'Delete',
-            onClick: (billId) => { deleteBill(billId) }
+            onClick: (billId) => { 
+                deleteBill(billId);
+                setBills(bills => bills.filter(bill => bill.id !== billId));
+                setLoading(true);
+            }
         }
     ]
 
