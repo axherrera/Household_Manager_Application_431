@@ -1,8 +1,11 @@
 package com.cs431.household_manager_application.controller;
 
 import com.cs431.household_manager_application.dto.BillDTO;
+import com.cs431.household_manager_application.dto.BillHelperDTO;
 import com.cs431.household_manager_application.model.Bill;
+import com.cs431.household_manager_application.service.BillHelperService;
 import com.cs431.household_manager_application.service.BillService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,9 +15,12 @@ import java.util.List;
 public class BillController {
 
 private final BillService billService;
+private final BillHelperService billHelperService;
 
-    public BillController(BillService billService) {
+    @Autowired
+    public BillController(BillService billService, BillHelperService billHelperService) {
         this.billService = billService;
+        this.billHelperService = billHelperService;
     }
 
 
@@ -43,6 +49,9 @@ private final BillService billService;
         return billService.editBill(billId, newBill);
     }
 
-
+    @PatchMapping("/bills/{billId}")
+    BillHelperDTO payBill(@PathVariable Long billId, @RequestBody BillHelperDTO billHelper) {
+        return billHelperService.payBill(billId, billHelper);
+    }
 
 }

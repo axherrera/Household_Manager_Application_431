@@ -60,7 +60,7 @@ public class ChoreServiceImpl implements ChoreService {
     @Override
     public Chore editChore(Long choreId, Chore newChore) {
         if(!choreRepository.existsById(choreId))
-            throw new RuntimeException("Chore " + choreId + "not found");
+            throw new RuntimeException("Chore " + choreId + " not found");
 
         saveChore(newChore);
         return newChore;

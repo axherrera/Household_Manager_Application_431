@@ -16,7 +16,7 @@ public class InventoryItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)    @Column( name = "inventoryId")
-    private Long inventoryItem;
+    private Long inventoryItemId;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_item", referencedColumnName = "item_id")
@@ -28,4 +28,11 @@ public class InventoryItem {
 
     private Date exp;
     private int quantity;
+
+    public InventoryItem(Item item, Household household, Date exp, int quantity) {
+        this.item = item;
+        this.household = household;
+        this.exp = exp;
+        this.quantity = quantity;
+    }
 }
