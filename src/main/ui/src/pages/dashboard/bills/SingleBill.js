@@ -6,12 +6,13 @@ import { LoginContext } from '../../../contexts/LoginContext';
 import moment from 'moment';
 import useBills from './useBills';
 import ExpandCard from '../../../components/Card';
-import { Button, Checkbox, CircularProgress } from '@mui/material';
+import { Button, Checkbox, CircularProgress, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom/dist/umd/react-router-dom.development';
 import useHousehold from '../useHousehold';
+import RefreshIcon from '@mui/icons-material/Refresh';
 
 const SingleBill = () => {
-    const { bill, setBill } = useOutletContext();
+    const { bill, setBill, setLoading } = useOutletContext();
     const billId = bill.id;
 
     const { user } = useContext(LoginContext)
@@ -24,6 +25,15 @@ const SingleBill = () => {
     const date = moment(bill.date).format('dddd MMMM Do, YYYY');
 
     const options = [
+        {
+            name: <>
+                    <Typography variant="button" fontSize={"small"}>
+                        refresh
+                    </Typography>
+                    <RefreshIcon fontSize="small"/>
+            </>,
+            onClick: (billId) => { setLoading(true) }
+        },
         {
             name: 'Edit',
             onClick: (billId) => { navigateToEditBill(billId) }

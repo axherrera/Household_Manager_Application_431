@@ -18,7 +18,7 @@ const ProtectedSingleBillRoute = () => {
         };
 
         fetchBill();
-    }, []);
+    }, [loading]);
     
     if (bill == null) {
         return <Navigate to='/dashboard/bills' replace />;
@@ -34,7 +34,7 @@ const ProtectedSingleBillRoute = () => {
 
     return (
         <>
-            <Outlet context={{ bill, setBill }} />
+            <Outlet context={{ bill, setBill, setLoading }} />
         </>
     )
 }
