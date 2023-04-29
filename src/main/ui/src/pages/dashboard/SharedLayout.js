@@ -22,6 +22,11 @@ const SharedDashboardLayout = () => {
 
   const settings = [
     {
+      name: `House ID: ${user.Household.id}`,
+      link: '/',
+      onClick: () => {}
+    },
+    {
       name: 'Logout',
       link: '/',
       onClick: () => {
