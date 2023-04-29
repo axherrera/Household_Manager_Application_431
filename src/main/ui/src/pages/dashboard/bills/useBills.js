@@ -108,7 +108,7 @@ const useBills = () => {
         } catch(error) {
             console.log('error editing bill', error)
         }
-        navigate('/dashboard/bills');
+        navigate('/dashboard/bills', {replace: true});
     }
 
     const navigateToAddBill = () => {
