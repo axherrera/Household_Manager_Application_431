@@ -1,5 +1,4 @@
 import React, { useState, useContext, Fragment } from 'react';
-import Chores from './Chores';
 import InputLabel from "@mui/material/InputLabel";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -45,6 +44,7 @@ const EditableRow = ({
       ...member, value: member.id, label: `${member.firstName} (${member.username})`
     }
   ));
+    const date = dayjs(chore.dueDate)
   return (
     <TableRow>
       <TableCell align='center'><Checkbox disabled={true} checked={chore.isComplete}></Checkbox></TableCell>
@@ -80,7 +80,7 @@ const EditableRow = ({
       <TableCell align='center'>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker label="Due Date" disablePast={true}
-        value = {dayjs(editFormData.dueDate.toString())} 
+        value = {dayjs(editFormData.dueDate)} 
       onChange = {(newValue)=> handleEditFormChange(newValue, "dueDate")}
       error = {false}
         name = "dueDate"

@@ -26,9 +26,6 @@ const useChores = () => {
         navigate('/dashboard/chores/ChoresHome');
     };
 
-    const editChore = (id) => {
-        
-    }
 
     return {getAllChores, deleteChore}
 }

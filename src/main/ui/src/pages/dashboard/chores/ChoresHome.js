@@ -1,5 +1,4 @@
 import React, { useState, useContext, Fragment } from 'react';
-import Chores from './Chores';
 import EditableRow from './EditableRow';
 import InputLabel from "@mui/material/InputLabel";
 import dayjs from 'dayjs';
@@ -33,6 +32,14 @@ import EditIcon from '@mui/icons-material/Edit';
 import FormControl from '@mui/material/FormControl';
 
 const TableData = () => {
+  const formatDate = (date) => {
+    const year = date.getFullYear();
+    const month = `${date.getMonth() + 1}`.padStart(2, "0");
+    const day = `${date.getDate()}`.padStart(2, "0");
+    const hours = `${date.getHours()}`.padStart(2, "0");
+    const minutes = `${date.getMinutes()}`.padStart(2, "0");
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+};
   const {user} = useContext(LoginContext);
   const {getAllChores, deleteChore} = useChores();
   const rows = getAllChores();
@@ -55,7 +62,7 @@ const TableData = () => {
     id:"",
     choreName: "",
     assignedID: "",
-    dueDate: new Date(),
+    dueDate: formatDate(new Date()),
     isComplete: "",
     houseId: ""
   });
@@ -74,8 +81,10 @@ const TableData = () => {
   const handleAddFormChange = (newVal, keyVal) => {
 
     const fieldName = keyVal;
-    const fieldValue = newVal;
-
+    var fieldValue = newVal;
+    if (fieldName === "dueDate"){
+      fieldValue = formatDate(newVal.toDate())
+    }
     const newFormData = { ...addFormData };
     newFormData[fieldName] = fieldValue;
 
@@ -86,7 +95,10 @@ const TableData = () => {
 
   const handleEditFormChange = (val, nameType) => {
     const fieldName = nameType;
-    const fieldValue = val;
+    var fieldValue = val;
+    if (nameType ==="dueDate"){
+      fieldValue = formatDate(val.toDate())
+    }
     console.log(`name: ${fieldName}`);
     console.log(`value: ${fieldValue}`);
 
@@ -162,9 +174,9 @@ const TableData = () => {
     newChoreList[index] = editedChore;
     setChoreData(newChoreList);
     console.log(editedChore.id)
-    console.log(editedChore.choreName)
-    console.log(editedChore.dueDate)
-    console.log(editedChore.isComplete)
+    console.log(chore.choreName)
+    console.log(chore.dueDate)
+    console.log(chore.isComplete)
   };
   const handleEditClick = (event, chore) => {
     event.preventDefault();
