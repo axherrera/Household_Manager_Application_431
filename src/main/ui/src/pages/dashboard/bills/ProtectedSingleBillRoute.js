@@ -18,7 +18,7 @@ const ProtectedSingleBillRoute = () => {
         };
 
         fetchBill();
-    }, [bill]);
+    }, []);
     
     if (bill == null) {
         return <Navigate to='/dashboard/bills' replace />;

@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom/dist/umd/react-router-dom.developm
 import useHousehold from '../useHousehold';
 
 const SingleBill = () => {
-    const { bill } = useOutletContext();
+    const { bill, setBill } = useOutletContext();
     const billId = bill.id;
 
     const { user } = useContext(LoginContext)
@@ -69,6 +69,7 @@ const SingleBill = () => {
                 async () => {
                     const newlyPaidBill = toggleHelperPayment(bill, user.id);
                     await payBill(newlyPaidBill, user.id);
+                    setBill(newlyPaidBill)
             }} checked={userBillHelper.isPaid}></Checkbox>
         })
     }
