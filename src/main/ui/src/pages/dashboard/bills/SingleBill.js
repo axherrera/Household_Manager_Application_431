@@ -36,7 +36,7 @@ const SingleBill = () => {
         },
         {
             name: 'Edit',
-            onClick: (billId) => { navigateToEditBill(billId) }
+            onClick: (billId) => { setLoading(true); navigateToEditBill(billId); }
         },
         {
             name: 'Delete',
