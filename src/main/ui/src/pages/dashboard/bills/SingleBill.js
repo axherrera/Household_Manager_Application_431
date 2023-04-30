@@ -41,16 +41,7 @@ const SingleBill = () => {
             onClick: (billId) => { setLoading(true); navigateToEditBill(billId); }
         },
         {
-            name: <>
-                {'Delete'}
-                <DraggableConfirmationDialog
-                    title="Confirm Delete Bill"
-                    text="Are you sure you want to delete this bill? This will affect the bill for all members in the house."
-                    open={deleteDialogOpen}
-                    setOpen={setDeleteDialogOpen}
-                    onConfirm={() => {deleteBill(billId)}}
-                />
-            </>,
+            name: 'Delete',
             onClick: () => { setDeleteDialogOpen(true) }
         }
     ];
@@ -96,6 +87,13 @@ const SingleBill = () => {
 
     return (
         <>
+            <DraggableConfirmationDialog
+                title="Confirm Delete Bill"
+                text="Are you sure you want to delete this bill? This will affect the bill for all members in the house."
+                open={deleteDialogOpen}
+                setOpen={setDeleteDialogOpen}
+                onConfirm={() => {deleteBill(billId)}}
+            />
             <ExpandCard 
                 title={`${bill.name} Bill`}
                 options={options}
