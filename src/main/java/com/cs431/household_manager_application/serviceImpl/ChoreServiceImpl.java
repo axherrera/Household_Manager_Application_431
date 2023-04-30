@@ -37,10 +37,10 @@ public class ChoreServiceImpl implements ChoreService {
     @Override
     public Chore saveChore(ChoreDTO choreDTO) {
         Chore chore = new Chore(
+                userService.getByID(Long.valueOf(choreDTO.assignedTo())).get(),
                 householdService.getByID(Long.valueOf(choreDTO.household())).get(),
                 choreDTO.choreName(),
                 formatter.parse(choreDTO.dueDate()),
-                userService.getByID(Long.valueOf(choreDTO.assignedTo())).get(),
                 choreDTO.isComplete()
         );
         return choreRepository.save(chore);
@@ -73,14 +73,13 @@ public class ChoreServiceImpl implements ChoreService {
     }
 
     @Override
-    public Boolean markAsCompleted(Long choreId, Chore chore) {
-        if (!choreRepository.existsById(choreId))
-            throw new RuntimeException("Chore " + choreId + " not found");
+    public ChoreDTO markAsCompleted(Long choreId, ChoreDTO chore) {
 
-        chore.setComplete(true);
-        ChoreDTO choreDTO = modelMapper.map(chore, ChoreDTO.class);
-        saveChore(choreDTO);
-        return true;
+        Chore choreToMark = choreRepository.findById(choreId).orElseThrow(() -> new RuntimeException("Chore " + choreId + " not found"));
+
+        choreToMark.setComplete(chore.isComplete());
+        saveChore(chore);
+        return chore;
     }
 
 

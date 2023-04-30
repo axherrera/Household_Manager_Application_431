@@ -38,7 +38,7 @@ public class ChoreController {
     }
 
     @PatchMapping("/chores/{choreId}")
-    Boolean markAsCompleted(@PathVariable Long choreId, @RequestBody Chore chore) {
+    ChoreDTO markAsCompleted(@PathVariable Long choreId, @RequestBody ChoreDTO chore) {
         return choreService.markAsCompleted(choreId, chore);
     }
     @GetMapping("/chores/{choreId}")
