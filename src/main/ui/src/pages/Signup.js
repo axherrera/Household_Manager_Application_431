@@ -23,7 +23,16 @@ function Signup() {
     await axios.post("/register", user)
     navigate("/")
     } catch(err) {
-      alert("Username already exists")
+      let errorMessage = ''
+      if (err.response.status >= 500) {
+          errorMessage = 'Something is wrong with the server connection. Please try signing up again later.';
+      } else if (err.response.status == 404) {
+          errorMessage = "Household ID you are joining does not exist";
+      } else if (err.response.status == 409) {
+          errorMessage = err.response.data?.message;
+      }
+
+        alert("Problem signing up\n" + errorMessage);
     }
   };
   return (
