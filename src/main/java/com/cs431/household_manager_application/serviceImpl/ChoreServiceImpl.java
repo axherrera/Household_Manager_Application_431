@@ -1,54 +1,61 @@
 package com.cs431.household_manager_application.serviceImpl;
-
+import com.cs431.household_manager_application.dto.BillDTO;
+import com.cs431.household_manager_application.dto.ChoreDTO;
+import com.cs431.household_manager_application.dto.mapper.BillDTOMapper;
+import com.cs431.household_manager_application.dto.mapper.ChoreDTOMapper;
+import com.cs431.household_manager_application.model.Bill;
 import com.cs431.household_manager_application.model.Chore;
 import com.cs431.household_manager_application.model.User;
 import com.cs431.household_manager_application.repository.ChoreRepository;
 import com.cs431.household_manager_application.service.ChoreService;
 import com.cs431.household_manager_application.service.HouseholdService;
+import com.cs431.household_manager_application.service.UserService;
+import lombok.RequiredArgsConstructor;
+
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
-
+import java.util.stream.Collectors;
+import org.modelmapper.ModelMapper;
 @Service
+@RequiredArgsConstructor
 public class ChoreServiceImpl implements ChoreService {
 
     private final ChoreRepository choreRepository;
     private final HouseholdService householdService;
+    private final UserService userService;
+    private final ChoreDTOMapper choreDTOMapper = new ChoreDTOMapper();
+    private ModelMapper modelMapper;
+    private final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
-    public ChoreServiceImpl(ChoreRepository choreRepository, HouseholdService householdService) {
-        this.choreRepository = choreRepository;
-        this.householdService = householdService;
-    }
-
+    @SneakyThrows
     @Override
-    public Chore saveChore(Chore chore) {
+    public Chore saveChore(ChoreDTO choreDTO) {
+        Chore chore = new Chore(
+                householdService.getByID(Long.valueOf(choreDTO.household())).get(),
+                choreDTO.choreName(),
+                formatter.parse(choreDTO.dueDate()),
+                userService.getByID(Long.valueOf(choreDTO.assignedTo())).get(),
+                choreDTO.isComplete()
+        );
         return choreRepository.save(chore);
     }
 
     @Override
-    public List<Chore> getAllChores(Long id) {
+    public List<ChoreDTO> getAllChores(Long id) {
         List<Chore> allChores = choreRepository.findChoresByHousehold(householdService.getByID(id).orElseThrow());
-        List<Chore> uncompletedChores = new ArrayList<>();
-        for (Chore allChore : allChores) {
-            if (!allChore.isComplete()) {
-                uncompletedChores.add(allChore);
-            }
-        }
-        return uncompletedChores;
+        return allChores.stream().map(choreDTOMapper).collect(Collectors.toList());
+    }
+    @Override
+    public ChoreDTO getChore(Long choreId) {
+        return choreRepository.findById(choreId).map(choreDTOMapper).orElseThrow();
     }
 
-    @Override
-    public List<Chore> getUserChores(User user) {
-        Optional<List<Chore>> choreList = choreRepository.findByAssignedTo(user);
-        return choreList.orElse(null);
-    }
-
-    @Override
-    public Boolean updateChore(Long choreId, Chore updated) {
-        return null;
-    }
 
     @Override
     public Boolean deleteChore(Long id) {
@@ -58,10 +65,9 @@ public class ChoreServiceImpl implements ChoreService {
     }
 
     @Override
-    public Chore editChore(Long choreId, Chore newChore) {
+    public ChoreDTO editChore(Long choreId, ChoreDTO newChore) {
         if(!choreRepository.existsById(choreId))
             throw new RuntimeException("Chore " + choreId + " not found");
-
         saveChore(newChore);
         return newChore;
     }
@@ -72,19 +78,11 @@ public class ChoreServiceImpl implements ChoreService {
             throw new RuntimeException("Chore " + choreId + " not found");
 
         chore.setComplete(true);
-        saveChore(chore);
+        ChoreDTO choreDTO = modelMapper.map(chore, ChoreDTO.class);
+        saveChore(choreDTO);
         return true;
     }
 
-    @Override
-    public List<Chore> rotateChores() {
-        return null;
-    }
-
-    @Override
-    public List<Chore> checkExpiration() {
-        return null;
-    }
 
 
 }
