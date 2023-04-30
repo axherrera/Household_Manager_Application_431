@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.util.Date;
 
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,13 +22,18 @@ public class Chore {
     @JoinColumn(name = "fk_user", referencedColumnName = "user_id")
     private User assignedTo;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "fk_household", referencedColumnName = "household_id")
     private Household household;
 
-    private String name;
-    private boolean isRotated;
-    private int frequency;
-    private Date duedate;
+    private String choreName;
+    private Date dueDate;
     private boolean isComplete;
+    public Chore(Household household, String choreName, Date dueDate, User assignedTo, boolean isComplete) {
+        this.household = household;
+        this.choreName = choreName;
+        this.dueDate = dueDate;
+        this.assignedTo = assignedTo;
+        this.isComplete = isComplete;
+    }
 }
