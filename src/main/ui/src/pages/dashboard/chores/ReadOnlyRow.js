@@ -20,7 +20,6 @@ function findValByKey(searchKey, searchValue, targetKey, household) {
 const ReadOnlyRow = ({ chore, choreIndex, handleEditClick, handleDeleteClick, handleChecked}) => {
     const {user} = useContext(LoginContext);
     const {householdMembers} = useHousehold();
-    console.log(`${householdMembers}`);
   const assignedName = findValByKey("id", chore.assignedID, "firstName", householdMembers)
     const date = moment(chore.dueDate).format('MM/DD/YY');
 

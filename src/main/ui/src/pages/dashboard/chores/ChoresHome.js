@@ -38,7 +38,6 @@ function TableData(){
         ...member, value: member.id, label: `${member.firstName} (${member.username})`
       }
     ));
-   console.log(`household: ${householdOptions}`)
   const [choreData, setChoreData] = useState(rows);
 
   const [addFormData, setAddFormData] = useState({
@@ -72,8 +71,7 @@ function TableData(){
     newFormData[fieldName] = fieldValue;
 
     setAddFormData(newFormData);
-    console.log(`name: ${fieldName}`);
-    console.log(`value: ${fieldValue}`);
+
   };
 
   const handleEditFormChange = (val, nameType) => {
@@ -82,8 +80,7 @@ function TableData(){
     if (nameType ==="dueDate"){
       fieldValue = dayjs(val).format('YYYY-MM-DD')
     }
-    console.log(`name: ${fieldName}`);
-    console.log(`value: ${fieldValue}`);
+  
 
     const newFormData = { ...editFormData };
     newFormData[fieldName] = fieldValue;
@@ -129,7 +126,6 @@ function TableData(){
     const newChoreList = [...choreData];
 
     const index = choreData.findIndex((chore) => chore.id === editedChore.id);
-    console.log(`index: ${index}`)
     newChoreList[index] = editedChore;
 
     setChoreData(newChoreList);
@@ -149,13 +145,8 @@ function TableData(){
     const newChoreList = [...choreData];
 
     const index = choreData.findIndex((el) => el.id === editedChore.id);
-    console.log(`index: ${index}`)
     newChoreList[index] = editedChore;
     setChoreData(newChoreList);
-    console.log(editedChore.id)
-    console.log(chore.choreName)
-    console.log(chore.dueDate)
-    console.log(chore.isComplete)
   };
   const handleEditClick = (event, chore) => {
     event.preventDefault();
