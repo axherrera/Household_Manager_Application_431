@@ -37,4 +37,9 @@ public class ChoreController {
         return choreService.editChore(choreId, newChore);
     }
 
+    @PutMapping("/chores/{choreId}")
+    Boolean markAsCompleted(@PathVariable Long choreId, @RequestBody Chore chore) {
+        return choreService.markAsCompleted(choreId, chore);
+    }
+
 }
