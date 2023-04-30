@@ -40,7 +40,7 @@ public class ChoreServiceImpl implements ChoreService {
                 householdService.getByID(Long.valueOf(choreDTO.household())).get(),
                 choreDTO.choreName(),
                 formatter.parse(choreDTO.dueDate()),
-                userService.getByID(Long.valueOf(choreDTO.assignedID())).get(),
+                userService.getByID(Long.valueOf(choreDTO.assignedTo())).get(),
                 choreDTO.isComplete()
         );
         return choreRepository.save(chore);
@@ -50,12 +50,6 @@ public class ChoreServiceImpl implements ChoreService {
     public List<ChoreDTO> getAllChores(Long id) {
         List<Chore> allChores = choreRepository.findChoresByHousehold(householdService.getByID(id).orElseThrow());
         return allChores.stream().map(choreDTOMapper).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<Chore> getUserChores(User user) {
-        Optional<List<Chore>> choreList = choreRepository.findByAssignedTo(user);
-        return choreList.orElse(null);
     }
     @Override
     public ChoreDTO getChore(Long choreId) {

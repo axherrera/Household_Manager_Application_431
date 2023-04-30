@@ -1,4 +1,5 @@
 package com.cs431.household_manager_application.controller;
+import com.cs431.household_manager_application.dto.BillDTO;
 import com.cs431.household_manager_application.dto.ChoreDTO;
 import com.cs431.household_manager_application.model.Chore;
 import com.cs431.household_manager_application.service.ChoreService;
@@ -39,6 +40,10 @@ public class ChoreController {
     @PatchMapping("/chores/{choreId}")
     Boolean markAsCompleted(@PathVariable Long choreId, @RequestBody Chore chore) {
         return choreService.markAsCompleted(choreId, chore);
+    }
+    @GetMapping("/chores/{choreId}")
+    ChoreDTO getChorebyId(@PathVariable Long choreId) {
+        return choreService.getChore(choreId);
     }
 
 }

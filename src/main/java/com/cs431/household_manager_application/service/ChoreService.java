@@ -10,7 +10,6 @@ import java.util.List;
 public interface ChoreService {
     Chore saveChore(ChoreDTO choreDTO);
     List<ChoreDTO> getAllChores(Long id);
-    List<Chore> getUserChores(User user);
     ChoreDTO getChore(Long choreId);
     Boolean deleteChore(Long id);
     ChoreDTO editChore(Long choreId, ChoreDTO newChore);
