@@ -16,14 +16,7 @@ function Signup() {
     setUser({...user, [e.target.name]: e.target.value})
   }
   const navigate = useNavigate();
-  useEffect(() => {
-    loadUsers();
-  }, []);
-  const loadUsers = async () => {
-    const result = await axios.get("/users");
-    const userArray = result.data;
-    console.log(userArray);
-  }
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
