@@ -154,8 +154,8 @@ const Form = ({ bill, handleSubmit, edit }) => {
                 onConfirm={confirm}
             />
             <DraggableConfirmationDialog
-                title="Cancel Edit"
-                text="Are you sure want to cancel editing this bill?"
+                title={`Cancel ${edit ? 'Edit' : 'Add'}`}
+                text={`Are you sure want to cancel ${edit ? 'edit' : 'add'}ing this bill?`}
                 open={cancelDialogOpen}
                 setOpen={setCancelDialogOpen}
                 onConfirm={cancel}
