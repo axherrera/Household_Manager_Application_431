@@ -10,16 +10,12 @@ import { MenuItem, TextField } from "@mui/material";
 import Select from '@mui/material/Select';
 import ReadOnlyRow from './ReadOnlyRow';
 import { LoginContext } from '../../../contexts/LoginContext';
-import { getHouseholdMembers } from "../Utils";
 import useChores from "./useChores";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import { Checkbox } from "@mui/material";
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -27,42 +23,28 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import AddIcon from '@mui/icons-material/Add';
 import styles from './Chores.module.css'
-import  DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
 import FormControl from '@mui/material/FormControl';
+import useHousehold from '../useHousehold';
 
-const TableData = () => {
-  const formatDate = (date) => {
-    const year = date.getFullYear();
-    const month = `${date.getMonth() + 1}`.padStart(2, "0");
-    const day = `${date.getDate()}`.padStart(2, "0");
-    const hours = `${date.getHours()}`.padStart(2, "0");
-    const minutes = `${date.getMinutes()}`.padStart(2, "0");
-    return `${year}-${month}-${day}T${hours}:${minutes}`;
-};
+function TableData(){
   const {user} = useContext(LoginContext);
   const {getAllChores, deleteChore} = useChores();
   const rows = getAllChores();
-  const [choreName, setChoreName] = useState('');
-  const [assignedID, setAssignedID] = useState('');
-  const [deadline, setDeadline] = useState('');
-  const [open, setOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   const houseId = user.Household.id;
-
-  const householdMembers = getHouseholdMembers(houseId);
+  const {householdMembers} = useHousehold();
   const householdOptions = householdMembers.map(member => (
-    {
-      ...member, value: member.id, label: `${member.firstName} (${member.username})`
-    }
-  ));
+      {
+        ...member, value: member.id, label: `${member.firstName} (${member.username})`
+      }
+    ));
   const [choreData, setChoreData] = useState(rows);
 
   const [addFormData, setAddFormData] = useState({
     id:"",
     choreName: "",
     assignedID: "",
-    dueDate: formatDate(new Date()),
+    dueDate: dayjs(new Date()).format('YYYY-MM-DD'),
     isComplete: "",
     houseId: ""
   });
@@ -83,24 +65,22 @@ const TableData = () => {
     const fieldName = keyVal;
     var fieldValue = newVal;
     if (fieldName === "dueDate"){
-      fieldValue = formatDate(newVal.toDate())
+      fieldValue =dayjs(newVal).format('YYYY-MM-DD')
     }
     const newFormData = { ...addFormData };
     newFormData[fieldName] = fieldValue;
 
     setAddFormData(newFormData);
-    console.log(`name: ${fieldName}`);
-    console.log(`value: ${fieldValue}`);
+
   };
 
   const handleEditFormChange = (val, nameType) => {
     const fieldName = nameType;
     var fieldValue = val;
     if (nameType ==="dueDate"){
-      fieldValue = formatDate(val.toDate())
+      fieldValue = dayjs(val).format('YYYY-MM-DD')
     }
-    console.log(`name: ${fieldName}`);
-    console.log(`value: ${fieldValue}`);
+  
 
     const newFormData = { ...editFormData };
     newFormData[fieldName] = fieldValue;
@@ -146,18 +126,13 @@ const TableData = () => {
     const newChoreList = [...choreData];
 
     const index = choreData.findIndex((chore) => chore.id === editedChore.id);
-    console.log(`index: ${index}`)
     newChoreList[index] = editedChore;
 
     setChoreData(newChoreList);
     setEditChoreId(null);
   };
   const handleChecked = (val, chore) => {
-    console.log(chore.id)
-    console.log(chore.choreName)
-    console.log(chore.dueDate)
-    console.log(chore.isComplete)
-    console.log(val)
+
 
     const editedChore = {
       id: chore.id,
@@ -170,13 +145,8 @@ const TableData = () => {
     const newChoreList = [...choreData];
 
     const index = choreData.findIndex((el) => el.id === editedChore.id);
-    console.log(`index: ${index}`)
     newChoreList[index] = editedChore;
     setChoreData(newChoreList);
-    console.log(editedChore.id)
-    console.log(chore.choreName)
-    console.log(chore.dueDate)
-    console.log(chore.isComplete)
   };
   const handleEditClick = (event, chore) => {
     event.preventDefault();
@@ -207,6 +177,8 @@ const TableData = () => {
   const addChoreClick = () => {
     setEditOpen(true)
   }
+  const [error, setError] = useState(null);
+    const errorMessage = (error ? "invalid date" : "");
   return (
     <div className={styles.appContainer}>
     <form onSubmit={handleEditFormSubmit}>
@@ -276,15 +248,17 @@ const TableData = () => {
       <DemoContainer components={['DatePicker']}>
         <DatePicker label="Due Date" disablePast={true}
       onChange = {(newValue)=> handleAddFormChange(newValue, "dueDate")}
-      error = {false}
+      onError = {(newError)=>setError(newError)}
+      slotProps={{textField: {helperText: errorMessage}}}
         name = "dueDate"
+        required = {true}        
         defaultValue={dayjs(new Date())}
         />
       </DemoContainer>
     </LocalizationProvider>
     </DialogContent>
     <DialogActions>
-    <Button type="submit">Add</Button>
+    <Button type="submit" disabled={error}>Add</Button>
     <Button onClick={handleClose}>Close</Button>
       </DialogActions> 
         </Dialog>

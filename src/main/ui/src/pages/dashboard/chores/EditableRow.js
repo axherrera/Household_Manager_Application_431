@@ -1,50 +1,34 @@
-import React, { useState, useContext, Fragment } from 'react';
+import React, { useState, useContext} from 'react';
 import InputLabel from "@mui/material/InputLabel";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { MenuItem, TextField } from "@mui/material";
 import dayjs from 'dayjs';
 import Select from '@mui/material/Select';
-import ReadOnlyRow from './ReadOnlyRow';
 import { LoginContext } from '../../../contexts/LoginContext';
-import { getHouseholdMembers } from "../Utils";
-import useChores from "./useChores";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 import { Checkbox } from "@mui/material";
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import AddIcon from '@mui/icons-material/Add';
-import styles from './Chores.module.css'
-import  DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
 import FormControl from '@mui/material/FormControl';
-import DialogActions from '@mui/material/DialogActions';
+import useHousehold from '../useHousehold';
 
 const EditableRow = ({
+  
   editFormData,
   handleEditFormChange,
   handleCancelClick,
   chore
 }) => {
-  const {user} = useContext(LoginContext);
-  const houseId = user.Household.id;
-  const householdMembers = getHouseholdMembers(houseId);
+  const {householdMembers} = useHousehold();
+  
   const householdOptions = householdMembers.map(member => (
-    {
-      ...member, value: member.id, label: `${member.firstName} (${member.username})`
-    }
-  ));
-    const date = dayjs(chore.dueDate)
+      {
+        ...member, value: member.id, label: `${member.firstName} (${member.username})`
+      }
+    ));
+    const [error, setError] = useState(null);
+    const errorMessage = (error ? "invalid date" : "");
   return (
     <TableRow>
       <TableCell align='center'><Checkbox disabled={true} checked={chore.isComplete}></Checkbox></TableCell>
@@ -82,14 +66,16 @@ const EditableRow = ({
         <DatePicker label="Due Date" disablePast={true}
         value = {dayjs(editFormData.dueDate)} 
       onChange = {(newValue)=> handleEditFormChange(newValue, "dueDate")}
-      error = {false}
+      onError = {(newError)=>setError(newError)}
+      slotProps={{textField: {helperText: errorMessage}}}
         name = "dueDate"
         required = {true}
+
         />
     </LocalizationProvider> 
       </TableCell>
       <TableCell align='center'>
-        <button type="submit">Save</button>
+        <button type="submit" disabled={error}>Save</button>
         <button type="button" onClick={handleCancelClick}>
           Cancel
         </button>
