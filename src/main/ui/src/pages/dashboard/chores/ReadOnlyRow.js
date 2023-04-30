@@ -1,13 +1,12 @@
 import {React, useContext} from "react";
-import dayjs, { Dayjs } from 'dayjs';
 import { TableCell, TableRow } from "@mui/material";
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { LoginContext } from '../../../contexts/LoginContext';
 import { Checkbox } from "@mui/material";
-import { getHouseholdMembers } from "../Utils";
 import moment from "moment";
+import useHousehold from "../useHousehold";
 function findValByKey(searchKey, searchValue, targetKey, household) {
     const item = household.find((item)=>item[searchKey] === searchValue)
     if (item){
@@ -20,10 +19,10 @@ function findValByKey(searchKey, searchValue, targetKey, household) {
 
 const ReadOnlyRow = ({ chore, choreIndex, handleEditClick, handleDeleteClick, handleChecked}) => {
     const {user} = useContext(LoginContext);
-    const houseId = user.Household.id;
-    const householdMembers = getHouseholdMembers(houseId);    
-    const assignedName = findValByKey("id", chore.assignedID, "firstName", householdMembers)
-    const date = moment(chore.dueDate).format('dddd MMMM Do YYYY, h:mm a');
+    const {householdMembers} = useHousehold();
+    console.log(`${householdMembers}`);
+  const assignedName = findValByKey("id", chore.assignedID, "firstName", householdMembers)
+    const date = moment(chore.dueDate).format('MM/DD/YY');
 
   return (
     <TableRow>
