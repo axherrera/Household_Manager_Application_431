@@ -20,7 +20,8 @@ function PaperComponent(props) {
 }
 
 export default function DraggableConfirmationDialog({ title, text, open, setOpen, onConfirm }) {
-    const handleClose = () => {
+    const handleClose = (event) => {
+        event.stopPropagation();
         setOpen(false);
     };
 
