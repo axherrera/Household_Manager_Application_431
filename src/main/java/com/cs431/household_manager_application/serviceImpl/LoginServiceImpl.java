@@ -4,7 +4,9 @@ import com.cs431.household_manager_application.dto.UserDTO;
 import com.cs431.household_manager_application.dto.UserLoginDTO;
 import com.cs431.household_manager_application.dto.RegistrationDTO;
 import com.cs431.household_manager_application.dto.mapper.UserDTOMapper;
+import com.cs431.household_manager_application.exceptions.HouseholdNotFoundException;
 import com.cs431.household_manager_application.exceptions.UnauthorizedCredentials;
+import com.cs431.household_manager_application.exceptions.UserExistsException;
 import com.cs431.household_manager_application.exceptions.UserNotFoundException;
 import com.cs431.household_manager_application.model.Household;
 import com.cs431.household_manager_application.model.User;
@@ -45,10 +47,10 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public UserDTO register(RegistrationDTO registrationDTO) {
         if(userService.checkByUsername(registrationDTO.getUsername()))
-            throw new DuplicateKeyException("Username Already Taken");
+            throw new UserExistsException("Username Already Taken");
         Household household = isNull(registrationDTO.getHousehold())?
                 householdService.saveHousehold(new Household(null, "My Household")):
-                householdService.getByID((registrationDTO.getHousehold())).orElse(householdService.saveHousehold(new Household(registrationDTO.getHousehold(), "My Household")));
+                householdService.getByID((registrationDTO.getHousehold())).orElseThrow(() -> new HouseholdNotFoundException("Joining Household does not exist"));
        return userDTOMapper.apply(userService.saveUser(new User(household, registrationDTO)));
     }
 
