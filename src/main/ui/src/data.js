@@ -73,34 +73,34 @@ export const mockChores = [
     {
         id: "1",
         choreName: "clean dog",
-        dueDate: new Date('2023-05-10T00:00:00'),
+        dueDate: '2023-05-02',
         assignedID: "1",
         isComplete: false,
-        houseId: "1"
+        houseID: "1"
     },
     {
         id: "2",
         choreName: "clean cat",
-        dueDate: new Date('2023-05-10T00:00:00'),
+        dueDate: '2023-05-02',
         assignedID: "2",
         isComplete: true,
-        houseId: "1"
+        houseID: "1"
     },
     {
         id: "4",
         choreName: "clean kitchen",
-        dueDate: new Date('2023-05-10T00:00:00'),
+        dueDate: '2023-05-02',
         assignedID: "1",
         isComplete: false,
-        houseId: "1"
+        houseID: "1"
     },
     {
         id: "3",
         choreName: "vacuum",
-        dueDate: new Date('2023-05-10T00:00:00'),
+        dueDate: '2023-05-02',
         assignedID: "4",
         isComplete: false,
-        houseId:"2"
+        houseID:"2"
     },
 
 ]
