@@ -15,10 +15,10 @@ public class ChoreDTOMapper implements Function<Chore, ChoreDTO> {
     public ChoreDTO apply(Chore chore) {
         return new ChoreDTO(
                 chore.getChoreId().toString(),
+                chore.getAssignedTo().getUserId().toString(),
                 chore.getHousehold().getHouseholdId().toString(),
                 chore.getChoreName(),
                 chore.getDueDate().toString(),
-                chore.getAssignedTo().getUserId().toString(),
                 chore.isComplete()
         );
     }

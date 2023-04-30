@@ -1,5 +1,6 @@
 package com.cs431.household_manager_application.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,8 +19,9 @@ public class Chore {
     @GeneratedValue(strategy = GenerationType.IDENTITY)    @Column(name = "chore_id")
     private Long choreId;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "fk_user", referencedColumnName = "user_id")
+    @JsonIgnoreProperties({"household", "password", "username", "fname", "lname"})
     private User assignedTo;
 
     @ManyToOne()
@@ -29,11 +31,11 @@ public class Chore {
     private String choreName;
     private Date dueDate;
     private boolean isComplete;
-    public Chore(Household household, String choreName, Date dueDate, User assignedTo, boolean isComplete) {
+    public Chore(User assignedTo, Household household,  String choreName, Date dueDate,  boolean isComplete) {
+        this.assignedTo = assignedTo;
         this.household = household;
         this.choreName = choreName;
         this.dueDate = dueDate;
-        this.assignedTo = assignedTo;
         this.isComplete = isComplete;
     }
 }
