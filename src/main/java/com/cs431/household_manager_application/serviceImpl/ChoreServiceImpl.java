@@ -64,12 +64,16 @@ public class ChoreServiceImpl implements ChoreService {
         return true;
     }
 
+    @SneakyThrows
     @Override
-    public ChoreDTO editChore(Long choreId, ChoreDTO newChore) {
-        if(!choreRepository.existsById(choreId))
-            throw new RuntimeException("Chore " + choreId + " not found");
-        saveChore(newChore);
-        return newChore;
+    public ChoreDTO editChore(Long choreId, ChoreDTO chore) {
+        Chore choreToChange = choreRepository.findById(choreId).orElseThrow(() -> new RuntimeException("Chore " + choreId + " not found"));
+        choreToChange.setChoreName(chore.choreName());
+        choreToChange.setComplete(chore.isComplete());
+        choreToChange.setAssignedTo(userService.getByID(Long.valueOf(chore.assignedTo())).get());
+        choreToChange.setDueDate(formatter.parse(chore.dueDate()));
+        choreRepository.save(choreToChange);
+        return chore;
     }
 
     @Override
@@ -78,7 +82,7 @@ public class ChoreServiceImpl implements ChoreService {
         Chore choreToMark = choreRepository.findById(choreId).orElseThrow(() -> new RuntimeException("Chore " + choreId + " not found"));
 
         choreToMark.setComplete(chore.isComplete());
-        saveChore(chore);
+        choreRepository.save(choreToMark);
         return chore;
     }
 
