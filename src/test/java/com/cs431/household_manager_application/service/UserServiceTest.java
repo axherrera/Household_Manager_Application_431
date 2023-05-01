@@ -2,6 +2,7 @@ package com.cs431.household_manager_application.service;
 
 import com.cs431.household_manager_application.dto.UserDTO;
 import com.cs431.household_manager_application.dto.mapper.UserDTOMapper;
+import com.cs431.household_manager_application.model.Household;
 import com.cs431.household_manager_application.model.User;
 import com.cs431.household_manager_application.repository.UserRepository;
 import com.cs431.household_manager_application.serviceImpl.UserServiceImpl;
@@ -44,7 +45,14 @@ class UserServiceTest {
     @BeforeEach
     public void setUp(){
         autoCloseable = MockitoAnnotations.openMocks(this);
-        User testUser = new User();
+        testUser = new User(
+                1L,
+                new Household(),
+                "testUser",
+                "pword",
+                "name",
+                "name"
+        );
     }
 
     @AfterEach
@@ -53,7 +61,7 @@ class UserServiceTest {
     }
 
     @Test
-    public void testSaveUser() {
+    public void canSaveUser() {
         // given
         when(userRepository.save(testUser)).thenReturn(testUser);
 
@@ -66,9 +74,9 @@ class UserServiceTest {
     }
 
     @Test
-    public void testGetAll() {
+    public void canGetAll() {
         // given
-        List<User> users = Arrays.asList(new User(), new User());
+        List<User> users = Arrays.asList(testUser, testUser);
         when(userRepository.findAll()).thenReturn(users);
 
         // when
@@ -80,10 +88,10 @@ class UserServiceTest {
     }
 
     @Test
-    public void testGetByUsername() {
+    public void canGetByUsername() {
         // given
-        String username = "testuser";
-        Optional<User> user = Optional.of(new User());
+        String username = "testUser";
+        Optional<User> user = Optional.of(testUser);
         when(userRepository.findByUsername(username)).thenReturn(user);
 
         // when
@@ -95,10 +103,10 @@ class UserServiceTest {
     }
 
     @Test
-    public void testGetByID() {
+    public void canGetByID() {
         // given
         Long id = 1L;
-        Optional<User> user = Optional.of(new User());
+        Optional<User> user = Optional.of(testUser);
         when(userRepository.findByUserId(id)).thenReturn(user);
 
         // when
@@ -110,9 +118,9 @@ class UserServiceTest {
     }
 
     @Test
-    public void testCheckByUsername() {
+    public void canCheckByUsername() {
         // given
-        String username = "testuser";
+        String username = "testUser";
         when(userRepository.existsByUsername(username)).thenReturn(true);
 
         // when
@@ -124,10 +132,10 @@ class UserServiceTest {
     }
 
     @Test
-    public void testGetByHousehold() {
+    public void canGetByHousehold() {
         // given
         Long id = 1L;
-        List<User> users = Arrays.asList(new User(), new User());
+        List<User> users = Arrays.asList(testUser, testUser);
         when(userRepository.findUsersByHouseholdHouseholdId(id)).thenReturn(Optional.of(users));
 
         // when
@@ -139,7 +147,7 @@ class UserServiceTest {
     }
 
     @Test
-    public void testGetUserDtoByHousehold() {
+    public void canGetUserDtoByHousehold() {
         // given
         Long id = 1L;
         List<User> users = Arrays.asList(new User(), new User());
