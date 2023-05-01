@@ -46,12 +46,12 @@ const EditableRow = ({
       <InputLabel id="selected-label" shrink={true}>Assign User</InputLabel>
       <Select
       notched = {true}
-      value = {editFormData.assignedID}
+      value = {editFormData.assignedTo}
       labelId="selected-label"
       label = "Assign User"
-      id = "assignedID"
+      id = "assignedTo"
       required = {true}
-      onChange = {e => {e.preventDefault(); handleEditFormChange(e.target.value,"assignedID")}}
+      onChange = {e => {e.preventDefault(); handleEditFormChange(e.target.value,"assignedTo")}}
       displayEmpty = {true}
       >{
         householdOptions.map((user) => {

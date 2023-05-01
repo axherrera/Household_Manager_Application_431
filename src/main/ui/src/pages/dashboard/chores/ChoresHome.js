@@ -1,4 +1,4 @@
-import React, { useState, useContext, Fragment } from 'react';
+import React, { useState, useContext, Fragment, useEffect } from 'react';
 import EditableRow from './EditableRow';
 import InputLabel from "@mui/material/InputLabel";
 import dayjs from 'dayjs';
@@ -6,7 +6,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { MenuItem, TextField } from "@mui/material";
+import { MenuItem, TextField, CircularProgress, Typography } from "@mui/material";
 import Select from '@mui/material/Select';
 import ReadOnlyRow from './ReadOnlyRow';
 import { LoginContext } from '../../../contexts/LoginContext';
@@ -25,36 +25,50 @@ import AddIcon from '@mui/icons-material/Add';
 import styles from './Chores.module.css'
 import FormControl from '@mui/material/FormControl';
 import useHousehold from '../useHousehold';
+import Box from '@mui/material/Box';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import axios from "axios";
 
 function TableData(){
   const {user} = useContext(LoginContext);
   const {getAllChores, deleteChore} = useChores();
-  const rows = getAllChores();
-  const [editOpen, setEditOpen] = useState(false);
-  const houseId = user.Household.id;
+  const [choreData, setChoreData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [addOpen, setaddOpen] = useState(false);
+  const household = user.Household.id;
   const {householdMembers} = useHousehold();
+
+  useEffect(() => {
+    const fetchChores = async () => {
+        const rows = await getAllChores();
+        setChoreData(rows);
+        setLoading(false);
+    };
+
+    fetchChores();
+}, [loading]);
+
   const householdOptions = householdMembers.map(member => (
       {
         ...member, value: member.id, label: `${member.firstName} (${member.username})`
       }
     ));
-  const [choreData, setChoreData] = useState(rows);
-
+  
   const [addFormData, setAddFormData] = useState({
     id:"",
     choreName: "",
-    assignedID: "",
+    assignedTo: "",
     dueDate: dayjs(new Date()).format('YYYY-MM-DD'),
     isComplete: "",
-    houseId: ""
+    household: ""
   });
 
   const [editFormData, setEditFormData] = useState({
     choreName: "",
-    assignedID: "",
+    assignedTo: "",
     dueDate: "",
     isComplete: "",
-    houseId: ""
+    household: ""
   });
 
   const [editChoreId, setEditChoreId] = useState(null);
@@ -100,50 +114,69 @@ function TableData(){
     }, 0) + 1;
     const newChore = {
       id: newChoreId,
+      assignedTo: addFormData.assignedTo,
       choreName: addFormData.choreName,
-      assignedID: addFormData.assignedID,
       dueDate: addFormData.dueDate,
       isComplete: false,
-      houseId: houseId
+      household: household
     };
+    console.log(newChore)
+    const url = `/households/${household}/chores`;
 
+    try {
+        axios.post(url, newChore);
+    } catch(error) {
+        console.log('error adding chore', error)
+    }
     const newChoreList = [...choreData, newChore];
     setChoreData(newChoreList);
-    setEditOpen(false);
+    setaddOpen(false);
   };
 
-  const handleEditFormSubmit = (event) => {
+  const handleEditFormSubmit = async (event) => {
     event.preventDefault();
     const editedChore = {
       id: editChoreId,
       choreName: editFormData.choreName,
-      assignedID: editFormData.assignedID,
+      assignedTo: editFormData.assignedTo,
       dueDate: editFormData.dueDate,
       isComplete: false,
-      houseId: houseId,
+      household: household,
     };
 
     const newChoreList = [...choreData];
 
     const index = choreData.findIndex((chore) => chore.id === editedChore.id);
+    const url = `/households/${household}/chores/${index}`;
+    try {
+        await axios.put(url, editedChore);
+    }
+      catch(error) {
+        console.log('error adding chore', error)
+        }
+   
     newChoreList[index] = editedChore;
 
     setChoreData(newChoreList);
     setEditChoreId(null);
   };
-  const handleChecked = (val, chore) => {
-
+  const handleChecked = async (val, chore) => {
 
     const editedChore = {
       id: chore.id,
       choreName: chore.choreName,
-      assignedID: chore.assignedID,
+      assignedTo: chore.assignedTo,
       dueDate: chore.dueDate,
       isComplete: val,
-      houseId: houseId,
+      household: household,
     };
     const newChoreList = [...choreData];
-
+    const url = `/households/${household}/chores/${editedChore.id}`;
+    try {
+        await axios.patch(url, editedChore);
+    } catch(error) {
+        console.log("error updating checked")
+    }
     const index = choreData.findIndex((el) => el.id === editedChore.id);
     newChoreList[index] = editedChore;
     setChoreData(newChoreList);
@@ -154,7 +187,7 @@ function TableData(){
 
     const formValues = {
       choreName: chore.choreName,
-      assignedID: chore.assignedID,
+      assignedTo: chore.assignedTo,
       dueDate: chore.dueDate,
     };
 
@@ -172,15 +205,28 @@ function TableData(){
 
 
   const handleClose = () => {
-    setEditOpen(false)
+    setaddOpen(false)
   }
   const addChoreClick = () => {
-    setEditOpen(true)
+    setaddOpen(true)
   }
   const [error, setError] = useState(null);
     const errorMessage = (error ? "invalid date" : "");
+    if (loading) {
+      return (
+          <Box sx={{ display: 'flex' }}>
+              <CircularProgress />
+          </Box>
+      )
+  }
   return (
     <div className={styles.appContainer}>
+    <Button onClick={() => {setLoading(true)}}>
+      <Typography variant="button" fontSize={"small"}>
+        refresh
+      </Typography>
+        <RefreshIcon fontSize="small"/>
+    </Button>
     <form onSubmit={handleEditFormSubmit}>
         <Table aria-label = "simple table">
           <TableHead>
@@ -220,7 +266,7 @@ function TableData(){
       <Button startIcon={<AddIcon/>} onClick={addChoreClick}>Add Chore</Button>
       </div>
       <form onSubmit={handleAddFormSubmit}>
-    <Dialog disablePortal open={editOpen} onClose={handleClose} PaperProps={{sx: {height: 600}}}>
+    <Dialog disablePortal open={addOpen} onClose={handleClose} PaperProps={{sx: {height: 600}}}>
     <DialogTitle>Add Chore</DialogTitle>
       <DialogContent style={{display: "flex", "flex-direction": "column", justifyContent: "space-evenly"}}>
       <TextField InputLabelProps={{shrink: true}} 
@@ -233,9 +279,9 @@ function TableData(){
       notched = {true}
       labelId="selected-label"
       label = "Assign User"
-      id = "assignedID"
+      id = "assignedTo"
       required = {true}
-      onChange = {e => {e.preventDefault(); handleAddFormChange(e.target.value,"assignedID")}}
+      onChange = {e => {e.preventDefault(); handleAddFormChange(e.target.value,"assignedTo")}}
       displayEmpty = {true}
       >{
         householdOptions.map((user) => {
