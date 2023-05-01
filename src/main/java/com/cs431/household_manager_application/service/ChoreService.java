@@ -12,6 +12,6 @@ public interface ChoreService {
     List<ChoreDTO> getAllChores(Long id);
     ChoreDTO getChore(Long choreId);
     Boolean deleteChore(Long id);
-    ChoreDTO editChore(Long choreId, ChoreDTO newChore);
+    ChoreDTO editChore(Long choreId, ChoreDTO chore);
     ChoreDTO markAsCompleted(Long choreId, ChoreDTO chore);
 }
