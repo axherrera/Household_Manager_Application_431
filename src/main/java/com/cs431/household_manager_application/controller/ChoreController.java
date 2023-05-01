@@ -27,14 +27,14 @@ public class ChoreController {
     Chore newChore(@RequestBody ChoreDTO newChore) {
         return choreService.saveChore(newChore);
     }
-    @DeleteMapping("/chores/{choreID}")
+    @DeleteMapping("/chores/{choreId}")
     Boolean deleteChore(@PathVariable Long choreId) {
         return choreService.deleteChore(choreId);
     }
 
     @PutMapping("/chores/{choreId}")
-    ChoreDTO editChore(@PathVariable Long choreId, @RequestBody ChoreDTO newChore) {
-        return choreService.editChore(choreId, newChore);
+    ChoreDTO editChore(@PathVariable Long choreId, @RequestBody ChoreDTO chore) {
+        return choreService.editChore(choreId, chore);
     }
 
     @PatchMapping("/chores/{choreId}")
