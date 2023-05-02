@@ -35,3 +35,4 @@ build/
 ## UI Node Modules
 **/node_modules/
 src/main/ui/build
+src/main/ui/node/**
