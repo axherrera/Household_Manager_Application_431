@@ -5,8 +5,8 @@ import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-// import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { MenuItem, TextField } from "@mui/material";
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { MenuItem, TextField, CircularProgress, Typography } from "@mui/material";
 import Select from '@mui/material/Select';
 import ReadOnlyRow from './ReadOnlyRow';
 import { LoginContext } from '../../../contexts/LoginContext';
@@ -28,8 +28,7 @@ import useHousehold from '../useHousehold';
 import Box from '@mui/material/Box';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import axios from "axios";
-import { CircularProgress } from '@mui/material';
-import {Typography} from '@mui/material';
+
 function TableData(){
   const {user} = useContext(LoginContext);
   const {getAllChores, deleteChore} = useChores();
@@ -222,7 +221,6 @@ function TableData(){
   }
   return (
     <div className={styles.appContainer}>
-          <h1>Chores</h1>
     <Button onClick={() => {setLoading(true)}}>
       <Typography variant="button" fontSize={"small"}>
         refresh
@@ -293,6 +291,7 @@ function TableData(){
       </Select>
       </FormControl>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <DemoContainer components={['DatePicker']}>
         <DatePicker label="Due Date" disablePast={true}
       onChange = {(newValue)=> handleAddFormChange(newValue, "dueDate")}
       onError = {(newError)=>setError(newError)}
@@ -301,6 +300,7 @@ function TableData(){
         required = {true}        
         defaultValue={dayjs(new Date())}
         />
+      </DemoContainer>
     </LocalizationProvider>
     </DialogContent>
     <DialogActions>
