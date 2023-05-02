@@ -221,6 +221,7 @@ function TableData(){
   }
   return (
     <div className={styles.appContainer}>
+          <h1>Chores</h1>
     <Button onClick={() => {setLoading(true)}}>
       <Typography variant="button" fontSize={"small"}>
         refresh
