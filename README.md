@@ -13,7 +13,7 @@ If you are unable to change your MySQL credentials, cd into /Household_Manager_A
 - spring.datasource.url="url" (if you want to change the default mysql db url connection)
 and then **:wq** to save your changes. Now cd into /Household_Manager_Application.
 
-To run the backend server, cd to Household_Manager_Application and run  **./mvnw spring-boot:run** in the terminal. This should start the back end server. Now you are ready to run the front end server on a new terminal window.
+To run the backend server, cd to Household_Manager_Application / the root of this project and run  **./mvnw spring-boot:run** in the terminal. This should start the back end server. Now you are ready to run the front end server on a new terminal window.
 
 Starting the React Frontend Server:
 Required Packages:
