@@ -28,7 +28,7 @@ import useHousehold from '../useHousehold';
 
 function TableData(){
   const {user} = useContext(LoginContext);
-  const {getAllChores, deleteChore} = useChores();
+  const {getAllChores} = useChores();
   const rows = getAllChores();
   const [editOpen, setEditOpen] = useState(false);
   const houseId = user.Household.id;
@@ -181,6 +181,7 @@ function TableData(){
     const errorMessage = (error ? "invalid date" : "");
   return (
     <div className={styles.appContainer}>
+          <h1>Chores</h1>
     <form onSubmit={handleEditFormSubmit}>
         <Table aria-label = "simple table">
           <TableHead>
