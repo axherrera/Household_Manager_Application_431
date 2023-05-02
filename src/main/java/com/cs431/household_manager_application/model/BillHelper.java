@@ -3,12 +3,12 @@ package com.cs431.household_manager_application.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@Setter
+@Getter
 @Data
 @Entity
 @Table(name = "bill_helper")
@@ -33,12 +33,4 @@ public class BillHelper {
         this.amountOwed = amountOwed;
         this.isPaid = isPaid;
     }
-
-//    public static List<BillHelper> createBillHelperList(List<BillHelperDTO> billHelperDTOs, UserService userService){
-//        ArrayList<BillHelper> bills = new ArrayList<>();
-//        for(BillHelperDTO b : billHelperDTOs){
-//             bills.add(new BillHelper(userService.getByID(Long.valueOf(b.id())).get(), b.amountOwed(), b.isPaid()));
-//        }
-//        return bills;
-//    }
 }
