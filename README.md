@@ -1,12 +1,4 @@
-CS431 Household Manager Application
-
-The way we split up the work for this project
-was a simple frontend/backend split.
-
-Kenny and Grace worked on the frontend while
-Tyler and Alejandro worked on the backend.
-
-Throughout the project we used github to collaborate.
+see collab.txt for Household Manager collaboration
 
 Starting the Frontend Server:
 Required Packages:
