@@ -1,4 +1,4 @@
-import React from 'react'
+import {useState, React} from 'react'
 import { useOutletContext } from 'react-router-dom'
 import { BillHelpersList } from './Form';
 import { useContext } from 'react';
@@ -9,6 +9,7 @@ import ExpandCard from '../../../components/Card';
 import { Button, Checkbox, CircularProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom/dist/umd/react-router-dom.development';
 import useHousehold from '../useHousehold';
+import DraggableConfirmationDialog from '../../../components/ConfirmationDialog';
 
 const SingleBill = () => {
     const { bill, setBill } = useOutletContext();
@@ -23,6 +24,8 @@ const SingleBill = () => {
 
     const date = moment(bill.date).format('dddd MMMM Do, YYYY');
 
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
     const options = [
         {
             name: 'Edit',
@@ -30,7 +33,7 @@ const SingleBill = () => {
         },
         {
             name: 'Delete',
-            onClick: (billId) => { deleteBill(billId) }
+            onClick: () => { setDeleteDialogOpen(true) }
         }
     ];
 
@@ -76,6 +79,13 @@ const SingleBill = () => {
 
     return (
         <>
+            <DraggableConfirmationDialog
+                title="Confirm Delete Bill"
+                text="Are you sure you want to delete this bill? This will affect the bill for all members in the house."
+                open={deleteDialogOpen}
+                setOpen={setDeleteDialogOpen}
+                onConfirm={() => {deleteBill(billId)}}
+            />
             <ExpandCard 
                 title={`${bill.name} Bill`}
                 options={options}

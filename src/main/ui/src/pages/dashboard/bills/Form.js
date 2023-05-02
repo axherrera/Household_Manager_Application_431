@@ -76,6 +76,11 @@ const Form = ({ bill, handleSubmit, edit }) => {
         navigateBack();
     }
 
+    const cancel = (e) => {
+        e.preventDefault();
+        navigateBack();
+    }
+
     const [alerts, setAlerts] = useState([]);
     const validInput = () => {
         let invalidInputs = [];
@@ -122,7 +127,9 @@ const Form = ({ bill, handleSubmit, edit }) => {
         return true;
     }
 
-    const [dialogOpen, setDialogOpen] = useState(false);
+    const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
+    const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
+
     const onSubmit = (e) => {
         e.preventDefault();
 
@@ -131,7 +138,7 @@ const Form = ({ bill, handleSubmit, edit }) => {
         }
 
         if (edit) {
-            setDialogOpen(true);
+            setConfirmDialogOpen(true);
         } else {
             confirm(e)
         }
@@ -139,7 +146,20 @@ const Form = ({ bill, handleSubmit, edit }) => {
 
     return (
         <>
-            <DraggableConfirmationDialog open={dialogOpen} setOpen={setDialogOpen} onConfirm={confirm} />
+            <DraggableConfirmationDialog 
+                title="Confirm Edit"
+                text="Do you want to confirm editing this bill? This will affect the bill for the entire house."
+                open={confirmDialogOpen}
+                setOpen={setConfirmDialogOpen}
+                onConfirm={confirm}
+            />
+            <DraggableConfirmationDialog
+                title={`Cancel ${edit ? 'Edit' : 'Add'}`}
+                text={`Are you sure want to cancel ${edit ? 'edit' : 'add'}ing this bill?`}
+                open={cancelDialogOpen}
+                setOpen={setCancelDialogOpen}
+                onConfirm={cancel}
+            />
             <ErrorAlerts alerts={alerts} setAlerts={setAlerts} />
             <Typography gutterBottom variant="h5" align="center">{edit ? 'Edit' : 'Add'} Bill</Typography>
             <Card>
@@ -213,7 +233,14 @@ const Form = ({ bill, handleSubmit, edit }) => {
                                 multiline
                                 margin="normal" />
                         </Grid>
-                        <Grid item xs={12}>
+                    </Grid>
+                    <Grid container spacing={2} style={{paddingTop: '20px'}}>
+                        <Grid item xs={6}>
+                            <Button variant="contained" color="error" onClick={() => {setCancelDialogOpen(true)}}>
+                                Cancel
+                            </Button>
+                        </Grid>
+                        <Grid item xs={6} container justifyContent={"flex-end"}>
                             <Button variant="contained" color="primary" type="submit">
                                 Submit
                             </Button>

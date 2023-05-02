@@ -19,8 +19,9 @@ function PaperComponent(props) {
     );
 }
 
-export default function DraggableConfirmationDialog({ open, setOpen, onConfirm }) {
-    const handleClose = () => {
+export default function DraggableConfirmationDialog({ title, text, open, setOpen, onConfirm }) {
+    const handleClose = (event) => {
+        event.stopPropagation();
         setOpen(false);
     };
 
@@ -33,11 +34,11 @@ export default function DraggableConfirmationDialog({ open, setOpen, onConfirm }
                 aria-labelledby="draggable-dialog-title"
             >
                 <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
-                    Confirm Edit
+                    {title}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Do you want to confirm editing this bill? This will affect the bill for the entire house.
+                        {text}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
