@@ -6,7 +6,7 @@ const useChores = () => {
     const {user, chores, setChores} = useContext(LoginContext);
     const houseId = user.Household.id;
     const getChore = async (id) => {
-        const url = /households/${houseId}/chores/${id};
+        const url = `/households/${houseId}/chores/${id}`;
         try {
             const response = await axios.get(url);
             return response.data;
@@ -17,7 +17,7 @@ const useChores = () => {
     }
 
     const getAllChores = async () => {
-        const url = /households/${houseId}/chores;
+        const url = `/households/${houseId}/chores`;
         try {
             const response = await axios.get(url);
             //console.log(response.data)
