@@ -48,8 +48,9 @@ return (
   <div className = "form">
   <form onSubmit={handleSubmit}>
     <div className = "input-container">
-      <label>Username</label>
+      <label htmlFor='user'>Username</label>
       <input 
+        id = 'user'
         type = "text"
         name = "uname"
         value={username}
@@ -58,8 +59,9 @@ return (
       />
     </div>
     <div className = "input-container">
-      <label>Password</label>
+      <label htmlFor='password'>Password</label>
       <input 
+        id = 'password'
         type = "text"
         name = "pass"
         value={password}
@@ -69,8 +71,9 @@ return (
       />
       </div>
       <div className = "input-container">
-      <label>First Name</label>
+      <label htmlFor='firstName'>First Name</label>
       <input 
+        id = "firstName"
         type = "text"
         name = "fName"
         value={firstName}
@@ -80,8 +83,9 @@ return (
       />
     </div>
     <div className = "input-container">
-      <label>Last Name</label>
+      <label htmlFor='lastName'>Last Name</label>
       <input 
+        id = 'lastName'
         type = "text"
         name = "lName"
         value={lastName}
@@ -91,8 +95,9 @@ return (
       />
     </div>
     <div className = "input-container">
-      <label>Household ID</label>
+      <label htmlFor='householdID'>Household ID</label>
       <input 
+        id = 'householdID'
         type = "text"
         name = "householdID"
         value={householdID}
