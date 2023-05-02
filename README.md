@@ -24,5 +24,5 @@ Spring.datasource.password = â€œpw that you use when setting up MySQL workbenchâ
 Spring.datasource.url = jdbc:mysql://localhost:3306/{name of your local database}
 Everything else in this file can be left alone.
 
-To run the backend server, navigate to HouseholdManagerApplication.java and run the program.
+To run the backend server, navigate to HouseholdManagerApplication and run  ./mvnw spring-boot:run in the terminal
 
