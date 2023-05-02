@@ -1,3 +1,4 @@
+/* eslint-disable testing-library/prefer-screen-queries */
 import { jest } from '@jest/globals';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import ReactDOM from 'react-dom/client';
@@ -32,6 +33,7 @@ test('user stays in login page after logging in without username and password', 
 test('User Logs in with correct credentials and goes to Dashboard', async () => {
     process.env.REACT_APP_MOCK=true
 
+    // eslint-disable-next-line testing-library/no-unnecessary-act
     act(() => {
         ReactDOM.createRoot(container).render(<MemoryRouter initialEntries={['/']}>
             <Routes>
@@ -54,6 +56,7 @@ test('User Logs in with correct credentials and goes to Dashboard', async () => 
     await user.click(screen.getByRole('button', {name: 'login'}));
 
     await waitFor(() => {
+        // eslint-disable-next-line testing-library/await-async-query
         screen.findByText(/welcome/i);
     })
 });
