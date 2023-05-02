@@ -18,4 +18,7 @@ public class Household {
     private String householdName;
 
 
+    public Household(String householdName) {
+        this.householdName = householdName;
+    }
 }
