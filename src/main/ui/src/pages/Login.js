@@ -93,8 +93,9 @@ const Form = ({ username, setUsername, password, setPassword, handleSubmit }) =>
     <div className="form">
       <form onSubmit={handleSubmit}>
         <div className="input-container">
-          <label>Username</label>
+          <label htmlFor="user">Username</label>
           <input
+            id="user"
             type="text"
             name="uname"
             value={username}
@@ -103,8 +104,9 @@ const Form = ({ username, setUsername, password, setPassword, handleSubmit }) =>
           />
         </div>
         <div className="input-container">
-          <label>Password</label>
+          <label htmlFor="password">Password</label>
           <input
+            id="password"
             type={passwordType}
             name="pass"
             value={password}

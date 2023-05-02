@@ -5,8 +5,8 @@ import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { MenuItem, TextField, CircularProgress, Typography } from "@mui/material";
+// import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { MenuItem, TextField } from "@mui/material";
 import Select from '@mui/material/Select';
 import ReadOnlyRow from './ReadOnlyRow';
 import { LoginContext } from '../../../contexts/LoginContext';
@@ -291,7 +291,6 @@ function TableData(){
       </Select>
       </FormControl>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DemoContainer components={['DatePicker']}>
         <DatePicker label="Due Date" disablePast={true}
       onChange = {(newValue)=> handleAddFormChange(newValue, "dueDate")}
       onError = {(newError)=>setError(newError)}
@@ -300,7 +299,6 @@ function TableData(){
         required = {true}        
         defaultValue={dayjs(new Date())}
         />
-      </DemoContainer>
     </LocalizationProvider>
     </DialogContent>
     <DialogActions>
