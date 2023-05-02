@@ -46,7 +46,7 @@ function TableData(){
     assignedID: "",
     dueDate: dayjs(new Date()).format('YYYY-MM-DD'),
     isComplete: "",
-    houseId: ""
+    houseID: ""
   });
 
   const [editFormData, setEditFormData] = useState({
@@ -54,7 +54,7 @@ function TableData(){
     assignedID: "",
     dueDate: "",
     isComplete: "",
-    houseId: ""
+    houseID: ""
   });
 
   const [editChoreId, setEditChoreId] = useState(null);
@@ -104,7 +104,7 @@ function TableData(){
       assignedID: addFormData.assignedID,
       dueDate: addFormData.dueDate,
       isComplete: false,
-      houseId: houseId
+      houseID: houseId
     };
 
     const newChoreList = [...choreData, newChore];
@@ -120,7 +120,7 @@ function TableData(){
       assignedID: editFormData.assignedID,
       dueDate: editFormData.dueDate,
       isComplete: false,
-      houseId: houseId,
+      houseID: houseId,
     };
 
     const newChoreList = [...choreData];
@@ -140,7 +140,7 @@ function TableData(){
       assignedID: chore.assignedID,
       dueDate: chore.dueDate,
       isComplete: val,
-      houseId: houseId,
+      houseID: houseId,
     };
     const newChoreList = [...choreData];
 
