@@ -40,6 +40,7 @@ class LoginServiceTest {
     @Mock
     private UserDTOMapper userDTOMapper;
 
+    @Mock
     private LoginService loginService;
 
     private UserLoginDTO userLoginDTO;
