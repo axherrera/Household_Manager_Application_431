@@ -7,6 +7,11 @@ To start the local application, three servers must be running. Frontend Server, 
 Steps to run Backend on LocalHost:
 To use this project you will need to have MySQL and MySQL Workbench installed. This server will be running on localhost:3306. For your MySQL setting, you will want to have your username to be "root", and your password to be "password". Then in the MySQL workbench, create a schema called HMADatabase. You are now ready to run the backend server.
 
+If you are unable to change your MySQL credentials, cd into /Household_Manager_Application/src/main/resources. Then run the command **vi application.properties**. Once in this file, change:
+- spring.datasource.username="your_username"
+- spring.datasource.password="your_password"
+and then **:wq** to save your changes. Now cd into /Household_Manager_Application.
+
 To run the backend server, cd to Household_Manager_Application and run  **./mvnw spring-boot:run** in the terminal. This should start the back end server. Now you are ready to run the front end server on a new terminal window.
 
 Starting the Frontend Server:
