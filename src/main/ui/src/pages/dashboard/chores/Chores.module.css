@@ -1,0 +1,24 @@
+.btn{
+    cursor: pointer;
+   }
+.btnContainer{
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+   }
+.base {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    height: 100vh;
+    font-family: Georgia, serif, system-ui;
+    background-color: #829CBC;
+  }
+  .appContainer {
+    display: flex;
+    flex-direction:column;
+    gap: 10px;
+    padding: 1rem;
+  } 

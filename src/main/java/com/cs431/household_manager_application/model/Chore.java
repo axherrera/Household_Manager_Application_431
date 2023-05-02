@@ -1,9 +1,11 @@
 package com.cs431.household_manager_application.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
+
 
 @Data
 @NoArgsConstructor
@@ -14,17 +16,26 @@ import java.util.Date;
 public class Chore {
 
     @Id
-    @Generated
-    @Column(name = "chore_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)    @Column(name = "chore_id")
     private Long choreId;
 
-//    @ManyToOne(   cascade = CascadeType.ALL, targetEntity = User.class)
-//    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-//    private User assignedTo;
+    @ManyToOne()
+    @JoinColumn(name = "fk_user", referencedColumnName = "user_id")
+    @JsonIgnoreProperties({"household", "password", "username", "fname", "lname"})
+    private User assignedTo;
 
-    private String chorename;
-    private boolean rotate;
-    private int frequency;
-    private Date duedate;
+    @ManyToOne()
+    @JoinColumn(name = "fk_household", referencedColumnName = "household_id")
+    private Household household;
+
+    private String choreName;
+    private Date dueDate;
     private boolean isComplete;
+    public Chore(User assignedTo, Household household,  String choreName, Date dueDate,  boolean isComplete) {
+        this.assignedTo = assignedTo;
+        this.household = household;
+        this.choreName = choreName;
+        this.dueDate = dueDate;
+        this.isComplete = isComplete;
+    }
 }
