@@ -15,7 +15,126 @@
 	<description>Household_Manager_Application</description>
 	<properties>
 		<java.version>17</java.version>
+		<frontend-maven-plugin.version>1.12.1</frontend-maven-plugin.version>
+		<node.version>v18.16.0</node.version>
+		<npm.version>9.6.5</npm.version>
 	</properties>
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<spring.profiles.active>dev</spring.profiles.active>
+			</properties>
+		</profile>
+		<profile>
+			<id>prod</id>
+			<build>
+
+<!--				<resources>-->
+<!--					<resource>-->
+<!--						<directory>src/test</directory>-->
+<!--&lt;!&ndash;						<excludes>&ndash;&gt;-->
+<!--&lt;!&ndash;							<exclude>test/**</exclude>&ndash;&gt;-->
+<!--&lt;!&ndash;						</excludes>&ndash;&gt;-->
+<!--					</resource>-->
+<!--				</resources>-->
+
+
+				<plugins>
+<!--					<plugin>-->
+<!--						<groupId>org.apache.maven.plugins</groupId>-->
+<!--						<artifactId>maven-compiler-plugin</artifactId>-->
+<!--						<configuration>-->
+<!--							<excludes>-->
+<!--								<exclude>src/test</exclude>-->
+<!--							</excludes>-->
+<!--						</configuration>-->
+<!--					</plugin>-->
+
+					<plugin>
+						<artifactId>maven-resources-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>copy-resources</id>
+								<phase>process-classes</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<outputDirectory>${basedir}/target/classes/static</outputDirectory>
+									<resources>
+										<resource>
+											<directory>src/main/ui/build</directory>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>com.github.eirslett</groupId>
+						<artifactId>frontend-maven-plugin</artifactId>
+						<version>${frontend-maven-plugin.version}</version>
+						<configuration>
+							<workingDirectory>src/main/ui</workingDirectory>
+						</configuration>
+						<executions>
+							<execution>
+								<id>install node</id>
+								<goals>
+									<goal>install-node-and-npm</goal>
+								</goals>
+								<configuration>
+									<nodeVersion>${node.version}</nodeVersion>
+									<npmVersion>${npm.version}</npmVersion>
+								</configuration>
+							</execution>
+							<execution>
+								<id>npm install</id>
+								<goals>
+									<goal>npm</goal>
+								</goals>
+								<phase>generate-resources</phase>
+							</execution>
+							<execution>
+								<id>npm test</id>
+								<goals>
+									<goal>npm</goal>
+								</goals>
+								<phase>test</phase>
+								<configuration>
+									<arguments>test</arguments>
+									<environmentVariables>
+										<CI>true</CI>
+									</environmentVariables>
+								</configuration>
+							</execution>
+							<execution>
+								<id>npm build</id>
+								<goals>
+									<goal>npm</goal>
+								</goals>
+								<phase>compile</phase>
+								<configuration>
+									<arguments>run build</arguments>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+			<properties>
+				<maven.test.skip>true</maven.test.skip>
+				<url>jdbc:mysql://localhost:3306/household_manager_431?createDatabaseIfNotExist=true</url>
+				<user>bogus</user>
+				<password>pass</password>
+				<spring.profiles.active>prod</spring.profiles.active>
+			</properties>
+		</profile>
+	</profiles>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
