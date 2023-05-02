@@ -1,8 +1,8 @@
 package com.cs431.household_manager_application.serviceImpl;
 
+import com.cs431.household_manager_application.dto.RegistrationDTO;
 import com.cs431.household_manager_application.dto.UserDTO;
 import com.cs431.household_manager_application.dto.UserLoginDTO;
-import com.cs431.household_manager_application.dto.RegistrationDTO;
 import com.cs431.household_manager_application.dto.mapper.UserDTOMapper;
 import com.cs431.household_manager_application.exceptions.HouseholdNotFoundException;
 import com.cs431.household_manager_application.exceptions.UnauthorizedCredentials;
@@ -13,7 +13,6 @@ import com.cs431.household_manager_application.model.User;
 import com.cs431.household_manager_application.service.HouseholdService;
 import com.cs431.household_manager_application.service.LoginService;
 import com.cs431.household_manager_application.service.UserService;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

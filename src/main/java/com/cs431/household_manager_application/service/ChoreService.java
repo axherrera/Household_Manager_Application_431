@@ -1,9 +1,7 @@
 package com.cs431.household_manager_application.service;
+
 import com.cs431.household_manager_application.dto.ChoreDTO;
 import com.cs431.household_manager_application.model.Chore;
-import com.cs431.household_manager_application.model.User;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
