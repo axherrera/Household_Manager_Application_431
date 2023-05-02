@@ -70,28 +70,36 @@ const useBills = () => {
         const url = `/households/${houseId}/bills/${id}`;
 
         try {
-            axios.put(url, editedBill);
+            axios
+            .put(url, editedBill)
+            .catch(function (error) {
+                if (error.response?.data?.message?.includes('not found')) {
+                    navigate('/dashboard/bills');
+                } else {
+                    console.log('bill error', error)
+                }
+            });
         } catch(error) {
             console.log('error editing bill', error)
         }
     }
 
-    const payBill = async (bill, userId) => {
+    const payBill = async (billId, billPayer) => {
         if (process.env.REACT_APP_MOCK) {
-            payMockBill(bill.id, userId);
+            payMockBill(billId, billPayer.id);
             navigate(location.pathname, {replace: true});
             return;
         }
 
-        const url = `/households/${houseId}/bills/${bill.id}`;
+        const url = `/households/${houseId}/bills/${billId}`;
 
         try {
-            await axios.put(url, bill);
+            await axios.patch(url, billPayer);
+            navigate(location.pathname, {replace: true});
         } catch(error) {
-            console.log('error editing bill', error);
+            navigate('/dashboard/bills');
         }
         
-        navigate(location.pathname, {replace: true});
     }
 
     const deleteBill = (id) => {

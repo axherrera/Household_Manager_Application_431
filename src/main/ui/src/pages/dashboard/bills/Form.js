@@ -10,11 +10,10 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
-import useHousehold from '../useHousehold';
 
 const frequencyOptions = ["single", "daily", "weekly", "monthly"];
 
-const Form = ({ bill, handleSubmit, edit }) => {
+const Form = ({ bill, householdMembers, handleSubmit, edit }) => {
     const formBill = structuredClone(bill);
 
     const [dateError, setDateError] = useState(null);
@@ -47,7 +46,6 @@ const Form = ({ bill, handleSubmit, edit }) => {
     const [invalidDate, setInvalidDate] = useState(false);
     
     const { user } = useContext(LoginContext);
-    const { householdMembers } = useHousehold();
 
     const navigate = useNavigate();
 

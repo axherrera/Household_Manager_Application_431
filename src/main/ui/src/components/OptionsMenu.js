@@ -46,7 +46,7 @@ export default function OptionsMenu({ options, itemId }) {
                 }}
             >
                 {options.map((option) => (
-                    <MenuItem id={itemId} key={option.name} onClick={(e) => { e.stopPropagation(); option.onClick(e.target.id) }}>
+                    <MenuItem id={itemId} key={option.name} onClick={(e) => { e.stopPropagation(); option.onClick(e.target.id); handleClose(e); }}>
                         {option.name}
                     </MenuItem>
                 ))}

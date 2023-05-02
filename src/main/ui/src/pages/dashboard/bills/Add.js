@@ -3,16 +3,18 @@ import Form from './Form'
 import { newEmptyBill } from '../../../data';
 import { useNavigate } from 'react-router-dom';
 import useBills from './useBills';
+import useHousehold from '../useHousehold';
 
 const Add = () => {
     const { addBill } = useBills();
+    const { householdMembers } = useHousehold();
 
     const handleSubmit = (newBill) => {
         addBill(newBill);
     }
 
     return (
-        <Form bill={newEmptyBill} handleSubmit={handleSubmit} />
+        <Form bill={newEmptyBill} householdMembers={householdMembers} handleSubmit={handleSubmit} />
     )
 }
 

@@ -4,7 +4,7 @@ import { useOutletContext, useNavigate } from 'react-router-dom';
 import useBills from './useBills';
 
 const Edit = () => {
-    const { bill, setBill } = useOutletContext();
+    const { bill, setBill, householdMembers } = useOutletContext();
     const { editBill } = useBills();
 
     const handleSubmit = (editedBill) => {
@@ -13,7 +13,7 @@ const Edit = () => {
     }
 
     return (
-        <Form bill={bill} handleSubmit={handleSubmit} edit />
+        <Form bill={bill} householdMembers={householdMembers} handleSubmit={handleSubmit} edit />
     )
 }
 

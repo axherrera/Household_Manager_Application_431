@@ -20,12 +20,12 @@ function findValByKey(searchKey, searchValue, targetKey, household) {
 const ReadOnlyRow = ({ chore, choreIndex, handleEditClick, handleDeleteClick, handleChecked}) => {
     const {user} = useContext(LoginContext);
     const {householdMembers} = useHousehold();
-  const assignedName = findValByKey("id", chore.assignedID, "firstName", householdMembers)
+  const assignedName = findValByKey("id", chore.assignedTo, "firstName", householdMembers)
     const date = moment(chore.dueDate).format('MM/DD/YY');
 
   return (
     <TableRow>
-      <TableCell align='center'> <Checkbox checked={chore.isComplete} disabled={user.id!==chore.assignedID}           
+      <TableCell align='center'> <Checkbox checked={chore.isComplete} disabled={user.id!==chore.assignedTo}           
       onClick={()=> {handleChecked(!chore.isComplete, chore)}}
 ></Checkbox></TableCell>
       <TableCell align='center'>{chore.choreName}</TableCell>
@@ -34,14 +34,14 @@ const ReadOnlyRow = ({ chore, choreIndex, handleEditClick, handleDeleteClick, ha
       <TableCell align='center'>
         <Button
          startIcon={<EditIcon/>}
-         disabled={user.id!==chore.assignedID}   
+         disabled={user.id!==chore.assignedTo}   
           onClick={(event) => handleEditClick(event, chore)}
         >
           Edit
         </Button>
         <Button
         startIcon={<DeleteIcon/>}
-        disabled={user.id!==chore.assignedID}   
+        disabled={user.id!==chore.assignedTo}   
           onClick={() => handleDeleteClick(choreIndex)}
         >
           Delete
